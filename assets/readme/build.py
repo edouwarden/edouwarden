@@ -113,7 +113,7 @@ PROJECTS = [
     },
 ]
 
-PLATE_HEIGHT = 360
+PLATE_HEIGHT = 400
 HEADER_HEIGHT = 720
 FOOTER_HEIGHT = 460
 
@@ -322,46 +322,54 @@ body {{
 
 .plate {{
   height: {PLATE_HEIGHT}px;
-  padding: 48px 64px 42px;
+  padding: 34px 84px;
   background: {CORAL};
-  color: {NAVY};
-  border-top: 2px solid rgba(12, 10, 62, 0.22);
+}}
+.plate .card {{
+  position: relative;
+  height: 100%;
+  padding: 34px 42px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: {NAVY_LIFT};
+  color: {PAPER};
 }}
 .plate .ghost {{
   position: absolute;
-  right: 24px;
-  bottom: -34px;
+  right: 14px;
+  bottom: -54px;
   font-family: 'Days One', sans-serif;
-  font-size: 210px;
+  font-size: 230px;
   line-height: 1;
-  color: rgba(12, 10, 62, 0.07);
+  color: rgba(249, 86, 79, 0.10);
 }}
 .plate .inner {{
   position: relative;
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) 220px;
-  gap: 24px;
+  grid-template-columns: 56px minmax(0, 1fr) 180px;
+  gap: 22px;
   align-items: start;
   height: 100%;
 }}
 .plate .num {{
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   border-radius: 8px;
   background: #ffffff;
   color: {NAVY};
   font-family: 'Days One', sans-serif;
-  font-size: 24px;
+  font-size: 22px;
 }}
 .plate .title {{
-  margin: -6px 0 0;
+  margin: -4px 0 0;
   font-family: 'Days One', sans-serif;
-  font-size: 68px;
+  font-size: 58px;
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.02em;
+  color: {PAPER};
 }}
 .plate .meta {{
   margin: 12px 0 0;
@@ -369,7 +377,7 @@ body {{
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(12, 10, 62, 0.62);
+  color: rgba(255, 250, 240, 0.5);
 }}
 .plate .body {{
   display: flex;
@@ -377,22 +385,22 @@ body {{
   height: 100%;
 }}
 .plate .summary {{
-  max-width: 680px;
-  margin: 22px 0 0;
-  font-size: 21px;
-  line-height: 1.42;
-  color: rgba(12, 10, 62, 0.86);
+  max-width: 690px;
+  margin: 16px 0 0;
+  font-size: 20px;
+  line-height: 1.45;
+  color: rgba(255, 250, 240, 0.82);
 }}
 .plate .stack {{
   margin: auto 0 0;
-  padding-top: 18px;
+  padding-top: 14px;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: {NAVY};
+  color: {CORAL};
 }}
-.plate .stack span {{ color: rgba(12, 10, 62, 0.45); }}
+.plate .stack span {{ color: rgba(255, 250, 240, 0.35); }}
 .plate .side {{
   align-self: end;
   justify-self: end;
@@ -406,27 +414,27 @@ body {{
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(12, 10, 62, 0.78);
+  color: rgba(255, 250, 240, 0.55);
 }}
 .plate .go {{
   display: grid;
   place-items: center;
-  width: 62px;
-  height: 62px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   background: #ffffff;
   color: {NAVY};
   font-family: 'Days One', sans-serif;
-  font-size: 25px;
+  font-size: 24px;
 }}
 .plate .year {{
   position: absolute;
-  top: 48px;
-  right: 64px;
+  top: 34px;
+  right: 42px;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.16em;
-  color: rgba(12, 10, 62, 0.55);
+  color: rgba(255, 250, 240, 0.5);
 }}
 
 /* ── Footer ─────────────────────────────────────────────────────────── */
@@ -539,19 +547,21 @@ def header() -> str:
 def plate(project: dict) -> str:
     return f"""
 <div class="board plate">
-  <div class="ghost">{project['n']}</div>
-  <div class="year">{project['year']}</div>
-  <div class="inner">
-    <div class="num">{project['n']}</div>
-    <div class="body">
-      <h2 class="title">{project['title']}</h2>
-      <p class="meta">{project['role']}</p>
-      <p class="summary">{project['summary']}</p>
-      <p class="stack">{project['stack'].replace(' · ', ' <span>·</span> ')}</p>
-    </div>
-    <div class="side">
-      <span class="repo">Open repo</span>
-      <span class="go">↗</span>
+  <div class="card">
+    <div class="ghost">{project['n']}</div>
+    <div class="year">{project['year']}</div>
+    <div class="inner">
+      <div class="num">{project['n']}</div>
+      <div class="body">
+        <h2 class="title">{project['title']}</h2>
+        <p class="meta">{project['role']}</p>
+        <p class="summary">{project['summary']}</p>
+        <p class="stack">{project['stack'].replace(' · ', ' <span>·</span> ')}</p>
+      </div>
+      <div class="side">
+        <span class="repo">Open repo</span>
+        <span class="go">↗</span>
+      </div>
     </div>
   </div>
 </div>
