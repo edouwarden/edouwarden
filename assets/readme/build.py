@@ -323,7 +323,7 @@ body {{
 .plate {{
   height: {PLATE_HEIGHT}px;
   padding: 34px 84px;
-  background: {CORAL};
+  background: {NAVY};
 }}
 .plate .card {{
   position: relative;
@@ -331,8 +331,8 @@ body {{
   padding: 34px 42px;
   overflow: hidden;
   border-radius: 30px;
-  background: {NAVY_LIFT};
-  color: {PAPER};
+  background: {CORAL};
+  color: {NAVY};
 }}
 .plate .ghost {{
   position: absolute;
@@ -341,7 +341,7 @@ body {{
   font-family: 'Days One', sans-serif;
   font-size: 230px;
   line-height: 1;
-  color: rgba(249, 86, 79, 0.10);
+  color: rgba(12, 10, 62, 0.08);
 }}
 .plate .inner {{
   position: relative;
@@ -369,7 +369,7 @@ body {{
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: {PAPER};
+  color: {NAVY};
 }}
 .plate .meta {{
   margin: 12px 0 0;
@@ -377,7 +377,7 @@ body {{
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 250, 240, 0.5);
+  color: rgba(12, 10, 62, 0.62);
 }}
 .plate .body {{
   display: flex;
@@ -389,7 +389,7 @@ body {{
   margin: 16px 0 0;
   font-size: 20px;
   line-height: 1.45;
-  color: rgba(255, 250, 240, 0.82);
+  color: rgba(12, 10, 62, 0.86);
 }}
 .plate .stack {{
   margin: auto 0 0;
@@ -398,9 +398,9 @@ body {{
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: {CORAL};
+  color: {NAVY};
 }}
-.plate .stack span {{ color: rgba(255, 250, 240, 0.35); }}
+.plate .stack span {{ color: rgba(12, 10, 62, 0.45); }}
 .plate .side {{
   align-self: end;
   justify-self: end;
@@ -414,7 +414,7 @@ body {{
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 250, 240, 0.55);
+  color: rgba(12, 10, 62, 0.66);
 }}
 .plate .go {{
   display: grid;
@@ -434,7 +434,7 @@ body {{
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.16em;
-  color: rgba(255, 250, 240, 0.5);
+  color: rgba(12, 10, 62, 0.55);
 }}
 
 /* ── Footer ─────────────────────────────────────────────────────────── */

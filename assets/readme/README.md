@@ -5,8 +5,8 @@ Every plate is a separate linked PNG, and all eight sit in one `<p>` with
 `<img align="top">` so they stack with zero gap. Do not add blank lines or
 whitespace between the tags — that is what keeps the seams invisible.
 
-Project plates are inset cards: each 1200 px artboard is a continuous coral
-field with a navy-lift rounded card sitting inside it (84 px side gutters,
+Project plates are inset cards: each 1200 px artboard is a continuous navy
+field with a coral rounded card sitting inside it (84 px side gutters,
 34 px top and bottom). The gutters belong to the image, so the cards read
 narrower than the column while the stack still touches edge to edge.
 
