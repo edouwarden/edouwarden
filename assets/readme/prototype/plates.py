@@ -18,6 +18,8 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+from embed import write_image_svg
+
 HERE = Path(__file__).resolve().parent
 FONTS = HERE.parent / "fonts"
 BUILD = HERE.parent / ".build"
@@ -1087,6 +1089,7 @@ PROJECTS = [
         "n": "09",
         "file": "plate-09.png",
         "variant": "outline",
+        "motion": "forge",
         "title": "Forge",
         "meta": "2026 · Solo · systems &amp; tooling",
         "hook": "The next systems project: a workshop for building, running and keeping software on one machine — published in parts.",
@@ -1259,6 +1262,40 @@ def document(project: dict) -> str:
     )
 
 
+def forge_overlay(x: float, y: float) -> str:
+    """A slow ember pulse over the anvil, drawn on the wrapped plate."""
+    sparks = (
+        (166, 74, 146, 54, 0.9),
+        (172, 72, 180, 48, 0.7),
+        (178, 76, 198, 60, 0.55),
+        (160, 78, 138, 72, 0.5),
+        (184, 80, 206, 84, 0.45),
+    )
+    lines = []
+    for index, (x1, y1, x2, y2, opacity) in enumerate(sparks):
+        lines.append(
+            f'<line x1="{x + x1}" y1="{y + y1}" x2="{x + x2}" y2="{y + y2}" '
+            f'stroke="{CORAL}" stroke-width="1.4" stroke-linecap="round" opacity="0">'
+            f'<animate attributeName="opacity" values="0;{opacity};0" '
+            f'dur="3.6s" begin="{index * 0.45:.2f}s" repeatCount="indefinite"/>'
+            "</line>"
+        )
+
+    return (
+        f'<circle cx="{x + 176}" cy="{y + 78}" r="16" fill="none" '
+        f'stroke="{CORAL}" opacity="0">'
+        '<animate attributeName="r" values="16;42;16" dur="3.6s" '
+        'repeatCount="indefinite"/>'
+        '<animate attributeName="opacity" values="0;0.18;0" dur="3.6s" '
+        'repeatCount="indefinite"/>'
+        "</circle>"
+        f'<circle cx="{x + 166}" cy="{y + 74}" r="2.4" fill="{CORAL}">'
+        '<animate attributeName="opacity" values="0.25;1;0.25" dur="2.8s" '
+        'repeatCount="indefinite"/>'
+        "</circle>" + "".join(lines)
+    )
+
+
 def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as playwright:
@@ -1278,6 +1315,27 @@ def main() -> None:
                 clip={"x": 0, "y": 0, "width": 1200, "height": clip_h},
             )
             print(f"rendered {project['file']}")
+            if project.get("motion") == "forge":
+                box = page.evaluate(
+                    """() => {
+                        const r = document.querySelector('.art svg').getBoundingClientRect();
+                        return {x: r.x, y: r.y};
+                    }"""
+                )
+                overlay = (
+                    '<g transform="scale(2)">'
+                    + forge_overlay(box["x"], box["y"])
+                    + "</g>"
+                )
+                write_image_svg(
+                    HERE / project["file"],
+                    HERE / Path(project["file"]).with_suffix(".svg"),
+                    2400,
+                    800,
+                    overlay,
+                    "Forge — in progress",
+                )
+                print("wrote plate-09.svg")
         browser.close()
 
 

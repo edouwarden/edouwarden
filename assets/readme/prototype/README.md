@@ -4,7 +4,8 @@ Direction **A** — a custom flat illustration on every project card — applied
 the whole deck. Each card keeps the same anatomy: number, title, meta, hook,
 three project-specific stats, stack, and a 360 × 203 illustration drawn inline
 as SVG in the ambient palette. Forge closes the series as the same card drawn
-as an outline: transparent body, coral edge, in-progress copy.
+as an outline: transparent body, coral edge, in-progress copy, and a slow ember
+pulse over the anvil.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a seeded height field feeding a core column, a terminal, a raycast
@@ -41,16 +42,34 @@ space, marks and cards rather than full-width rules:
   `dynamic-dashboard.ednormand.fr` URL, a pulsing dot and a nudging arrow. Plate
   01 is clipped just below the card so the capsule sits about 8 px under it; the
   card itself is unchanged. It replaces the old filled live-demo caption.
+- `deck-open.svg` — a thin 900 × 44 capsule with the same weight as the try
+  strip: a pulsing coral dot, `Open to work · Switzerland`, and the quiet
+  `Systems · Infrastructure · AI` meta on the right. It is the shared asset for
+  the above-header and below-header placement options.
 - `deck-reviews.svg` — a slow marquee of peer-review cards under a
   `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
   the longest quote. The three quotes in `stats.py` are mock placeholders;
   replace `REVIEWS` with real quotes before publishing.
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
-  handle and URL. The footer drops the `No forms, no trackers` label and the CTA
-  pill; the email with its coral arrow sits directly above the footline.
-  `boards.py` reads the production boards, replaces the copy and screenshots the
-  variants at 2x; the production boards are not modified.
+  handle and URL. The header moves the location line to `Switzerland · 42
+  Paris`; the base PNG keeps the quiet `Open to hard problems` pill. The footer
+  drops the `No forms, no trackers` label and the CTA pill, leads with `Bring me
+  a hard problem`, sets the 20 px email and 24 px coral arrow directly above the
+  footline, and closes with `Open to work · Switzerland · 42 Paris` and `Updated
+  November 2026`. `boards.py` reads the production boards, replaces the copy and
+  screenshots the variants at 2x; the production boards are not modified.
+- `deck-header-work.svg` — the optional header treatment: the pill becomes a
+  coral `Open to work · Switzerland` tag and its hidden dot is redrawn as a
+  pulsing dot and ring inside the embedded header PNG. Option A of the three
+  preview pages uses this asset; the main deck currently does too.
+
+## Text fallback
+
+The root `README.md` closes with a collapsed `<details>` block: the same
+profile, project list, stack, language shares and contact as plain Markdown. It
+gives search, screen readers and no-image readers a complete path without
+changing the image-first deck.
 
 ## What each project leads with
 
@@ -64,7 +83,7 @@ space, marks and cards rather than full-width rules:
 | `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
 | `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
 | `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
-| `09` Forge | The next systems project, drawn as an in-progress outline card | 2026 start · 01 project · WIP | Bun · TypeScript · SQLite · Docker · Linux |
+| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | 2026 start · 01 project · WIP | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
@@ -79,19 +98,26 @@ public numbers exist; the card currently opens the repositories tab.
   fonts; plate 01 is clipped to 1200 × 376 so the try strip can sit close to it.
   HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-09.png`
-  — the rendered plates.
-- `stats.py` — writes the stack, project-section, try-it and review rails as SVG
-  and renders the language line at 2x. HTML goes to the ignored `.build/`
-  folder.
+  — the rendered plates. `plate-09.svg` wraps the Forge PNG and adds the ember
+  pulse over the anvil; the other plates stay PNG.
+- `stats.py` — writes the stack, project-section, try-it, open-to-work and review
+  rails as SVG and renders the language line at 2x. HTML goes to the ignored
+  `.build/` folder.
 - `boards.py` — reads the production header and footer boards and renders
-  `deck-header.png` and `deck-footer.png` with the email in place of the visible
-  GitHub copy. HTML goes to the ignored `.build/` folder.
+  `deck-header.png`, `deck-footer.png` and `deck-header-work.svg` with the email
+  in place of the visible GitHub copy. HTML goes to the ignored `.build/`
+  folder.
+- `embed.py` — base64-embeds a rendered PNG inside an SVG so a live SMIL overlay
+  can sit on top of a raster board.
+- `preview/option-a.md`, `preview/option-b.md`, `preview/option-c.md` — the three
+  open-to-work placements: animated header tag, strip above the header, strip
+  below the header. Compare them on the preview branch before keeping one.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
-  `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` — the rendered data
-  rails and board variants.
+  `deck-open.svg`, `deck-reviews.svg`, `deck-header.png`, `deck-header-work.svg`,
+  `deck-footer.png` — the rendered data rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py

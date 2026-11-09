@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Render the data rails that sit around the project plates: the stack
-marquee, the language line, the project-section header, the try-it strip and
-the peer-review cards.
+marquee, the language line, the project-section header, the try-it strip, the
+open-to-work strip and the peer-review cards.
 
 The stack is a vector marquee: 24 coral icons over two full-width rows that
 scroll slowly in opposite directions under a re-added title. The names are the
@@ -84,6 +84,7 @@ SPEED = 62.0  # marquee units per second
 
 PROJECTS_W, PROJECTS_H = 900, 112
 TRY_W, TRY_H = 900, 44
+OPEN_W, OPEN_H = 900, 44
 REVIEWS_W = 900
 
 # Placeholder copy for the mockup. Replace with real reviews before publishing.
@@ -393,6 +394,54 @@ def try_svg() -> str:
     return "".join(out)
 
 
+def open_svg() -> str:
+    out = [svg_open(OPEN_W, OPEN_H, "Open to work in Switzerland")]
+    left, right = 63, 836
+    bar_y, bar_h = 1, 36
+    centre = bar_y + bar_h / 2
+
+    # A thin capsule with the same weight as the try strip, so the deck gains
+    # the signal without another full-width rule.
+    out.append(
+        f'<rect x="{left}" y="{bar_y}" width="{right - left}" height="{bar_h}" '
+        f'rx="{bar_h / 2}" fill="{CORAL}" fill-opacity="0.05" '
+        f'stroke="{CORAL}" stroke-opacity="0.38"/>'
+    )
+    out.append(
+        f'<circle cx="{left + 22}" cy="{centre}" r="3.1" fill="{CORAL}">'
+        '<animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" '
+        'repeatCount="indefinite"/></circle>'
+    )
+
+    label = "OPEN TO WORK"
+    label_size, label_track = 10.5, 1.7
+    x = left + 34
+    out.append(
+        f'<path d="{text_path(label, label_size, label_track, x, 23)}" '
+        f'fill="{CORAL}"/>'
+    )
+    x += text_width(label, label_size, label_track) + 9
+    out.append(
+        f'<path d="{text_path("·", label_size, label_track, x, 23)}" '
+        f'fill="{PAPER}" fill-opacity="0.35"/>'
+    )
+    x += text_width("·", label_size, label_track) + 9
+    out.append(
+        f'<path d="{text_path("SWITZERLAND", label_size, label_track, x, 23)}" '
+        f'fill="{PAPER}" fill-opacity="0.64"/>'
+    )
+
+    meta = "SYSTEMS · INFRASTRUCTURE · AI"
+    meta_size, meta_track = 9.2, 1.25
+    meta_w = text_width(meta, meta_size, meta_track)
+    out.append(
+        f'<path d="{text_path(meta, meta_size, meta_track, right - 22 - meta_w, 23)}" '
+        f'fill="{PAPER}" fill-opacity="0.34"/>'
+    )
+    out.append("</svg>")
+    return "".join(out)
+
+
 def reviews_svg() -> str:
     card_w = 430
     pad = 22
@@ -595,6 +644,7 @@ def main() -> None:
     write_rail("deck-stack.svg", stack_svg())
     write_rail("deck-projects.svg", projects_svg())
     write_rail("deck-try.svg", try_svg())
+    write_rail("deck-open.svg", open_svg())
     write_rail("deck-reviews.svg", reviews_svg())
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
