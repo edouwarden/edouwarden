@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Two proof-plate variants for dynamic-dashboard.
+"""Four proof-plate variants for dynamic-dashboard.
 
 A: a custom flat illustration of the dashboard shell, drawn as inline SVG in
    the ambient palette.
 B: the same card with a real screenshot of the Personal OS tab.
+C: the screenshot at a much larger size, so the visual leads the card.
+D: a text-led card with the illustration as a giant background ghost, the same
+   way the production plates use the project number.
 
-Both keep the card, type, and specs identical so only the visual changes.
-Standalone: production README and build.py are untouched.
+Every card keeps the same title, copy, stats, and stack. Only the layout and the
+visual change. Standalone: production README and build.py are untouched.
 
     python3 assets/readme/prototype/plates.py
 """
@@ -158,10 +161,25 @@ ILLUSTRATION = """
 </svg>
 """
 
-CARD = """
-<div class="plate">
-  <div class="card">
-    <div class="copy">
+# The same drawing without its sky, dots, glow, or coral backing. What remains is
+# the dashboard's line work: exactly what the ghost number is for the production
+# plates, but made of the product itself.
+GHOST_ILLUSTRATION = "\n".join(
+    line
+    for line in ILLUSTRATION.splitlines()
+    if not any(
+        key in line
+        for key in (
+            'fill="url(#sky)"',
+            'fill="url(#dots)"',
+            'fill="url(#glow)"',
+            'cx="42" cy="186"',
+            'x="14" y="16"',
+        )
+    )
+)
+
+COPY = """
       <div class="head">
         <div class="num">01</div>
         <h2 class="title">dynamic-dashboard</h2>
@@ -174,10 +192,6 @@ CARD = """
         <div class="spec"><b>01</b><span>shared DB</span></div>
       </div>
       <p class="stack">Bun · Hono · SQLite · Vanilla JS · OpenCode</p>
-    </div>
-    <div class="art">{artifact}<span class="go">↗</span></div>
-  </div>
-</div>
 """
 
 STYLE = f"""
@@ -201,7 +215,13 @@ body {{
   font-family: 'Plex Mono', monospace;
   -webkit-font-smoothing: antialiased;
 }}
-.plate {{ width: 1200px; height: 400px; padding: 34px 84px; background: #0c0a3e; }}
+.plate {{ position: relative; width: 1200px; height: 400px; padding: 34px 84px; background: #0c0a3e; }}
+.tag {{
+  position: absolute; top: 12px; left: 84px;
+  font-size: 9.5px; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255, 250, 240, 0.45);
+}}
+.tag b {{ color: #f9564f; font-weight: 500; }}
 .card {{
   position: relative;
   display: grid;
@@ -263,24 +283,83 @@ body {{
   border-radius: 50%; background: #ffffff;
   font-family: 'Days One', sans-serif; font-size: 19px;
 }}
+
+/* C — the visual takes over the right side of the card. */
+.card-c {{ grid-template-columns: minmax(0, 1fr) 470px; gap: 26px; padding: 28px 34px; }}
+.card-c .title {{ font-size: 38px; }}
+.card-c .hook {{ max-width: 470px; font-size: 17px; }}
+.card-c .specs {{ gap: 20px; }}
+.card-c .art {{ width: 470px; height: 264px; }}
+.card-c .art svg, .card-c .art img {{ width: 470px; height: 264px; border-radius: 18px; }}
+
+/* D — the illustration becomes the card's background, like the ghost number. */
+.card-d {{ display: block; padding: 32px 42px; }}
+.card-d .copy {{ position: relative; z-index: 1; height: 100%; max-width: 720px; }}
+.card-d .title {{ font-size: 52px; }}
+.card-d .hook {{ max-width: 620px; font-size: 19px; }}
+.card-d .specs {{ max-width: 620px; }}
+.ghost-art {{
+  position: absolute; z-index: 0;
+  right: -105px; bottom: -120px;
+  width: 820px; height: 462px;
+  opacity: 0.13;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.5) 34%, #000 64%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.5) 34%, #000 64%);
+}}
+.ghost-art svg {{ display: block; width: 100%; height: 100%; }}
+.go-d {{
+  position: absolute; z-index: 1; right: 42px; bottom: 32px;
+  display: grid; place-items: center; width: 58px; height: 58px;
+  border-radius: 50%; background: #ffffff;
+  font-family: 'Days One', sans-serif; font-size: 24px;
+}}
 """
 
 
-def document(artifact: str) -> str:
+def art_card(tag: str, card_class: str, artifact: str) -> str:
+    return f"""
+<div class="plate">
+  <div class="tag"><b>{tag[0]}</b> · {tag[1]}</div>
+  <div class="card {card_class}">
+    <div class="copy">{COPY}</div>
+    <div class="art">{artifact}<span class="go">↗</span></div>
+  </div>
+</div>
+"""
+
+
+def ghost_card(tag: str) -> str:
+    return f"""
+<div class="plate">
+  <div class="tag"><b>{tag[0]}</b> · {tag[1]}</div>
+  <div class="card card-d">
+    <div class="ghost-art">{GHOST_ILLUSTRATION}</div>
+    <div class="copy">{COPY}</div>
+    <span class="go-d">↗</span>
+  </div>
+</div>
+"""
+
+
+def document(body: str) -> str:
     return (
         "<!doctype html><html><head><meta charset=\"utf-8\"><style>"
         + STYLE
         + "</style></head><body>"
-        + CARD.format(artifact=artifact)
+        + body
         + "</body></html>"
     )
 
 
 def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
+    shot = f'<img src="file://{ARTIFACT_B}" alt="">'
     variants = {
-        "plate-a.png": ILLUSTRATION,
-        "plate-b.png": f'<img src="file://{ARTIFACT_B}" alt="">',
+        "plate-a.png": art_card(("A", "custom illustration"), "", ILLUSTRATION),
+        "plate-b.png": art_card(("B", "native screenshot"), "", shot),
+        "plate-c.png": art_card(("C", "bigger screenshot"), "card-c", shot),
+        "plate-d.png": ghost_card(("D", "background illustration")),
     }
 
     with sync_playwright() as playwright:
@@ -289,9 +368,9 @@ def main() -> None:
             viewport={"width": 1200, "height": 400},
             device_scale_factor=2,
         )
-        for name, artifact in variants.items():
+        for name, body in variants.items():
             page_path = BUILD / name.replace(".png", ".html")
-            page_path.write_text(document(artifact))
+            page_path.write_text(document(body))
             page.goto(page_path.as_uri())
             page.wait_for_function("document.fonts.status === 'loaded'")
             page.screenshot(

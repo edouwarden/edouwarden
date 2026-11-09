@@ -1,8 +1,8 @@
 # Proof plate prototype
 
-Two directions for the `dynamic-dashboard` plate, side by side. Both keep the
-card, type, and specs identical; only the right-hand visual changes. The card
-carries the project's own stack and stats — it does not repeat the profile-wide
+Four directions for the `dynamic-dashboard` plate. Every card keeps the same
+title, copy, stats, and stack; only the visual and its composition change. The
+card carries the project's own numbers — it does not repeat the profile-wide
 `2,000+ players served` figure.
 
 - **A — `plate-a.png`**: a flat illustration of the dashboard shell drawn inline
@@ -12,6 +12,11 @@ carries the project's own stack and stats — it does not repeat the profile-wid
 - **B — `plate-b.png`**: a real screenshot of the Personal OS tab in its native
   colours, cropped to 720 × 405 and given a light contrast lift. It shows the
   actual widgets and typography without a duotone or heavy grade.
+- **C — `plate-c.png`**: the same screenshot at 470 × 264, roughly 70% more
+  visual area. The screenshot leads the card and the copy gives it room.
+- **D — `plate-d.png`**: the illustration becomes a giant background ghost, the
+  same device the production plates use for the project number. The copy sits on
+  top, with the drawing faded out under the text and readable at the right.
 
 ## Card content
 
@@ -24,10 +29,11 @@ carries the project's own stack and stats — it does not repeat the profile-wid
 
 ## Files
 
-- `plates.py` — renders both variants at 1200 × 400, 2x, using the deck fonts.
-  HTML goes to the ignored `.build/` folder.
-- `artifact-b.png` — the 720 × 405 Personal OS crop used by B.
-- `plate-a.png`, `plate-b.png` — the rendered plates.
+- `plates.py` — renders all four variants at 1200 × 400, 2x, using the deck
+  fonts. HTML goes to the ignored `.build/` folder.
+- `artifact-b.png` — the 720 × 405 Personal OS crop used by B and C.
+- `plate-a.png` … `plate-d.png` — the rendered plates. Each carries a small
+  lettered label in its top margin so the variants read in the project list.
 
 ```bash
 python3 assets/readme/prototype/plates.py
@@ -35,7 +41,7 @@ python3 assets/readme/prototype/plates.py
 
 This folder sits outside the production pipeline: `build.py` still generates
 the committed plates and the public README is unchanged. Once a direction is
-approved, the artifact panel can become a shared slot in `build.py` for all six
-projects — a widget grid for dynamic-dashboard, terminal frames for minishell
+approved, the chosen composition can become a shared slot in `build.py` for all
+six projects — a widget grid for dynamic-dashboard, terminal frames for minishell
 and IRC, raycast stills for cub3D, topology diagrams for Inception and
 born2beroot.
