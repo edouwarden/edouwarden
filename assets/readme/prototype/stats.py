@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Render the data rails that sit around the project plates: the stack
-marquee, the language line, the project-section header, the try-it strip,
-the peer-review cards and the contact line.
+marquee, the language line, the project-section header, the try-it strip and
+the peer-review cards.
 
 The stack is a vector marquee: 24 coral icons over two full-width rows that
 scroll slowly in opposite directions under a re-added title. The names are the
@@ -85,7 +85,6 @@ SPEED = 62.0  # marquee units per second
 PROJECTS_W, PROJECTS_H = 900, 112
 TRY_W, TRY_H = 900, 44
 REVIEWS_W = 900
-CONTACT_W, CONTACT_H = 900, 63
 
 # Placeholder copy for the mockup. Replace with real reviews before publishing.
 REVIEWS = (
@@ -194,13 +193,6 @@ def subline(text: str, x: float, baseline: float) -> str:
     return (
         f'<path d="{text_path(text, 9.5, 1.14, x, baseline)}" '
         f'fill="{PAPER}" fill-opacity="0.36"/>'
-    )
-
-
-def hairline(x1: float, y: float, x2: float, opacity: float = 0.09) -> str:
-    return (
-        f'<line x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" '
-        f'stroke="{PAPER}" stroke-opacity="{opacity}"/>'
     )
 
 
@@ -397,27 +389,6 @@ def try_svg() -> str:
         'values="0 0;4 0;0 0" dur="2.8s" repeatCount="indefinite"/>'
         f'{arrow_path(arrow_x, centre)}</g>'
     )
-    out.append("</svg>")
-    return "".join(out)
-
-
-def contact_svg() -> str:
-    out = [svg_open(CONTACT_W, CONTACT_H, "Contact")]
-    out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
-    out.append(kicker("CONTACT", "EMAIL", MARGIN + 19, 28.5))
-    out.append(subline("DIRECT LINE", MARGIN + 19, 45))
-
-    email = "ed.normand@protonmail.com"
-    size, track = 10.5, 0.7
-    email_w = text_width(email, size, track)
-    right = CONTACT_W - MARGIN
-    start = right - email_w - 10 - 10
-    out.append(
-        f'<path d="{text_path(email, size, track, start, 35.5)}" '
-        f'fill="{PAPER}" fill-opacity="0.82"/>'
-    )
-    out.append(arrow_path(start + email_w + 10, 31.5))
-    out.append(hairline(360, 31.5, start - 28))
     out.append("</svg>")
     return "".join(out)
 
@@ -625,7 +596,6 @@ def main() -> None:
     write_rail("deck-projects.svg", projects_svg())
     write_rail("deck-try.svg", try_svg())
     write_rail("deck-reviews.svg", reviews_svg())
-    write_rail("deck-contact.svg", contact_svg())
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
         page = browser.new_page(

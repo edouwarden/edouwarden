@@ -45,11 +45,12 @@ space, marks and cards rather than full-width rules:
   `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
   the longest quote. The three quotes in `stats.py` are mock placeholders;
   replace `REVIEWS` with real quotes before publishing.
-- `deck-contact.svg` — the closing email line, `ed.normand@protonmail.com`.
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
-  handle and URL. `boards.py` reads the production boards, replaces the copy and
-  screenshots the variants at 2x; the production boards are not modified.
+  handle and URL. The footer drops the `No forms, no trackers` label and the CTA
+  pill; the email with its coral arrow sits directly above the footline.
+  `boards.py` reads the production boards, replaces the copy and screenshots the
+  variants at 2x; the production boards are not modified.
 
 ## What each project leads with
 
@@ -79,9 +80,9 @@ public numbers exist; the card currently opens the repositories tab.
   HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-09.png`
   — the rendered plates.
-- `stats.py` — writes the stack, project-section, try-it, review and contact
-  rails as SVG and renders the language line at 2x. HTML goes to the ignored
-  `.build/` folder.
+- `stats.py` — writes the stack, project-section, try-it and review rails as SVG
+  and renders the language line at 2x. HTML goes to the ignored `.build/`
+  folder.
 - `boards.py` — reads the production header and footer boards and renders
   `deck-header.png` and `deck-footer.png` with the email in place of the visible
   GitHub copy. HTML goes to the ignored `.build/` folder.
@@ -89,8 +90,8 @@ public numbers exist; the card currently opens the repositories tab.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
-  `deck-reviews.svg`, `deck-contact.svg`, `deck-header.png`, `deck-footer.png` —
-  the rendered data rails and board variants.
+  `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` — the rendered data
+  rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py
