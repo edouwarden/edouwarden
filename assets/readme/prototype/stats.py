@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Render the two data rails that sit between the header and the project
-plates: an animated technology strip and a language line counter.
+plates: a two-row technology marquee and a language line.
 
-The strip lays 24 technologies over four rows — web, data, infra and tools — and
-sends a slow diagonal scan across them. The icons are Simple Icons paths in the
-deck's coral; the scan only lifts their brightness. The language line reads the
-same pygount snapshot (loc.json) and shows only the names, in order of use, so it
-signals fluency without turning into a line-count contest.
+The strip runs 24 technologies through two full-width rows that scroll in
+opposite directions. The icons are Simple Icons paths in the deck's coral; there
+is no title, count or active state. The language line reads the same pygount
+snapshot (loc.json), keeps only the names in order of use, and puts a three-step
+meter beside each one.
 
-Both boards use the deck's ambient palette and type, render at 2x, and stack
-flush with the header and plates.
+Both boards use the deck's ambient palette and type, render high-density, and
+stack flush with the header and plates. The marquee is captured at 1.5x and
+downscaled to 900 × 126 so the loop stays under a megabyte.
 
     python3 assets/readme/prototype/stats.py
 """
@@ -29,7 +30,6 @@ BUILD = HERE.parent / ".build" / "stats"
 
 NAVY = "#0c0a3e"
 CORAL = "#f9564f"
-DEEP = "#dd453d"
 PAPER = "#fffaf0"
 
 TECH_ROWS = (
@@ -67,14 +67,29 @@ TECH_ROWS = (
     ),
 )
 
+ROW_TOP = TECH_ROWS[0] + TECH_ROWS[1]
+ROW_BOTTOM = TECH_ROWS[2] + TECH_ROWS[3]
+
 ICONS = json.loads((HERE / "tech-icons.json").read_text())
 
-FPS = 25
-COLS = 6
-CELLS = sum(len(row) for row in TECH_ROWS)
-FRAMES = 225
+FPS = 12.5
+LOOP_SECONDS = 10
+FRAMES = int(FPS * LOOP_SECONDS)
+SCALE = 1.5
+OUT_WIDTH = 900
+OUT_HEIGHT = 126
+COLORS = 32
 
 LANG_DISPLAY = {"Other": "Bash"}
+LANG_LEVELS = {
+    "TypeScript": 3,
+    "JavaScript": 3,
+    "Python": 3,
+    "C": 3,
+    "Java": 2,
+    "Go": 2,
+    "Bash": 1,
+}
 
 
 def font_faces() -> str:
@@ -95,17 +110,17 @@ def font_faces() -> str:
 """
 
 
-def cells_html() -> str:
-    cells = []
-    for row in TECH_ROWS:
-        for label, slug in row:
-            path = ICONS[slug]
-            cells.append(
-                '<div class="cell">'
-                f'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="{path}"/></svg>'
-                f'<span class="name">{label}</span></div>'
-            )
-    return "".join(cells)
+def marquee_items(row: tuple) -> str:
+    items = []
+    for label, slug in row:
+        path = ICONS[slug]
+        items.append(
+            '<div class="item">'
+            f'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="{path}"/></svg>'
+            f'<span class="name">{label}</span>'
+            '<span class="dot"></span></div>'
+        )
+    return "".join(items) * 2
 
 
 def strip_document() -> str:
@@ -117,89 +132,74 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 .strip {{
   position: relative;
   width: 1200px; height: 168px;
-  padding: 0 64px;
-  display: grid;
-  grid-template-columns: 232px minmax(0, 1fr);
-  align-items: center;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 24px;
+  overflow: hidden;
   background: {NAVY};
   color: {PAPER};
 }}
 .strip::after {{
   content: ''; position: absolute; left: 64px; right: 64px; bottom: 0;
-  height: 1px; background: rgba(255, 250, 240, 0.09);
+  height: 1px; background: rgba(255, 250, 240, 0.09); z-index: 3;
 }}
-.kicker {{
-  display: flex; align-items: center; gap: 11px;
-  font-size: 13px; font-weight: 500; letter-spacing: 0.16em;
-  text-transform: uppercase; color: {PAPER};
+.row {{ width: 100%; overflow: hidden; }}
+.track {{
+  display: flex; align-items: center;
+  width: max-content;
+  will-change: transform;
 }}
-.kicker .mark {{ width: 10px; height: 10px; background: {CORAL}; }}
-.kicker .slash {{ color: {CORAL}; }}
-.sub {{
-  margin-top: 9px;
-  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: rgba(255, 250, 240, 0.36);
-}}
-.grid {{
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  column-gap: 22px;
-  grid-auto-rows: 36px;
-}}
-.cell {{
-  position: relative;
-  display: flex; align-items: center; gap: 7px;
-  min-width: 0;
-  border-bottom: 1px solid rgba(255, 250, 240, 0.13);
+.item {{
+  display: flex; align-items: center; gap: 9px;
+  margin-right: 52px;
+  white-space: nowrap;
 }}
 .ico {{
   flex: none;
-  width: 18px; height: 18px;
+  width: 22px; height: 22px;
   fill: {CORAL};
-  opacity: 0.42;
-  will-change: opacity;
+  opacity: 0.9;
 }}
-.cell .name {{
-  overflow: hidden;
-  font-size: 11px; font-weight: 500; letter-spacing: 0.03em;
-  line-height: 1; text-transform: uppercase; white-space: nowrap;
+.name {{
+  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  line-height: 1; text-transform: uppercase;
   color: {PAPER};
-  opacity: 0.52;
+  opacity: 0.66;
 }}
+.dot {{ width: 3px; height: 3px; background: {CORAL}; opacity: 0.5; }}
+.fade {{
+  position: absolute; top: 0; bottom: 0; width: 140px; z-index: 2;
+  pointer-events: none;
+}}
+.fade.l {{ left: 0; background: linear-gradient(90deg, {NAVY} 0%, rgba(12, 10, 62, 0.9) 34%, rgba(12, 10, 62, 0) 100%); }}
+.fade.r {{ right: 0; background: linear-gradient(270deg, {NAVY} 0%, rgba(12, 10, 62, 0.9) 34%, rgba(12, 10, 62, 0) 100%); }}
 </style></head><body>
 <div class="strip">
-  <div class="pin">
-    <div class="kicker"><span class="mark"></span>Stack <span class="slash">/</span> Used</div>
-    <div class="sub">24 technologies · shipped</div>
-  </div>
-  <div class="grid">{cells_html()}</div>
+  <div class="row"><div class="track">{marquee_items(ROW_TOP)}</div></div>
+  <div class="row"><div class="track">{marquee_items(ROW_BOTTOM)}</div></div>
+  <div class="fade l"></div>
+  <div class="fade r"></div>
 </div>
 <script>
-const COLS = {COLS};
 const FRAMES = {FRAMES};
-const cells = Array.from(document.querySelectorAll('.cell'));
+const tracks = Array.from(document.querySelectorAll('.track'));
 function setFrame(frame) {{
   const t = frame / FRAMES;
-  const u = Math.min(1, t / 0.86);
-  const band = -1 + u * 9.5;
-  let env;
-  if (u < 0.12) env = u / 0.12;
-  else if (u > 0.88) env = (1 - u) / 0.12;
-  else env = 1;
-  cells.forEach((cell, i) => {{
-    const col = i % COLS;
-    const row = Math.floor(i / COLS);
-    const x = col + row * 0.6;
-    let prox = 1 - Math.abs(x - band) / 1.5;
-    prox = Math.max(0, Math.min(1, prox));
-    prox = prox * prox * (3 - 2 * prox);
-    const wave = Math.round(prox * env * 16) / 16;
-    const ico = cell.querySelector('.ico');
-    ico.style.opacity = (0.42 + 0.58 * wave).toFixed(3);
+  tracks.forEach((track, i) => {{
+    const half = track.getBoundingClientRect().width / 2;
+    const x = i === 0 ? -t * half : -half + t * half;
+    track.style.transform = `translate3d(${{x.toFixed(2)}}px, 0, 0)`;
   }});
 }}
 </script>
 </body></html>"""
+
+
+def meter(level: int) -> str:
+    ticks = "".join(
+        f'<span class="tick{" on" if i < level else ""}"></span>'
+        for i in range(3)
+    )
+    return f'<span class="meter">{ticks}</span>'
 
 
 def language_line(data: dict) -> str:
@@ -207,8 +207,10 @@ def language_line(data: dict) -> str:
     for i, entry in enumerate(data["languages"]):
         name = LANG_DISPLAY.get(entry["name"], entry["name"])
         alpha = max(0.34, 0.80 - i * 0.075)
+        level = LANG_LEVELS.get(name, 1)
         items.append(
-            f'<span class="lang" style="color:rgba(255,250,240,{alpha:.2f})">{name}</span>'
+            f'<span class="lang" style="color:rgba(255,250,240,{alpha:.2f})">'
+            f'{meter(level)}<span class="lname">{name}</span></span>'
         )
     return "".join(items)
 
@@ -239,7 +241,6 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   text-transform: uppercase; color: {PAPER};
 }}
 .kicker .mark {{ width: 10px; height: 10px; background: {CORAL}; }}
-.kicker .slash {{ color: {CORAL}; }}
 .sub {{
   margin-top: 8px;
   font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -251,14 +252,19 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   background: rgba(255, 250, 240, 0.10);
 }}
 .lang {{
+  display: flex; align-items: center; gap: 7px;
   font-size: 11px; font-weight: 500; letter-spacing: 0.07em;
   line-height: 1; text-transform: uppercase; white-space: nowrap;
 }}
-.lang + .lang {{ margin-left: 28px; }}
+.lang + .lang {{ margin-left: 26px; }}
+.meter {{ display: inline-flex; align-items: center; gap: 2px; }}
+.tick {{ width: 5px; height: 2px; background: rgba(255, 250, 240, 0.16); }}
+.tick.on {{ background: {CORAL}; opacity: 0.92; }}
+.lname {{ line-height: 1; }}
 </style></head><body>
 <div class="line">
   <div class="pin">
-    <div class="kicker"><span class="mark"></span>Languages <span class="slash">/</span> Confident</div>
+    <div class="kicker"><span class="mark"></span>Languages</div>
     <div class="sub">most used first</div>
   </div>
   <div class="langs">{language_line(data)}</div>
@@ -289,11 +295,12 @@ def assemble_gif() -> None:
     out = HERE / "deck-stack.gif"
     palette = BUILD / "palette.png"
     frames = BUILD / "frames" / "frame-%03d.png"
+    scale = f"scale={OUT_WIDTH}:{OUT_HEIGHT}:flags=lanczos"
     subprocess.run(
         [
             "ffmpeg", "-y", "-loglevel", "error",
             "-framerate", str(FPS), "-i", str(frames),
-            "-vf", "palettegen=max_colors=64:stats_mode=diff",
+            "-vf", f"{scale},palettegen=max_colors={COLORS}:stats_mode=diff",
             str(palette),
         ],
         check=True,
@@ -302,7 +309,7 @@ def assemble_gif() -> None:
         [
             "ffmpeg", "-y", "-loglevel", "error",
             "-framerate", str(FPS), "-i", str(frames), "-i", str(palette),
-            "-lavfi", "paletteuse=dither=none:diff_mode=rectangle",
+            "-lavfi", f"{scale},paletteuse=dither=none:diff_mode=rectangle",
             "-loop", "0", str(out),
         ],
         check=True,
@@ -331,7 +338,7 @@ def main() -> None:
         browser = playwright.chromium.launch()
         page = browser.new_page(
             viewport={"width": 1200, "height": 168},
-            device_scale_factor=2,
+            device_scale_factor=SCALE,
         )
         render_strip(page)
         assemble_gif()

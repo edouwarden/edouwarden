@@ -21,15 +21,15 @@ shows how the terrain is built, not a finished space scene.
 
 Between the header and the plates sit two deck-width strips:
 
-- `deck-stack.gif` — twenty-four technologies across four rows, all coral, lit
-  by a slow diagonal scan that passes over every cell. 2400 × 336, a nine-second
-  loop at 25 fps. Languages are left to the line below; this strip covers
-  frameworks, data, infra and tools.
+- `deck-stack.gif` — twenty-four technologies in two full-width rows that scroll
+  in opposite directions: web and data on top, infra and tools below. All icons
+  are coral, with a soft fade at both edges and no title or count. 900 × 126,
+  125 frames at 12.5 fps, ten-second seamless loop.
 - `deck-languages.png` — a slim language line, most used first: TypeScript,
-  JavaScript, Python, C, Java, Go and Bash. No totals, percentages or bars; it
-  only signals which languages the work is fluent in. `loc.json` is the
-  `pygount` snapshot behind the order, with HTML, CSS, JSON, YAML, Markdown,
-  lockfiles and generated data excluded.
+  JavaScript, Python, C, Java, Go and Bash. Each name carries a three-step meter
+  instead of a count; the line only signals depth, never totals or percentages.
+  `loc.json` is the `pygount` snapshot behind the order, with HTML, CSS, JSON,
+  YAML, Markdown, lockfiles and generated data excluded.
 
 ## What each project leads with
 
@@ -54,7 +54,8 @@ stat.
   fonts. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
   — the rendered plates.
-- `stats.py` — renders the animated stack strip and the language counter at 2x.
+- `stats.py` — renders the scrolling stack marquee and the language line at 2x,
+  downscaling the marquee to 900 × 126 for the GIF.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.gif`, `deck-languages.png` — the two rendered data rails.
