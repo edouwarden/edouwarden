@@ -17,6 +17,20 @@ height field sampled from six octaves of value noise, contour edges between
 height bands, and one highlighted sample feeding an eight-layer core column. It
 shows how the terrain is built, not a finished space scene.
 
+## The two data rails
+
+Between the header and the plates sit two deck-width strips:
+
+- `deck-stack.gif` — fourteen technologies across two rows light up in sequence,
+  each with a coral rule that fills. 2400 × 300, 56 frames at 25 fps, seamless
+  loop.
+- `deck-languages.png` — **85,999 lines of code** across 15 public repositories,
+  drawn as one stacked bar with a nine-entry legend. TypeScript leads with
+  26,100 lines, then CSS (15,626), JavaScript (14,975) and Python (11,497).
+  Counts come from `pygount`; JSON, YAML, Markdown, lockfiles and generated data
+  are excluded, and comments and blank lines are not counted. `loc.json` is the
+  snapshot the card reads.
+
 ## What each project leads with
 
 | Plate | Focus | Stats | Stack |
@@ -40,9 +54,13 @@ stat.
   fonts. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
   — the rendered plates.
+- `stats.py` — renders the animated stack strip and the language counter at 2x.
+- `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
+- `deck-stack.gif`, `deck-languages.png` — the two rendered data rails.
 
 ```bash
 python3 assets/readme/prototype/plates.py
+python3 assets/readme/prototype/stats.py
 ```
 
 Once approved, the illustration slot can become a first-class field in
