@@ -5,8 +5,10 @@ the whole deck. Each card keeps the same anatomy: number, title, meta, hook,
 three project-specific stats, stack, and a 360 × 203 illustration drawn inline
 as SVG in the ambient palette.
 
-The illustrations are diagrams of the project's actual subject, not screenshots
-and not the same motif reused. Every plate is self-contained, so the public
+The illustrations are small scenes and objects, not diagrams: a dashboard, a
+parkour course, a space station, a terminal, a raycast corridor, a chat window, a
+container, a locked disk. No node graphs, no layer trees, and no tiny labels that
+disappear at README width. Every plate is self-contained, so the public
 `build.py` pipeline and the production README are untouched.
 
 ## What each project leads with
@@ -37,7 +39,7 @@ python3 assets/readme/prototype/plates.py
 ```
 
 Once approved, the illustration slot can become a first-class field in
-`build.py` for every project: a widget shell for dynamic-dashboard, an engine
-world for ft_transcendence, an orbital chart for Space, a pipeline for
-minishell, a raycast view for cub3D, a poll loop for ft_irc, a container network
-for Inception, and a disk stack for born2beroot.
+`build.py` for every project: a widget shell for dynamic-dashboard, a parkour
+course for ft_transcendence, a station and ship for Space, a terminal for
+minishell, a raycast view for cub3D, a chat window for ft_irc, a container for
+Inception, and a locked disk for born2beroot.
