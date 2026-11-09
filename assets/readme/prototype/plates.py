@@ -204,208 +204,101 @@ DASHBOARD_ART = f"""
 
 
 def art_transcendence() -> str:
-    o = (30, 126)
-    u = (110, -60)
-    v = (160, 60)
-    grid = []
-    for i in (0.25, 0.5, 0.75):
-        grid.append(
-            f'<line x1="{o[0] + u[0] * i:.1f}" y1="{o[1] + u[1] * i:.1f}" '
-            f'x2="{o[0] + v[0] + u[0] * i:.1f}" y2="{o[1] + v[1] + u[1] * i:.1f}"/>'
-        )
-    for j in (0.25, 0.5, 0.75):
-        grid.append(
-            f'<line x1="{o[0] + v[0] * j:.1f}" y1="{o[1] + v[1] * j:.1f}" '
-            f'x2="{o[0] + u[0] + v[0] * j:.1f}" y2="{o[1] + u[1] + v[1] * j:.1f}"/>'
-        )
-    grid = "".join(grid)
     return art(f"""
-  <polygon points="30,126 140,66 300,126 190,186" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".55"/>
-  <g stroke="{PAPER}" stroke-opacity=".08">{grid}</g>
-
-  <g fill="{PAPER}" opacity=".06" stroke="{CORAL}" stroke-opacity=".5">
-    <polygon points="120,90 150,74 170,90 140,106"/>
-    <polygon points="200,60 226,46 244,60 218,74"/>
-    <polygon points="230,130 254,117 270,130 246,143"/>
+  <g>
+    <polygon points="248,74 284,54 320,74 284,94" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".5"/>
+    <polygon points="248,74 284,94 284,101 248,81" fill="{DEEP}" opacity=".45"/>
+    <polygon points="320,74 284,94 284,101 320,81" fill="{NAVY}" opacity=".8"/>
   </g>
-  <g stroke="{CORAL}" stroke-opacity=".35" stroke-dasharray="3 4">
-    <path d="M150,74 C170,60 196,60 218,60" fill="none"/>
-    <path d="M238,74 C252,92 258,112 250,126" fill="none"/>
+  <g>
+    <polygon points="146,114 198,84 250,114 198,144" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".6"/>
+    <polygon points="146,114 198,144 198,151 146,121" fill="{DEEP}" opacity=".5"/>
+    <polygon points="250,114 198,144 198,151 250,121" fill="{NAVY}" opacity=".8"/>
+  </g>
+  <g>
+    <polygon points="24,144 116,98 208,144 116,190" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".7"/>
+    <polygon points="24,144 116,190 116,198 24,152" fill="{DEEP}" opacity=".55"/>
+    <polygon points="208,144 116,190 116,198 208,152" fill="{NAVY}" opacity=".8"/>
+    <polyline points="24,144 116,98 208,144" fill="none" stroke="{CORAL}" stroke-opacity=".9" stroke-width="2"/>
   </g>
 
   <g>
-    <ellipse cx="155" cy="83" rx="6" ry="3" fill="{DEEP}"/>
-    <rect x="149" y="74" width="12" height="9" rx="3" fill="{CORAL}"/>
-    <ellipse cx="155" cy="74" rx="6" ry="3" fill="{PAPER}" opacity=".8"/>
-  </g>
-  <g stroke="{PAPER}" stroke-opacity=".55" fill="none">
-    <path d="M143,68 L157,61 L173,68 L159,76 Z"/>
-    <path d="M143,80 L157,73 L173,80 L159,88 Z"/>
-    <line x1="143" y1="68" x2="143" y2="80"/>
-    <line x1="157" y1="61" x2="157" y2="73"/>
-    <line x1="173" y1="68" x2="173" y2="80"/>
-    <line x1="159" y1="76" x2="159" y2="88"/>
+    <path d="M104,124 C124,100 136,82 150,68" fill="none" stroke="{PAPER}" stroke-opacity=".25" stroke-dasharray="3 4"/>
+    <circle cx="150" cy="58" r="7.5" fill="{PAPER}"/>
+    <rect x="143" y="64" width="14" height="21" rx="7" fill="{CORAL}"/>
+    <line x1="144" y1="71" x2="134" y2="64" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
+    <line x1="156" y1="71" x2="166" y2="63" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
+    <line x1="147" y1="84" x2="142" y2="93" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
+    <line x1="153" y1="84" x2="158" y2="93" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
   </g>
 
   <g>
-    <rect x="250" y="34" width="92" height="134" rx="8" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    <rect x="250" y="34" width="92" height="18" rx="8" fill="{CORAL}" opacity=".18"/>
-    {label(258, 46, "WORLD", 6, CORAL, 0.9, 500)}
-    <circle cx="334" cy="43" r="2" fill="{CORAL}"/>
-    <g fill="{CORAL}">
-      <rect x="257" y="61" width="3" height="3"/>
-      <rect x="257" y="75" width="3" height="3"/>
-      <rect x="257" y="89" width="3" height="3"/>
-      <rect x="257" y="103" width="3" height="3"/>
-    </g>
-    {label(264, 65, "1.engine", 6.5, PAPER, 0.7)}
-    {label(264, 79, "2.world", 6.5, PAPER, 0.7)}
-    {label(264, 93, "3.environment", 6.5, PAPER, 0.7)}
-    {label(264, 107, "4.module", 6.5, PAPER, 0.7)}
-    <line x1="257" y1="117" x2="335" y2="117" stroke="{PAPER}" stroke-opacity=".12"/>
-    {label(258, 130, "world.yml", 6.5, CORAL, 0.95)}
-    {label(258, 141, "mode: arena", 5.5, PAPER, 0.45)}
-    <rect x="300" y="145" width="30" height="11" rx="5.5" fill="{CORAL}"/>
-    {label(315, 152.5, "PLAY", 5, NAVY, 1, 500, "middle")}
+    <circle cx="294" cy="48" r="19" fill="none" stroke="{CORAL}" stroke-width="4"/>
+    <circle cx="294" cy="48" r="11" fill="none" stroke="{PAPER}" stroke-opacity=".45"/>
+    <line x1="294" y1="30" x2="294" y2="66" stroke="{PAPER}" stroke-opacity=".5"/>
+    <polygon points="294,34 308,40 294,46" fill="{PAPER}" opacity=".85"/>
   </g>
 
-  <g stroke="{PAPER}" stroke-opacity=".4">
-    <line x1="52" y1="54" x2="72" y2="54" stroke="{CORAL}"/>
-    <line x1="52" y1="54" x2="52" y2="74" stroke="{PAPER}"/>
-    <line x1="52" y1="54" x2="64" y2="66" stroke="{DEEP}"/>
+  <g fill="{PAPER}" opacity=".1" stroke="{CORAL}" stroke-opacity=".35">
+    <polygon points="50,78 62,71 74,78 62,85"/>
+    <polygon points="224,44 234,38 244,44 234,50"/>
   </g>
-  {label(74, 57, "x", 5, CORAL, 0.8)}
-  {label(49, 80, "y", 5, PAPER, 0.6)}
 """)
 
 
 def art_space() -> str:
-    grid = []
-    for x in range(30, 341, 16):
-        grid.append(f'<line x1="{x}" y1="30" x2="{x}" y2="180"/>')
-    for y in range(30, 181, 16):
-        grid.append(f'<line x1="30" y1="{y}" x2="340" y2="{y}"/>')
-    grid = "".join(grid)
     return art(f"""
-  <g stroke="{PAPER}" stroke-opacity=".05">{grid}</g>
-  <rect x="48" y="48" width="48" height="48" fill="{CORAL}" opacity=".06" stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="4 3"/>
-  {label(52, 104, "11 × 11", 5.5, CORAL, 0.75)}
+  <circle cx="36" cy="202" r="108" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".28"/>
+  <path d="M-62,164 A108,108 0 0 1 142,138" fill="none" stroke="{CORAL}" stroke-opacity=".18" stroke-width="2"/>
+  <ellipse cx="36" cy="202" rx="136" ry="30" transform="rotate(-14 36 202)" fill="none" stroke="{PAPER}" stroke-opacity=".14" stroke-width="2"/>
 
-  <g stroke="{CORAL}" fill="none">
-    <circle cx="136" cy="108" r="34" stroke-opacity=".65"/>
-    <circle cx="136" cy="108" r="23" stroke-opacity=".28"/>
-    <ellipse cx="136" cy="108" rx="56" ry="20" stroke-opacity=".18" stroke-dasharray="3 4"/>
-  </g>
-  <g stroke="{PAPER}" stroke-opacity=".35">
-    <line x1="136" y1="74" x2="136" y2="82"/>
-    <line x1="136" y1="134" x2="136" y2="142"/>
-    <line x1="102" y1="108" x2="110" y2="108"/>
-    <line x1="162" y1="108" x2="170" y2="108"/>
-  </g>
-  <circle cx="136" cy="108" r="9" fill="{CORAL}"/>
-  <circle cx="136" cy="108" r="3.5" fill="{PAPER}"/>
-
-  <g fill="{CORAL}">
-    <polygon points="76,56 88,62 76,68"/>
-    <polygon points="214,64 226,70 214,76"/>
-    <polygon points="238,146 250,152 238,158"/>
-  </g>
-  <g stroke="{CORAL}" stroke-opacity=".4" stroke-dasharray="2 4" fill="none">
-    <path d="M88,62 C104,70 112,88 126,100"/>
-    <path d="M214,70 C192,82 172,94 148,104"/>
-    <path d="M238,152 C204,150 174,136 148,118"/>
+  <g>
+    <circle cx="238" cy="92" r="34" fill="none" stroke="{CORAL}" stroke-opacity=".85" stroke-width="3"/>
+    <circle cx="238" cy="92" r="22" fill="none" stroke="{PAPER}" stroke-opacity=".3"/>
+    <circle cx="238" cy="92" r="9" fill="{CORAL}"/>
+    <circle cx="238" cy="92" r="3.5" fill="{PAPER}"/>
+    <g stroke="{PAPER}" stroke-opacity=".45">
+      <line x1="204" y1="92" x2="214" y2="92"/>
+      <line x1="262" y1="92" x2="272" y2="92"/>
+      <line x1="238" y1="58" x2="238" y2="68"/>
+      <line x1="238" y1="116" x2="238" y2="126"/>
+    </g>
+    <rect x="196" y="86" width="10" height="12" rx="1.5" fill="{PAPER}" opacity=".22" stroke="{CORAL}" stroke-opacity=".4"/>
+    <rect x="270" y="86" width="10" height="12" rx="1.5" fill="{PAPER}" opacity=".22" stroke="{CORAL}" stroke-opacity=".4"/>
   </g>
 
-  <g stroke="{CORAL}" fill="none">
-    <path d="M286,44 C300,52 312,52 326,44" stroke-opacity=".6"/>
-    <path d="M286,54 C300,62 312,62 326,54" stroke-opacity=".4"/>
-    <path d="M286,64 C300,72 312,72 326,64" stroke-opacity=".25"/>
+  <g>
+    <path d="M82,88 L52,98" stroke="{CORAL}" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+    <path d="M82,88 L58,96" stroke="{PAPER}" stroke-width="1.5" stroke-linecap="round" opacity=".55"/>
+    <polygon points="92,74 144,54 132,84 106,96" fill="{CORAL}"/>
+    <polygon points="92,74 144,54 132,84" fill="{PAPER}" opacity=".28"/>
+    <circle cx="116" cy="76" r="3" fill="{NAVY}"/>
   </g>
-  <g transform="translate(282,78)">
-    <path d="M0,0 C14,10 28,10 42,0" stroke="{PAPER}" stroke-opacity=".4" fill="none"/>
-    <path d="M0,8 C14,18 28,18 42,8" stroke="{DEEP}" stroke-opacity=".5" fill="none"/>
-  </g>
-  {label(288, 100, "PLASMA", 5, PAPER, 0.45)}
 
-  <g stroke="{CORAL}" fill="none">
-    <ellipse cx="252" cy="164" rx="40" ry="12" stroke-opacity=".45"/>
-    <ellipse cx="252" cy="164" rx="27" ry="8" stroke-opacity=".3"/>
-    <ellipse cx="252" cy="164" rx="14" ry="4" stroke-opacity=".2"/>
-  </g>
-  <g stroke="{PAPER}" stroke-opacity=".18">
-    <line x1="286" y1="180" x2="310" y2="140"/>
-    <line x1="290" y1="180" x2="322" y2="146"/>
-    <line x1="294" y1="180" x2="332" y2="156"/>
-  </g>
-  {label(300, 126, "FRACTURE", 5, PAPER, 0.4)}
-
-  <g transform="translate(314,30)">
-    <circle r="2" fill="{CORAL}"/>
-    <path d="M-7,0 a7,7 0 0 1 14,0" fill="none" stroke="{CORAL}" stroke-opacity=".4"/>
-    <path d="M-12,0 a12,12 0 0 1 24,0" fill="none" stroke="{CORAL}" stroke-opacity=".2"/>
-  </g>
-  {label(300, 20, "VOICE", 4.5, PAPER, 0.4)}
+  <path d="M148,60 Q190,54 208,78" fill="none" stroke="{CORAL}" stroke-opacity=".5" stroke-width="2" stroke-dasharray="4 5"/>
+  <circle cx="306" cy="152" r="12" fill="{PAPER}" opacity=".12" stroke="{PAPER}" stroke-opacity=".2"/>
+  <circle cx="306" cy="152" r="22" fill="{CORAL}" opacity=".05"/>
 """)
 
 
 def art_minishell() -> str:
     return art(f"""
   <g>
-    <rect x="18" y="30" width="208" height="142" rx="9" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    <path d="M18,39 a9,9 0 0 1 9,-9 h190 a9,9 0 0 1 9,9 v7 h-208 z" fill="{LIFT}"/>
-    <circle cx="30" cy="38" r="2.4" fill="{CORAL}"/>
-    <circle cx="38" cy="38" r="2.4" fill="{DEEP}"/>
-    <circle cx="46" cy="38" r="2.4" fill="{PAPER}" opacity=".45"/>
-    {label(60, 41, "minishell", 5.5, PAPER, 0.55)}
-    <line x1="18" y1="46" x2="226" y2="46" stroke="{PAPER}" stroke-opacity=".1"/>
-
-    {label(28, 60, "~/projects &gt;", 6.5, CORAL, 0.95)}
-    {label(88, 60, "echo hi | cat", 6.5, PAPER, 0.85)}
-    {label(28, 73, "hi", 6.5, PAPER, 0.55)}
-    {label(28, 88, "~/projects &gt;", 6.5, CORAL, 0.95)}
-    {label(88, 88, "echo $?", 6.5, PAPER, 0.85)}
-    {label(28, 101, "0", 6.5, PAPER, 0.55)}
-    {label(28, 116, "cat &lt;&lt;'L1'", 6.5, CORAL, 0.95)}
-    {label(28, 129, "&lt;&lt;L2 | ./minishell", 6, PAPER, 0.45)}
-    {label(28, 142, "&lt;&lt;L3 | cat -A", 6, PAPER, 0.35)}
-    {label(28, 160, "no system() · no shell lib", 5.5, PAPER, 0.3)}
-  </g>
-
-  <g>
-    <line x1="250" y1="50" x2="250" y2="158" stroke="{CORAL}" stroke-opacity=".35"/>
-    <g fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".5">
-      <rect x="238" y="42" width="32" height="15" rx="4"/>
-      <rect x="238" y="77" width="32" height="15" rx="4"/>
-      <rect x="238" y="112" width="32" height="15" rx="4"/>
-      <rect x="238" y="147" width="32" height="15" rx="4"/>
-    </g>
-    {label(254, 52, "sh", 5.5, PAPER, 0.75, 500, "middle")}
-    {label(254, 87, "cat", 5.5, PAPER, 0.75, 500, "middle")}
-    {label(254, 122, "cat", 5.5, PAPER, 0.75, 500, "middle")}
-    {label(254, 157, "wc", 5.5, PAPER, 0.75, 500, "middle")}
-    <g stroke="{CORAL}" stroke-opacity=".45">
-      <line x1="270" y1="57" x2="278" y2="57"/>
-      <line x1="278" y1="57" x2="278" y2="77"/>
-      <line x1="278" y1="92" x2="278" y2="112"/>
-      <line x1="278" y1="127" x2="278" y2="147"/>
-    </g>
-    {label(286, 61, "fork", 5, PAPER, 0.45)}
-    {label(286, 96, "dup2", 5, PAPER, 0.45)}
-    {label(286, 131, "execve", 5, PAPER, 0.45)}
-    {label(286, 166, "waitpid", 5, PAPER, 0.45)}
-    <rect x="230" y="170" width="62" height="12" rx="6" fill="{CORAL}"/>
-    {label(261, 178, "64 STAGES", 4.8, NAVY, 1, 500, "middle")}
-  </g>
-
-  <g transform="translate(298,42)">
-    <rect width="38" height="52" rx="5" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".16"/>
-    {label(19, 12, "GC", 4.5, CORAL, 0.8, 500, "middle")}
-    <g fill="{PAPER}" opacity=".25">
-      <rect x="6" y="20" width="26" height="2.5" rx="1.25"/>
-      <rect x="6" y="27" width="20" height="2.5" rx="1.25"/>
-      <rect x="6" y="34" width="23" height="2.5" rx="1.25"/>
-      <rect x="6" y="41" width="16" height="2.5" rx="1.25"/>
-    </g>
+    <rect x="24" y="24" width="312" height="155" rx="12" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <path d="M24,36 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v14 h-312 z" fill="{LIFT}"/>
+    <circle cx="42" cy="41" r="3.4" fill="{CORAL}"/>
+    <circle cx="54" cy="41" r="3.4" fill="{DEEP}"/>
+    <circle cx="66" cy="41" r="3.4" fill="{PAPER}" opacity=".4"/>
+    {label(82, 45, "minishell", 7.5, PAPER, 0.5)}
+    <line x1="24" y1="54" x2="336" y2="54" stroke="{PAPER}" stroke-opacity=".1"/>
+    {label(42, 82, "$", 15, CORAL, 1, 500)}
+    {label(58, 82, "echo hi | cat | cat", 15, PAPER, 0.92)}
+    {label(42, 108, "hi", 15, PAPER, 0.55)}
+    {label(42, 136, "$", 15, CORAL, 1, 500)}
+    {label(58, 136, "echo $?", 15, PAPER, 0.92)}
+    {label(42, 162, "0", 15, PAPER, 0.55)}
+    <rect x="60" y="149" width="9" height="17" fill="{CORAL}" opacity=".9"/>
+    <line x1="330" y1="66" x2="330" y2="168" stroke="{CORAL}" stroke-opacity=".22"/>
   </g>
 """)
 
@@ -508,108 +401,66 @@ def art_cub3d() -> str:
 
 
 def art_irc() -> str:
-    clients = [(30, 48, "fd 4"), (30, 82, "fd 5"), (30, 116, "fd 6"), (30, 150, "fd 7")]
-    nodes = []
-    for x, y, name in clients:
-        nodes.append(
-            f'<rect x="{x}" y="{y}" width="38" height="17" rx="4" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>'
-            + label(x + 19, y + 11, name, 5, PAPER, 0.55, 400, "middle")
-        )
-        nodes.append(
-            f'<line x1="{x + 38}" y1="{y + 8.5}" x2="126" y2="110" stroke="{CORAL}" stroke-opacity=".3"/>'
-        )
-    nodes = "".join(nodes)
     return art(f"""
-  <ellipse cx="166" cy="110" rx="74" ry="76" fill="none" stroke="{CORAL}" stroke-opacity=".14" stroke-dasharray="3 5"/>
-  {label(166, 26, "1 THREAD", 5, CORAL, 0.55, 500, "middle")}
-  {nodes}
-
   <g>
-    <rect x="126" y="82" width="80" height="56" rx="10" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".75"/>
-    {label(166, 105, "poll()", 10, CORAL, 0.95, 500, "middle")}
-    {label(166, 119, "one loop", 5.5, PAPER, 0.45, 400, "middle")}
-    {label(166, 130, "no threads", 5, PAPER, 0.3, 400, "middle")}
-  </g>
+    <rect x="24" y="24" width="312" height="155" rx="12" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <path d="M24,36 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v14 h-312 z" fill="{LIFT}"/>
+    <circle cx="42" cy="42" r="4" fill="{CORAL}"/>
+    {label(54, 46, "#ai-lab", 9, CORAL, 1, 500)}
+    {label(320, 46, "Phi-3", 6.5, PAPER, 0.45, 400, "end")}
+    <line x1="24" y1="56" x2="336" y2="56" stroke="{PAPER}" stroke-opacity=".1"/>
 
-  <g fill="{CORAL}" opacity=".14" stroke="{CORAL}" stroke-opacity=".5">
-    <rect x="238" y="54" width="64" height="16" rx="8"/>
-    <rect x="238" y="82" width="64" height="16" rx="8"/>
-    <rect x="238" y="110" width="64" height="16" rx="8"/>
-  </g>
-  {label(270, 65, "#general", 5.5, PAPER, 0.75, 500, "middle")}
-  {label(270, 93, "#ai-lab", 5.5, PAPER, 0.75, 500, "middle")}
-  {label(270, 121, "#ops", 5.5, PAPER, 0.75, 500, "middle")}
-  <g stroke="{CORAL}" stroke-opacity=".35">
-    <line x1="206" y1="96" x2="238" y2="62"/>
-    <line x1="206" y1="106" x2="238" y2="90"/>
-    <line x1="206" y1="116" x2="238" y2="118"/>
-  </g>
+    <circle cx="48" cy="80" r="9" fill="{CORAL}" opacity=".85"/>
+    {label(64, 75, "alice", 6.5, PAPER, 0.45)}
+    <rect x="64" y="80" width="160" height="28" rx="9" fill="{PAPER}" opacity=".08" stroke="{PAPER}" stroke-opacity=".12"/>
+    {label(76, 98, "is the model local?", 10, PAPER, 0.88)}
 
-  <g>
-    <rect x="238" y="144" width="78" height="34" rx="6" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    {label(246, 156, "Phi-3 · Q4", 5.5, CORAL, 0.85, 500)}
-    {label(246, 167, "loopback TCP", 4.8, PAPER, 0.45)}
-    <line x1="238" y1="160" x2="206" y2="120" stroke="{CORAL}" stroke-opacity=".4" stroke-dasharray="3 3"/>
-  </g>
+    <circle cx="312" cy="130" r="9" fill="{PAPER}" opacity=".85"/>
+    {label(296, 125, "assistant", 6.5, PAPER, 0.45, 400, "end")}
+    <rect x="136" y="132" width="160" height="28" rx="9" fill="{CORAL}" opacity=".16" stroke="{CORAL}" stroke-opacity=".3"/>
+    {label(148, 150, "yes — one poll loop", 10, CORAL, 0.95)}
 
-  <g fill="{PAPER}" opacity=".2">
-    <rect x="72" y="51" width="16" height="3" rx="1.5"/>
-    <rect x="72" y="85" width="10" height="3" rx="1.5"/>
-    <rect x="72" y="119" width="14" height="3" rx="1.5"/>
-    <rect x="72" y="153" width="8" height="3" rx="1.5"/>
+    {label(40, 172, "1 thread · 1 loop · 3.8B", 6.5, PAPER, 0.32)}
   </g>
 """)
 
 
 def art_inception() -> str:
     return art(f"""
-  <rect x="22" y="36" width="250" height="142" rx="14" fill="none" stroke="{PAPER}" stroke-opacity=".14" stroke-dasharray="4 4"/>
-  {label(30, 48, "compose network", 4.8, PAPER, 0.35)}
-
   <g>
-    <rect x="36" y="58" width="80" height="38" rx="6" fill="{CORAL}"/>
-    {label(76, 73, "nginx", 8, NAVY, 1, 500, "middle")}
-    {label(76, 86, "TLS 1.3", 5, NAVY, 0.6, 400, "middle")}
-    <rect x="100" y="106" width="94" height="38" rx="6" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
-    {label(147, 121, "wordpress", 7, PAPER, 0.9, 500, "middle")}
-    {label(147, 134, "php-fpm :9000", 4.8, PAPER, 0.45, 400, "middle")}
-    <rect x="190" y="58" width="74" height="38" rx="6" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
-    {label(227, 73, "mariadb", 7, PAPER, 0.9, 500, "middle")}
-    {label(227, 86, "3306 internal", 4.8, PAPER, 0.45, 400, "middle")}
-  </g>
+    <polygon points="40,92 64,74 184,74 160,92" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".12"/>
+    <rect x="40" y="92" width="120" height="38" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".12"/>
+    <polygon points="160,92 184,74 184,112 160,130" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".12"/>
 
-  <g stroke="{CORAL}" stroke-opacity=".6" fill="none">
-    <path d="M116,78 C126,88 132,96 140,106"/>
-    <path d="M194,124 C208,110 218,98 226,96"/>
-  </g>
-  {label(128, 98, "fastcgi", 4.5, PAPER, 0.4)}
-  {label(200, 104, "sql", 4.5, PAPER, 0.4)}
+    <polygon points="200,70 224,52 344,52 320,70" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".2"/>
+    <rect x="200" y="70" width="120" height="38" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".2"/>
+    <polygon points="320,70 344,52 344,90 320,108" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".2"/>
 
-  <g>
-    <line x1="20" y1="77" x2="36" y2="77" stroke="{CORAL}" stroke-width="2"/>
-    <rect x="6" y="69" width="14" height="16" rx="3" fill="{CORAL}"/>
-    <path d="M10,69 v-4 a3,3 0 0 1 6,0 v4" fill="none" stroke="{CORAL}" stroke-width="1.6"/>
-    {label(13, 63, "443", 5, CORAL, 0.9, 500, "middle")}
-    {label(13, 94, "one door", 4.5, PAPER, 0.4, 400, "middle")}
-  </g>
+    <polygon points="70,112 104,84 294,84 260,112" fill="{DEEP}"/>
+    <rect x="70" y="112" width="190" height="58" fill="{CORAL}"/>
+    <polygon points="260,112 294,84 294,142 260,170" fill="{LIFT}"/>
 
-  <g>
-    <rect x="112" y="156" width="20" height="16" rx="2" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <path d="M116,156 v-4 h12 v4" fill="none" stroke="{PAPER}" stroke-opacity=".25"/>
-    {label(122, 167, "0600", 4, CORAL, 0.8, 400, "middle")}
-    <rect x="190" y="156" width="20" height="16" rx="2" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <path d="M194,156 v-4 h12 v4" fill="none" stroke="{PAPER}" stroke-opacity=".25"/>
-    {label(200, 167, "0600", 4, CORAL, 0.8, 400, "middle")}
-    <line x1="132" y1="164" x2="140" y2="144" stroke="{CORAL}" stroke-opacity=".3" stroke-dasharray="3 3"/>
-    <line x1="190" y1="164" x2="180" y2="144" stroke="{CORAL}" stroke-opacity=".3" stroke-dasharray="3 3"/>
-  </g>
+    <g stroke="{NAVY}" stroke-opacity=".18">
+      <line x1="88" y1="116" x2="88" y2="166"/>
+      <line x1="106" y1="116" x2="106" y2="166"/>
+      <line x1="124" y1="116" x2="124" y2="166"/>
+      <line x1="142" y1="116" x2="142" y2="166"/>
+      <line x1="160" y1="116" x2="160" y2="166"/>
+      <line x1="178" y1="116" x2="178" y2="166"/>
+      <line x1="196" y1="116" x2="196" y2="166"/>
+    </g>
 
-  <g transform="translate(282,86)">
-    <rect width="56" height="70" rx="8" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".16"/>
-    {label(28, 14, "PORTS", 4.5, PAPER, 0.4, 400, "middle")}
-    {label(28, 34, "443", 13, CORAL, 0.95, 500, "middle")}
-    {label(28, 48, "open", 4.5, PAPER, 0.4, 400, "middle")}
-    {label(28, 62, "1", 9, PAPER, 0.7, 500, "middle")}
+    <rect x="206" y="120" width="46" height="40" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <circle cx="244" cy="140" r="2.5" fill="{PAPER}" opacity=".6"/>
+    <g transform="translate(218,128)">
+      <rect width="20" height="16" rx="3" fill="{CORAL}"/>
+      <path d="M4,0 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="{CORAL}" stroke-width="2"/>
+      <circle cx="10" cy="8" r="1.8" fill="{NAVY}"/>
+    </g>
+
+    <circle cx="288" cy="120" r="23" fill="{CORAL}" opacity=".12"/>
+    <circle cx="288" cy="120" r="15" fill="{PAPER}"/>
+    {label(288, 125, "443", 11, NAVY, 1, 500, "middle")}
   </g>
 """)
 
@@ -617,60 +468,34 @@ def art_inception() -> str:
 def art_born2beroot() -> str:
     return art(f"""
   <g>
-    <polygon points="30,150 118,112 208,150 120,188" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".7"/>
-    <polygon points="30,136 118,98 208,136 120,174" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".55"/>
-    <polygon points="30,122 118,84 208,122 120,160" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
-    {label(120, 150, "LUKS", 7, CORAL, 0.9, 500, "middle")}
-    {label(120, 136, "LVM", 7, PAPER, 0.65, 500, "middle")}
-    {label(120, 122, "XFS ×6 + swap", 6, PAPER, 0.55, 500, "middle")}
-    <g stroke="{PAPER}" stroke-opacity=".12">
-      <line x1="30" y1="122" x2="120" y2="160"/>
-      <line x1="118" y1="84" x2="208" y2="122"/>
-      <line x1="30" y1="136" x2="120" y2="174"/>
-      <line x1="118" y1="98" x2="208" y2="136"/>
-    </g>
+    <ellipse cx="118" cy="116" rx="74" ry="44" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".6"/>
+    <ellipse cx="118" cy="116" rx="46" ry="26" fill="none" stroke="{PAPER}" stroke-opacity=".18"/>
+    <ellipse cx="118" cy="116" rx="20" ry="11" fill="none" stroke="{PAPER}" stroke-opacity=".12"/>
+    <circle cx="118" cy="116" r="6" fill="{CORAL}"/>
+    <line x1="54" y1="64" x2="100" y2="98" stroke="{PAPER}" stroke-opacity=".35" stroke-width="3"/>
+    <circle cx="100" cy="98" r="4" fill="{PAPER}" opacity=".6"/>
   </g>
 
-  <g transform="translate(40,58)">
-    <rect x="0" y="8" width="22" height="17" rx="3" fill="{CORAL}"/>
-    <path d="M5,8 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="{CORAL}" stroke-width="2"/>
-    <circle cx="11" cy="16" r="2" fill="{NAVY}"/>
-  </g>
-  {label(74, 70, "encrypted disk", 5, PAPER, 0.45)}
-
-  <g>
-    <rect x="232" y="36" width="106" height="112" rx="8" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    <rect x="232" y="36" width="106" height="17" rx="8" fill="{CORAL}" opacity=".18"/>
-    {label(240, 48, "wall · 600 s", 5.5, CORAL, 0.9, 500)}
-    <g stroke="{PAPER}" stroke-opacity=".1">
-      <line x1="240" y1="62" x2="330" y2="62"/>
-      <line x1="240" y1="76" x2="330" y2="76"/>
-      <line x1="240" y1="90" x2="330" y2="90"/>
-      <line x1="240" y1="104" x2="330" y2="104"/>
-      <line x1="240" y1="118" x2="330" y2="118"/>
-    </g>
-    {label(240, 72, "arch", 5, PAPER, 0.45)}
-    {label(270, 72, "x86_64", 5, PAPER, 0.75)}
-    {label(240, 86, "mem", 5, PAPER, 0.45)}
-    {label(270, 86, "2.4 G", 5, PAPER, 0.75)}
-    {label(240, 100, "disk", 5, PAPER, 0.45)}
-    {label(270, 100, "28 G", 5, PAPER, 0.75)}
-    {label(240, 114, "users", 5, PAPER, 0.45)}
-    {label(270, 114, "2", 5, PAPER, 0.75)}
-    {label(240, 128, "sudo", 5, PAPER, 0.45)}
-    {label(270, 128, "14", 5, CORAL, 0.85)}
-    <g fill="{CORAL}" opacity=".35">
-      <rect x="240" y="132" width="64" height="2" rx="1"/>
-      <rect x="240" y="137" width="42" height="2" rx="1"/>
-    </g>
+  <g transform="translate(184,70)">
+    <rect x="0" y="18" width="44" height="36" rx="5" fill="{CORAL}"/>
+    <path d="M9,18 v-10 a13,13 0 0 1 26,0 v10" fill="none" stroke="{CORAL}" stroke-width="4"/>
+    <circle cx="22" cy="34" r="3.4" fill="{NAVY}"/>
+    <rect x="20" y="38" width="4" height="7" fill="{NAVY}"/>
   </g>
 
   <g>
-    <rect x="230" y="158" width="88" height="18" rx="9" fill="{CORAL}"/>
-    {label(274, 170, "SSH 4242", 6, NAVY, 1, 500, "middle")}
-    <circle cx="250" cy="167" r="2" fill="{NAVY}"/>
+    <rect x="248" y="40" width="88" height="118" rx="8" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <rect x="248" y="40" width="88" height="18" rx="8" fill="{CORAL}" opacity=".2"/>
+    {label(258, 53, "ssh", 6, CORAL, 0.8, 500)}
+    {label(258, 82, "4242", 18, PAPER, 0.95, 500)}
+    {label(258, 98, "one port", 6, PAPER, 0.4)}
+    {label(258, 124, "sudo", 7, PAPER, 0.45)}
+    {label(292, 124, "logged", 7, CORAL, 0.7)}
+    {label(258, 142, "wall", 7, PAPER, 0.45)}
+    {label(292, 142, "10 min", 7, PAPER, 0.7)}
   </g>
 """)
+
 
 
 PROJECTS = [
