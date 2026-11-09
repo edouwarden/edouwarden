@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""Render the two data rails that sit between the header and the project
-plates: a two-row technology marquee and a language line.
+"""Render the data rails that sit around the project plates: the stack
+marquee, the language line, the now line, the live-demo strip, the peer-review
+marquee and the contact line.
 
 The stack is a vector marquee: 24 coral icons over two full-width rows that
 scroll slowly in opposite directions under a re-added title. The names are the
-interesting parts of the projects, not the generic tools around them. Because it
-is an SVG, the icons stay sharp at any zoom and the loop costs almost nothing to
-load. The language line reads the pygount snapshot (loc.json) and prints each
-language's share of the counted lines.
+interesting parts of the projects, not the generic tools around them. The review
+rail uses the same trick for quotes. Because they are SVGs, the type stays sharp
+at any zoom and the loops cost almost nothing to load. The language line reads
+the pygount snapshot (loc.json) and prints each language's share of the counted
+lines.
 
-Both boards use the deck's ambient palette and type and stack flush with the
+All boards use the deck's ambient palette and type and stack flush with the
 header and plates.
 
     python3 assets/readme/prototype/stats.py
@@ -79,6 +81,18 @@ LABEL_SIZE = 12.5
 LABEL_TRACK = 0.72
 SPEED = 62.0  # marquee units per second
 
+NOW_W, NOW_H = 900, 63
+LIVE_W, LIVE_H = 900, 72
+REVIEWS_W, REVIEWS_H = 900, 132
+CONTACT_W, CONTACT_H = 900, 63
+
+# Placeholder copy for the mockup. Replace with real reviews before publishing.
+REVIEWS = (
+    ("Read the whole shell before asking a single question.", "42 PARIS · PEER REVIEW"),
+    ("The raycaster held 60 fps on every map. Clean C.", "42 PARIS · PEER REVIEW"),
+    ("Shipped the engine, the editor and the docs.", "42 PARIS · PEER REVIEW"),
+)
+
 FONT = TTFont(FONTS / "ibm-plex-mono-500-v1.woff2")
 UPM = FONT["head"].unitsPerEm
 CMAP = FONT.getBestCmap()
@@ -119,6 +133,54 @@ def text_path(
             parts.append(commands)
         pen_x += HMTX[glyph][0] / UPM * size + tracking
     return " ".join(parts)
+
+
+def svg_open(width: int, height: int, title: str) -> str:
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+        f'width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}" role="img">'
+        f"<title>{title}</title>"
+        f'<rect width="{width}" height="{height}" fill="{NAVY}"/>'
+    )
+
+
+def kicker(main: str, alt: str, x: float, baseline: float) -> str:
+    size, track = 13.0, 2.08
+    parts = []
+    d = text_path(main, size, track, x, baseline)
+    parts.append(f'<path d="{d}" fill="{PAPER}"/>')
+    x += text_width(main, size, track) + track + 8
+    d = text_path("/", size, track, x, baseline)
+    parts.append(f'<path d="{d}" fill="{CORAL}"/>')
+    x += text_width("/", size, track) + track + 8
+    d = text_path(alt, size, track, x, baseline)
+    parts.append(f'<path d="{d}" fill="{PAPER}" fill-opacity="0.55"/>')
+    return "".join(parts)
+
+
+def subline(text: str, x: float, baseline: float) -> str:
+    return (
+        f'<path d="{text_path(text, 9.5, 1.14, x, baseline)}" '
+        f'fill="{PAPER}" fill-opacity="0.36"/>'
+    )
+
+
+def hairline(x1: float, y: float, x2: float, opacity: float = 0.09) -> str:
+    return (
+        f'<line x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" '
+        f'stroke="{PAPER}" stroke-opacity="{opacity}"/>'
+    )
+
+
+def arrow_path(x: float, y: float, length: float = 10) -> str:
+    return (
+        f'<path d="M{x} {y} h{length} '
+        f'M{x + length - 4} {y - 4} l4 4 -4 4" '
+        f'stroke="{CORAL}" stroke-width="1.6" fill="none" '
+        f'stroke-linecap="round" stroke-linejoin="round"/>'
+    )
 
 
 def icon_symbol(slug: str) -> str:
@@ -243,6 +305,160 @@ def stack_svg() -> str:
     return "".join(out)
 
 
+def now_svg() -> str:
+    out = [svg_open(NOW_W, NOW_H, "Now: Forge, publishing in parts")]
+    out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
+    out.append(kicker("NOW", "FORGE", MARGIN + 19, 28.5))
+    out.append(subline("A NEW SYSTEMS PROJECT", MARGIN + 19, 45))
+
+    label = "PUBLISHING IN PARTS"
+    label_w = text_width(label, 9.5, 1.14)
+    right = NOW_W - MARGIN
+    out.append(
+        f'<circle cx="{right - label_w - 15}" cy="25" r="3.5" fill="{CORAL}">'
+        '<animate attributeName="opacity" values="1;0.3;1" dur="2.8s" '
+        'repeatCount="indefinite"/></circle>'
+    )
+    out.append(
+        f'<path d="{text_path(label, 9.5, 1.14, right - label_w, 28)}" '
+        f'fill="{PAPER}" fill-opacity="0.55"/>'
+    )
+    out.append(hairline(360, 31.5, right - label_w - 34))
+    out.append(hairline(MARGIN, NOW_H - 1, right))
+    out.append("</svg>")
+    return "".join(out)
+
+
+def live_svg() -> str:
+    out = [svg_open(LIVE_W, LIVE_H, "Live demo: dynamic-dashboard")]
+    out.append(
+        f'<circle cx="{MARGIN + 4}" cy="25" r="3.5" fill="{CORAL}">'
+        '<animate attributeName="opacity" values="1;0.3;1" dur="2.6s" '
+        'repeatCount="indefinite"/></circle>'
+    )
+    out.append(kicker("LIVE", "DEMO", MARGIN + 19, 30.5))
+    out.append(
+        subline(
+            "DYNAMIC-DASHBOARD · NO SIGNUP · FICTIONAL DATA", MARGIN + 19, 47
+        )
+    )
+
+    url = "dynamic-dashboard.ednormand.fr"
+    size, track = 10.5, 0.7
+    url_w = text_width(url, size, track)
+    pill_h = 34.0
+    pill_w = 18 + url_w + 14 + 10 + 18
+    pill_x = LIVE_W - MARGIN - pill_w
+    pill_y = (LIVE_H - pill_h) / 2
+    out.append(
+        f'<rect x="{pill_x:.2f}" y="{pill_y:.2f}" width="{pill_w:.2f}" '
+        f'height="{pill_h:.2f}" rx="{pill_h / 2}" fill="{PAPER}"/>'
+    )
+    out.append(
+        f'<path d="{text_path(url, size, track, pill_x + 18, pill_y + 22.5)}" '
+        f'fill="{NAVY}"/>'
+    )
+    out.append(arrow_path(pill_x + 18 + url_w + 14, pill_y + pill_h / 2))
+    out.append(hairline(400, LIVE_H / 2, pill_x - 30, 0.08))
+    out.append(hairline(MARGIN, LIVE_H - 1, LIVE_W - MARGIN))
+    out.append("</svg>")
+    return "".join(out)
+
+
+def contact_svg() -> str:
+    out = [svg_open(CONTACT_W, CONTACT_H, "Contact")]
+    out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
+    out.append(kicker("CONTACT", "EMAIL", MARGIN + 19, 28.5))
+    out.append(subline("DIRECT LINE", MARGIN + 19, 45))
+
+    email = "ed.normand@protonmail.com"
+    size, track = 10.5, 0.7
+    email_w = text_width(email, size, track)
+    right = CONTACT_W - MARGIN
+    start = right - email_w - 10 - 10
+    out.append(
+        f'<path d="{text_path(email, size, track, start, 35.5)}" '
+        f'fill="{PAPER}" fill-opacity="0.82"/>'
+    )
+    out.append(arrow_path(start + email_w + 10, 31.5))
+    out.append(hairline(360, 31.5, start - 28))
+    out.append(hairline(MARGIN, CONTACT_H - 1, right))
+    out.append("</svg>")
+    return "".join(out)
+
+
+def reviews_svg() -> str:
+    out = [svg_open(REVIEWS_W, REVIEWS_H, "Peer reviews")]
+    out.append("<defs>")
+    out.append(
+        f'<linearGradient id="revFadeL" x1="0" y1="0" x2="1" y2="0">'
+        f'<stop offset="0" stop-color="{NAVY}"/>'
+        f'<stop offset="1" stop-color="{NAVY}" stop-opacity="0"/>'
+        "</linearGradient>"
+    )
+    out.append(
+        f'<linearGradient id="revFadeR" x1="1" y1="0" x2="0" y2="0">'
+        f'<stop offset="0" stop-color="{NAVY}"/>'
+        f'<stop offset="1" stop-color="{NAVY}" stop-opacity="0"/>'
+        "</linearGradient>"
+    )
+
+    mark_size, quote_size, quote_track = 26.0, 12.5, 0.1
+    attr_size, attr_track = 9.5, 1.14
+    item_gap = 64.0
+    widths = []
+    for i, (quote, source) in enumerate(REVIEWS):
+        mark_w = text_width("“", mark_size, quote_track)
+        quote_w = text_width(quote, quote_size, quote_track)
+        attr = f"— {source}"
+        attr_w = text_width(attr, attr_size, attr_track)
+        out.append(
+            f'<g id="rev-{i}">'
+            f'<path d="{text_path("“", mark_size, quote_track, 0, 0)}" '
+            f'fill="{CORAL}" fill-opacity="0.9"/>'
+            f'<path d="{text_path(quote, quote_size, quote_track, mark_w + 6, 0)}" '
+            f'fill="{PAPER}" fill-opacity="0.8"/>'
+            f'<path d="{text_path(attr, attr_size, attr_track, mark_w + 6 + quote_w + 18, 0)}" '
+            f'fill="{CORAL}" fill-opacity="0.82"/>'
+            "</g>"
+        )
+        widths.append(mark_w + 6 + quote_w + 18 + attr_w + item_gap)
+    out.append("</defs>")
+
+    out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
+    out.append(kicker("PEER", "REVIEWS", MARGIN + 19, 28.5))
+    out.append(subline("SELECTED NOTES · 42 PARIS", MARGIN + 19, 45))
+    out.append(hairline(MARGIN, 57, REVIEWS_W - MARGIN, 0.08))
+
+    row_width = sum(widths)
+    duration = row_width / 34.0
+    out.append(
+        '<g transform="translate(0 92)"><g>'
+        '<animateTransform attributeName="transform" type="translate" '
+        f'from="0 0" to="{-row_width:.2f} 0" dur="{duration:.3f}s" '
+        'repeatCount="indefinite"/>'
+    )
+    x = 0.0
+    for _ in range(2):
+        for i, item_w in enumerate(widths):
+            out.append(
+                f'<use href="#rev-{i}" xlink:href="#rev-{i}" x="{x:.2f}"/>'
+            )
+            x += item_w
+    out.append("</g></g>")
+
+    out.append(
+        f'<rect x="0" y="66" width="64" height="48" fill="url(#revFadeL)"/>'
+    )
+    out.append(
+        f'<rect x="{REVIEWS_W - 64}" y="66" width="64" height="48" '
+        'fill="url(#revFadeR)"/>'
+    )
+    out.append(hairline(MARGIN, REVIEWS_H - 1, REVIEWS_W - MARGIN))
+    out.append("</svg>")
+    return "".join(out)
+
+
 def font_faces() -> str:
     return f"""
 @font-face {{
@@ -329,9 +545,9 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 </body></html>"""
 
 
-def write_stack() -> None:
-    out = HERE / "deck-stack.svg"
-    out.write_text(stack_svg())
+def write_rail(name: str, svg: str) -> None:
+    out = HERE / name
+    out.write_text(svg)
     print(f"wrote {out.name} ({out.stat().st_size / 1024:.0f} KiB)")
 
 
@@ -351,7 +567,11 @@ def render_languages(page, data: dict) -> None:
 def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     data = json.loads((HERE / "loc.json").read_text())
-    write_stack()
+    write_rail("deck-stack.svg", stack_svg())
+    write_rail("deck-now.svg", now_svg())
+    write_rail("deck-live.svg", live_svg())
+    write_rail("deck-reviews.svg", reviews_svg())
+    write_rail("deck-contact.svg", contact_svg())
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
         page = browser.new_page(

@@ -17,9 +17,9 @@ height field sampled from six octaves of value noise, contour edges between
 height bands, and one highlighted sample feeding an eight-layer core column. It
 shows how the terrain is built, not a finished space scene.
 
-## The two data rails
+## The data rails
 
-Between the header and the plates sit two deck-width strips:
+Deck-width strips stack flush around the plates:
 
 - `deck-stack.svg` — twenty-four technologies in two full-width rows that scroll
   slowly in opposite directions under a `Stack / Used` title: product and data on
@@ -31,6 +31,14 @@ Between the header and the plates sit two deck-width strips:
   lines (39.2% down to 1.7%). `loc.json` is the `pygount` snapshot behind the
   shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
   excluded.
+- `deck-now.svg` — a single `Now / Forge` line for the new systems project being
+  published in parts, with a slow pulse on the status dot.
+- `deck-live.svg` — a `Live / Demo` strip after the dashboard card, linking to
+  `dynamic-dashboard.ednormand.fr`, with the no-signup and fictional-data notes.
+- `deck-reviews.svg` — a slow marquee of peer-review quotes under a
+  `Peer / Reviews` title. The three quotes in `stats.py` are mock placeholders;
+  replace `REVIEWS` with real quotes before publishing.
+- `deck-contact.svg` — the closing email line, `ed.normand@protonmail.com`.
 
 ## What each project leads with
 
@@ -60,7 +68,8 @@ stat.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
-- `deck-stack.svg`, `deck-languages.png` — the two rendered data rails.
+- `deck-stack.svg`, `deck-languages.png`, `deck-now.svg`, `deck-live.svg`,
+  `deck-reviews.svg`, `deck-contact.svg` — the rendered data rails.
 
 ```bash
 python3 assets/readme/prototype/plates.py
