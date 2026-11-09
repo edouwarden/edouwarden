@@ -21,15 +21,16 @@ shows how the terrain is built, not a finished space scene.
 
 Between the header and the plates sit two deck-width strips:
 
-- `deck-stack.gif` — fourteen technologies across two rows light up in sequence,
-  each with a coral rule that fills. 2400 × 300, 56 frames at 25 fps, seamless
-  loop.
-- `deck-languages.png` — **85,999 lines of code** across 15 public repositories,
-  drawn as one stacked bar with a nine-entry legend. TypeScript leads with
-  26,100 lines, then CSS (15,626), JavaScript (14,975) and Python (11,497).
-  Counts come from `pygount`; JSON, YAML, Markdown, lockfiles and generated data
-  are excluded, and comments and blank lines are not counted. `loc.json` is the
-  snapshot the card reads.
+- `deck-stack.gif` — twenty-four technologies across four rows light up in
+  sequence, each as a monochrome paper icon that turns coral with a rule that
+  fills. 2400 × 336, 96 frames at 25 fps, seamless loop. Languages are left to
+  the counter below; this strip covers frameworks, data, infra and tools.
+- `deck-languages.png` — **66,521 lines of code** across 15 public repositories,
+  drawn as one stacked bar with a seven-entry legend. TypeScript leads with
+  26,100 lines, then JavaScript (14,975), Python (11,497) and C (5,183).
+  Counts come from `pygount`; HTML, CSS, JSON, YAML, Markdown, lockfiles and
+  generated data are excluded, and comments and blank lines are not counted.
+  `loc.json` is the snapshot the card reads.
 
 ## What each project leads with
 
@@ -55,6 +56,7 @@ stat.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
   — the rendered plates.
 - `stats.py` — renders the animated stack strip and the language counter at 2x.
+- `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.gif`, `deck-languages.png` — the two rendered data rails.
 

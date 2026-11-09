@@ -2,17 +2,36 @@
   "counted": "2026-11-09",
   "tool": "pygount",
   "repos": 15,
-  "total": 85999,
+  "total": 66521,
   "languages": [
-    {"name": "TypeScript", "lines": 26100},
-    {"name": "CSS", "lines": 15626},
-    {"name": "JavaScript", "lines": 14975},
-    {"name": "Python", "lines": 11497},
-    {"name": "C", "lines": 5183},
-    {"name": "Java", "lines": 5010},
-    {"name": "HTML", "lines": 3852},
-    {"name": "Go", "lines": 2637},
-    {"name": "Other", "lines": 1119}
+    {
+      "name": "TypeScript",
+      "lines": 26100
+    },
+    {
+      "name": "JavaScript",
+      "lines": 14975
+    },
+    {
+      "name": "Python",
+      "lines": 11497
+    },
+    {
+      "name": "C",
+      "lines": 5183
+    },
+    {
+      "name": "Java",
+      "lines": 5010
+    },
+    {
+      "name": "Go",
+      "lines": 2637
+    },
+    {
+      "name": "Other",
+      "lines": 1119
+    }
   ],
-  "note": "Counted 2026-11-09 with pygount. JSON, YAML, Markdown, lockfiles and generated data excluded. Other covers Bash, Makefile and Dockerfile."
+  "note": "Counted 2026-11-09 with pygount. HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data excluded. Other covers Bash, Makefile and Dockerfile."
 }

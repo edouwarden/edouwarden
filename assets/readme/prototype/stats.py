@@ -2,9 +2,10 @@
 """Render the two data rails that sit between the header and the project
 plates: an animated technology strip and a language line counter.
 
-The strip is a 14-cell sequencer over two rows; each cell lights in turn and
-fills a coral rule. The counter reads a pygount snapshot of every public
-repository (loc.json) and draws a stacked bar plus a legend.
+The strip is a 24-cell sequencer over four rows — web, data, infra and tools —
+using monochrome Simple Icons paths recoloured to the deck palette. The counter
+reads a pygount snapshot of every public repository (loc.json) and draws a
+stacked bar plus a legend, with HTML and CSS left out of the code total.
 
 Both boards use the deck's ambient palette and type, render at 2x, and stack
 flush with the header and plates.
@@ -26,15 +27,46 @@ FONTS = HERE.parent / "fonts"
 BUILD = HERE.parent / ".build" / "stats"
 
 NAVY = "#0c0a3e"
-LIFT = "#17134f"
 CORAL = "#f9564f"
 DEEP = "#dd453d"
 PAPER = "#fffaf0"
 
 TECH_ROWS = (
-    ("C", "C++", "Java", "Python", "Go", "Shell", "PostgreSQL"),
-    ("TypeScript", "JavaScript", "Next.js", "Three.js", "Docker", "Linux", "Nginx"),
+    (
+        ("Next.js", "nextdotjs"),
+        ("React", "react"),
+        ("Three.js", "threedotjs"),
+        ("Vite", "vite"),
+        ("Tailwind", "tailwindcss"),
+        ("Bun", "bun"),
+    ),
+    (
+        ("Hono", "hono"),
+        ("Node.js", "nodedotjs"),
+        ("WordPress", "wordpress"),
+        ("Postgres", "postgresql"),
+        ("SQLite", "sqlite"),
+        ("MariaDB", "mariadb"),
+    ),
+    (
+        ("Docker", "docker"),
+        ("Nginx", "nginx"),
+        ("Linux", "linux"),
+        ("Debian", "debian"),
+        ("VirtualBox", "virtualbox"),
+        ("OpenSSL", "openssl"),
+    ),
+    (
+        ("Let's Encrypt", "letsencrypt"),
+        ("Git", "git"),
+        ("GitHub", "github"),
+        ("GH Actions", "githubactions"),
+        ("npm", "npm"),
+        ("VS Code", "visualstudiocode"),
+    ),
 )
+
+ICONS = json.loads((HERE / "tech-icons.json").read_text())
 
 FPS = 25
 FRAMES_PER_CELL = 4
@@ -43,14 +75,12 @@ FRAMES = CELLS * FRAMES_PER_CELL
 
 SEGMENT_FILL = (
     (CORAL, 1.0),
-    (DEEP, 1.0),
     (CORAL, 0.62),
     (PAPER, 0.92),
     (PAPER, 0.72),
     (PAPER, 0.56),
     (PAPER, 0.42),
-    (PAPER, 0.30),
-    (PAPER, 0.17),
+    (PAPER, 0.28),
 )
 
 
@@ -72,15 +102,21 @@ def font_faces() -> str:
 """
 
 
-def strip_document() -> str:
+def cells_html() -> str:
     cells = []
     for row in TECH_ROWS:
-        for name in row:
+        for label, slug in row:
+            path = ICONS[slug]
             cells.append(
-                '<div class="cell"><span class="name">'
-                + name
-                + '</span><span class="bar"></span></div>'
+                '<div class="cell">'
+                f'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="{path}"/></svg>'
+                f'<span class="name">{label}</span>'
+                '<span class="bar"></span></div>'
             )
+    return "".join(cells)
+
+
+def strip_document() -> str:
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
 {font_faces()}
 * {{ box-sizing: border-box; }}
@@ -88,7 +124,7 @@ html, body {{ margin: 0; padding: 0; }}
 body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothing: antialiased; }}
 .strip {{
   position: relative;
-  width: 1200px; height: 150px;
+  width: 1200px; height: 168px;
   padding: 0 64px;
   display: grid;
   grid-template-columns: 232px minmax(0, 1fr);
@@ -109,47 +145,46 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 .kicker .slash {{ color: {CORAL}; }}
 .sub {{
   margin-top: 9px;
-  font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
   color: rgba(255, 250, 240, 0.36);
 }}
 .grid {{
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 8px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: 22px;
+  grid-auto-rows: 36px;
 }}
 .cell {{
   position: relative;
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 7px;
   min-width: 0;
-  padding: 9px 0 11px;
   border-bottom: 1px solid rgba(255, 250, 240, 0.13);
 }}
-.cell::before {{
-  content: ''; flex: none;
-  width: 5px; height: 5px; background: {CORAL};
-  opacity: 0;
+.ico {{
+  flex: none;
+  width: 18px; height: 18px;
+  fill: rgba(255, 250, 240, 0.52);
 }}
 .cell .name {{
   overflow: hidden;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.03em;
   line-height: 1; text-transform: uppercase; white-space: nowrap;
-  color: rgba(255, 250, 240, 0.5);
+  color: rgba(255, 250, 240, 0.52);
 }}
 .cell .bar {{
   position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
   background: {CORAL};
   transform: scaleX(0); transform-origin: left;
 }}
-.cell.on::before {{ opacity: 1; }}
+.cell.on .ico {{ fill: {CORAL}; }}
 .cell.on .name {{ color: {PAPER}; }}
 </style></head><body>
 <div class="strip">
   <div class="pin">
     <div class="kicker"><span class="mark"></span>Stack <span class="slash">/</span> Used</div>
-    <div class="sub">14 technologies · shipped</div>
+    <div class="sub">24 technologies · shipped</div>
   </div>
-  <div class="grid">{''.join(cells)}</div>
+  <div class="grid">{cells_html()}</div>
 </div>
 <script>
 const cells = Array.from(document.querySelectorAll('.cell'));
@@ -167,10 +202,9 @@ function setFrame(frame) {{
 
 
 def legend(data: dict) -> str:
-    colors = SEGMENT_FILL
     items = []
     for i, entry in enumerate(data["languages"]):
-        color, opacity = colors[i]
+        color, opacity = SEGMENT_FILL[i]
         items.append(
             f'<div class="lang"><span class="chip" style="background:{color};opacity:{opacity}"></span>'
             f'<span class="lname">{entry["name"]}</span>'
@@ -205,8 +239,9 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   grid-template-columns: 300px minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   column-gap: 48px;
-  background: {LIFT};
+  background: {NAVY};
   color: {PAPER};
+  border-bottom: 1px solid rgba(255, 250, 240, 0.09);
 }}
 .top {{
   grid-column: 1 / -1;
@@ -248,8 +283,8 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 .bar span {{ display: block; height: 100%; }}
 .legend {{
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  column-gap: 22px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 26px;
   row-gap: 9px;
   margin-top: 16px;
 }}
@@ -269,7 +304,7 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   </div>
   <div class="total">
     <b>{data['total']:,}</b>
-    <span>lines, comments and blanks excluded</span>
+    <span>lines · html and css excluded</span>
   </div>
   <div class="detail">
     <div class="bar">{bar(data)}</div>
@@ -281,7 +316,7 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 
 
 def render_strip(page) -> None:
-    page.set_viewport_size({"width": 1200, "height": 150})
+    page.set_viewport_size({"width": 1200, "height": 168})
     board = BUILD / "strip.html"
     board.write_text(strip_document())
     page.goto(board.as_uri())
@@ -294,7 +329,7 @@ def render_strip(page) -> None:
         page.evaluate("(frame) => setFrame(frame)", frame)
         page.screenshot(
             path=str(frames / f"frame-{frame:03d}.png"),
-            clip={"x": 0, "y": 0, "width": 1200, "height": 150},
+            clip={"x": 0, "y": 0, "width": 1200, "height": 168},
         )
     print(f"rendered {FRAMES} strip frames")
 
@@ -344,7 +379,7 @@ def main() -> None:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
         page = browser.new_page(
-            viewport={"width": 1200, "height": 170},
+            viewport={"width": 1200, "height": 178},
             device_scale_factor=2,
         )
         render_strip(page)
