@@ -217,9 +217,9 @@ body {{
 }}
 .plate {{ position: relative; width: 1200px; height: 400px; padding: 34px 84px; background: #0c0a3e; }}
 .tag {{
-  position: absolute; top: 12px; left: 84px;
-  font-size: 9.5px; font-weight: 500; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(255, 250, 240, 0.45);
+  position: absolute; top: 10px; left: 84px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(255, 250, 240, 0.62);
 }}
 .tag b {{ color: #f9564f; font-weight: 500; }}
 .card {{
