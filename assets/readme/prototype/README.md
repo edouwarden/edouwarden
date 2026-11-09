@@ -21,15 +21,15 @@ shows how the terrain is built, not a finished space scene.
 
 Between the header and the plates sit two deck-width strips:
 
-- `deck-stack.gif` — twenty-four technologies in two full-width rows that scroll
-  in opposite directions: web and data on top, infra and tools below. All icons
-  are coral, with a soft fade at both edges and no title or count. 900 × 126,
-  125 frames at 12.5 fps, ten-second seamless loop.
+- `deck-stack.svg` — twenty-four technologies in two full-width rows that scroll
+  slowly in opposite directions under a `Stack / Used` title: web and data on
+  top, infra and tools below. Coral Simple Icons paths, a soft fade at each edge,
+  no count. Vector, 900 × 136, and roughly a 31-second seamless loop.
 - `deck-languages.png` — a slim language line, most used first: TypeScript,
-  JavaScript, Python, C, Java, Go and Bash. Each name carries a three-step meter
-  instead of a count; the line only signals depth, never totals or percentages.
-  `loc.json` is the `pygount` snapshot behind the order, with HTML, CSS, JSON,
-  YAML, Markdown, lockfiles and generated data excluded.
+  JavaScript, Python, C, Java, Go and Bash, each with its share of the counted
+  lines (39.2% down to 1.7%). `loc.json` is the `pygount` snapshot behind the
+  shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
+  excluded.
 
 ## What each project leads with
 
@@ -54,11 +54,11 @@ stat.
   fonts. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
   — the rendered plates.
-- `stats.py` — renders the scrolling stack marquee and the language line at 2x,
-  downscaling the marquee to 900 × 126 for the GIF.
+- `stats.py` — writes the stack marquee as SVG and renders the language line at
+  2x. HTML goes to the ignored `.build/` folder.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
-- `deck-stack.gif`, `deck-languages.png` — the two rendered data rails.
+- `deck-stack.svg`, `deck-languages.png` — the two rendered data rails.
 
 ```bash
 python3 assets/readme/prototype/plates.py
