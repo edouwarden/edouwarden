@@ -31,12 +31,17 @@ Deck-width strips stack flush around the plates:
   lines (39.2% down to 1.7%). `loc.json` is the `pygount` snapshot behind the
   shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
   excluded.
-- `deck-now.svg` — a single `Now / Forge` line for the new systems project being
-  published in parts, with a slow pulse on the status dot.
-- `deck-live.svg` — a `Live / Demo` strip after the dashboard card, linking to
-  `dynamic-dashboard.ednormand.fr`, with the no-signup and fictional-data notes.
-- `deck-reviews.svg` — a slow marquee of peer-review quotes under a
-  `Peer / Reviews` title. The three quotes in `stats.py` are mock placeholders;
+- `deck-projects.svg` — the project-section header that introduces the plates:
+  `Projects / Selected work`, `Eight shipped · one in progress`, and the Forge
+  tease (`Now / Forge`, `Publishing in parts`) with a slow pulse and arrow. While
+  Forge has no repository, the strip links to the repositories tab.
+- `deck-live.svg` — a coral caption aligned to the dashboard card and set directly
+  under plate 01: navy `Live / Demo`, the no-signup and fictional-data notes, and
+  the `dynamic-dashboard.ednormand.fr` link. It reads as part of the dashboard
+  without sitting on the card.
+- `deck-reviews.svg` — a slow marquee of peer-review cards under a
+  `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
+  the longest quote. The three quotes in `stats.py` are mock placeholders;
   replace `REVIEWS` with real quotes before publishing.
 - `deck-contact.svg` — the closing email line, `ed.normand@protonmail.com`.
 
@@ -63,12 +68,13 @@ stat.
   fonts. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
   — the rendered plates.
-- `stats.py` — writes the stack marquee as SVG and renders the language line at
-  2x. HTML goes to the ignored `.build/` folder.
+- `stats.py` — writes the stack, project-section, live-demo, review and contact
+  rails as SVG and renders the language line at 2x. HTML goes to the ignored
+  `.build/` folder.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
-- `deck-stack.svg`, `deck-languages.png`, `deck-now.svg`, `deck-live.svg`,
+- `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-live.svg`,
   `deck-reviews.svg`, `deck-contact.svg` — the rendered data rails.
 
 ```bash

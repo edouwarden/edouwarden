@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Render the data rails that sit around the project plates: the stack
-marquee, the language line, the now line, the live-demo strip, the peer-review
-marquee and the contact line.
+marquee, the language line, the project-section header, the live-demo caption,
+the peer-review cards and the contact line.
 
 The stack is a vector marquee: 24 coral icons over two full-width rows that
 scroll slowly in opposite directions under a re-added title. The names are the
@@ -33,6 +33,7 @@ FONTS = HERE.parent / "fonts"
 BUILD = HERE.parent / ".build" / "stats"
 
 NAVY = "#0c0a3e"
+LIFT = "#17134f"
 CORAL = "#f9564f"
 PAPER = "#fffaf0"
 
@@ -81,16 +82,28 @@ LABEL_SIZE = 12.5
 LABEL_TRACK = 0.72
 SPEED = 62.0  # marquee units per second
 
-NOW_W, NOW_H = 900, 63
-LIVE_W, LIVE_H = 900, 72
-REVIEWS_W, REVIEWS_H = 900, 132
+PROJECTS_W, PROJECTS_H = 900, 112
+LIVE_W, LIVE_H = 900, 64
+REVIEWS_W = 900
 CONTACT_W, CONTACT_H = 900, 63
 
 # Placeholder copy for the mockup. Replace with real reviews before publishing.
 REVIEWS = (
-    ("Read the whole shell before asking a single question.", "42 PARIS · PEER REVIEW"),
-    ("The raycaster held 60 fps on every map. Clean C.", "42 PARIS · PEER REVIEW"),
-    ("Shipped the engine, the editor and the docs.", "42 PARIS · PEER REVIEW"),
+    (
+        "He read the whole shell before asking a single question, then found "
+        "the leak in ten minutes and explained the fix without touching my code.",
+        "42 PARIS · PEER REVIEW",
+    ),
+    (
+        "The raycaster held 60 fps on every map. Clean C, no hand-waving, and "
+        "a README that actually explains the math.",
+        "42 PARIS · PEER REVIEW",
+    ),
+    (
+        "Shipped the engine, the editor and the docs. In review he walked all "
+        "three layers without a single note.",
+        "42 PARIS · PEER REVIEW",
+    ),
 )
 
 FONT = TTFont(FONTS / "ibm-plex-mono-500-v1.woff2")
@@ -109,6 +122,23 @@ def text_width(text: str, size: float, tracking: float) -> float:
         if glyph:
             total += HMTX[glyph][0] / UPM * size + tracking
     return total - tracking
+
+
+def wrap_text(
+    text: str, size: float, tracking: float, max_width: float
+) -> list[str]:
+    lines: list[str] = []
+    current = ""
+    for word in text.split():
+        candidate = f"{current} {word}".strip()
+        if not current or text_width(candidate, size, tracking) <= max_width:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines
 
 
 def short_number(value: float) -> str:
@@ -174,11 +204,13 @@ def hairline(x1: float, y: float, x2: float, opacity: float = 0.09) -> str:
     )
 
 
-def arrow_path(x: float, y: float, length: float = 10) -> str:
+def arrow_path(
+    x: float, y: float, length: float = 10, color: str = CORAL
+) -> str:
     return (
         f'<path d="M{x} {y} h{length} '
         f'M{x + length - 4} {y - 4} l4 4 -4 4" '
-        f'stroke="{CORAL}" stroke-width="1.6" fill="none" '
+        f'stroke="{color}" stroke-width="1.6" fill="none" '
         f'stroke-linecap="round" stroke-linejoin="round"/>'
     )
 
@@ -305,62 +337,104 @@ def stack_svg() -> str:
     return "".join(out)
 
 
-def now_svg() -> str:
-    out = [svg_open(NOW_W, NOW_H, "Now: Forge, publishing in parts")]
-    out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
-    out.append(kicker("NOW", "FORGE", MARGIN + 19, 28.5))
-    out.append(subline("A NEW SYSTEMS PROJECT", MARGIN + 19, 45))
+def projects_svg() -> str:
+    out = [
+        svg_open(
+            PROJECTS_W,
+            PROJECTS_H,
+            "Projects: selected work, with Forge in progress",
+        )
+    ]
+    right = PROJECTS_W - MARGIN
 
-    label = "PUBLISHING IN PARTS"
-    label_w = text_width(label, 9.5, 1.14)
-    right = NOW_W - MARGIN
+    # Left: the section title and the count that introduces the plates.
+    out.append(f'<rect x="{MARGIN}" y="41" width="9" height="9" fill="{CORAL}"/>')
+    out.append(kicker("PROJECTS", "SELECTED WORK", MARGIN + 19, 50))
+    out.append(subline("EIGHT SHIPPED · ONE IN PROGRESS", MARGIN + 19, 68))
+
+    # Right: the Forge tease, aligned as one line with the section title.
+    size, track, gap = 13.0, 2.08, 8.0
+    now_w = text_width("NOW", size, track)
+    slash_w = text_width("/", size, track)
+    forge_w = text_width("FORGE", size, track)
+    line_w = 7 + 10 + now_w + gap + slash_w + gap + forge_w + 14 + 10
+    start = right - line_w
     out.append(
-        f'<circle cx="{right - label_w - 15}" cy="25" r="3.5" fill="{CORAL}">'
+        f'<circle cx="{start + 3.5:.2f}" cy="46" r="3.5" fill="{CORAL}">'
         '<animate attributeName="opacity" values="1;0.3;1" dur="2.8s" '
         'repeatCount="indefinite"/></circle>'
     )
+    x = start + 17
+    out.append(f'<path d="{text_path("NOW", size, track, x, 50)}" fill="{PAPER}"/>')
+    x += now_w + gap
+    out.append(f'<path d="{text_path("/", size, track, x, 50)}" fill="{CORAL}"/>')
+    x += slash_w + gap
+    out.append(f'<path d="{text_path("FORGE", size, track, x, 50)}" fill="{CORAL}"/>')
+    x += forge_w + 14
+    out.append(arrow_path(x, 46))
+
+    status = "PUBLISHING IN PARTS"
     out.append(
-        f'<path d="{text_path(label, 9.5, 1.14, right - label_w, 28)}" '
+        f'<path d="{text_path(status, 9.5, 1.14, right - text_width(status, 9.5, 1.14), 68)}" '
         f'fill="{PAPER}" fill-opacity="0.55"/>'
     )
-    out.append(hairline(360, 31.5, right - label_w - 34))
-    out.append(hairline(MARGIN, NOW_H - 1, right))
+    out.append(hairline(MARGIN, PROJECTS_H - 1, right))
     out.append("</svg>")
     return "".join(out)
 
 
 def live_svg() -> str:
     out = [svg_open(LIVE_W, LIVE_H, "Live demo: dynamic-dashboard")]
+    left, right = 63, 836
+    plaque_y, plaque_h = 6, 52
+
+    # A coral plaque that echoes the dashboard card directly above it.
     out.append(
-        f'<circle cx="{MARGIN + 4}" cy="25" r="3.5" fill="{CORAL}">'
-        '<animate attributeName="opacity" values="1;0.3;1" dur="2.6s" '
+        f'<rect x="{left}" y="{plaque_y}" width="{right - left}" '
+        f'height="{plaque_h}" rx="12" fill="{CORAL}"/>'
+    )
+    out.append(
+        f'<circle cx="{left + 24}" cy="32" r="3.5" fill="{NAVY}">'
+        '<animate attributeName="opacity" values="0.4;1;0.4" dur="2.6s" '
         'repeatCount="indefinite"/></circle>'
     )
-    out.append(kicker("LIVE", "DEMO", MARGIN + 19, 30.5))
+
+    size, track, gap = 12.5, 1.9, 7.0
+    x = left + 38
+    live_w = text_width("LIVE", size, track)
+    slash_w = text_width("/", size, track)
+    demo_w = text_width("DEMO", size, track)
+    out.append(f'<path d="{text_path("LIVE", size, track, x, 36)}" fill="{NAVY}"/>')
+    x += live_w + gap
     out.append(
-        subline(
-            "DYNAMIC-DASHBOARD · NO SIGNUP · FICTIONAL DATA", MARGIN + 19, 47
-        )
+        f'<path d="{text_path("/", size, track, x, 36)}" '
+        f'fill="{NAVY}" fill-opacity="0.42"/>'
+    )
+    x += slash_w + gap
+    out.append(
+        f'<path d="{text_path("DEMO", size, track, x, 36)}" '
+        f'fill="{NAVY}" fill-opacity="0.62"/>'
+    )
+    x += demo_w
+
+    divider_x = x + 18
+    out.append(
+        f'<line x1="{divider_x:.2f}" y1="24" x2="{divider_x:.2f}" y2="40" '
+        f'stroke="{NAVY}" stroke-opacity="0.22"/>'
+    )
+    out.append(
+        f'<path d="{text_path("NO SIGNUP · FICTIONAL DATA", 9.5, 1.14, divider_x + 16, 35.5)}" '
+        f'fill="{NAVY}" fill-opacity="0.55"/>'
     )
 
     url = "dynamic-dashboard.ednormand.fr"
-    size, track = 10.5, 0.7
-    url_w = text_width(url, size, track)
-    pill_h = 34.0
-    pill_w = 18 + url_w + 14 + 10 + 18
-    pill_x = LIVE_W - MARGIN - pill_w
-    pill_y = (LIVE_H - pill_h) / 2
+    url_size, url_track = 10.5, 0.7
+    url_w = text_width(url, url_size, url_track)
+    url_x = right - 24 - url_w - 14 - 10
     out.append(
-        f'<rect x="{pill_x:.2f}" y="{pill_y:.2f}" width="{pill_w:.2f}" '
-        f'height="{pill_h:.2f}" rx="{pill_h / 2}" fill="{PAPER}"/>'
+        f'<path d="{text_path(url, url_size, url_track, url_x, 36)}" fill="{NAVY}"/>'
     )
-    out.append(
-        f'<path d="{text_path(url, size, track, pill_x + 18, pill_y + 22.5)}" '
-        f'fill="{NAVY}"/>'
-    )
-    out.append(arrow_path(pill_x + 18 + url_w + 14, pill_y + pill_h / 2))
-    out.append(hairline(400, LIVE_H / 2, pill_x - 30, 0.08))
-    out.append(hairline(MARGIN, LIVE_H - 1, LIVE_W - MARGIN))
+    out.append(arrow_path(url_x + url_w + 14, 32, color=NAVY))
     out.append("</svg>")
     return "".join(out)
 
@@ -388,7 +462,27 @@ def contact_svg() -> str:
 
 
 def reviews_svg() -> str:
-    out = [svg_open(REVIEWS_W, REVIEWS_H, "Peer reviews")]
+    card_w = 430
+    pad = 22
+    quote_size, quote_track, line_h = 11.5, 0.12, 17.5
+    attr_size, attr_track = 8.8, 1.2
+    mark_size, mark_track = 26.0, 0.12
+    mark_w = text_width("“", mark_size, mark_track)
+    text_x = pad + mark_w + 8
+    text_w = card_w - text_x - pad
+
+    blocks = [
+        wrap_text(quote, quote_size, quote_track, text_w)
+        for quote, _ in REVIEWS
+    ]
+    max_lines = max(len(lines) for lines in blocks)
+    last_baseline = 40 + (max_lines - 1) * line_h
+    hair_y = last_baseline + 23
+    attr_y = hair_y + 20
+    card_h = attr_y + 14
+    height = 64 + card_h + 20
+
+    out = [svg_open(REVIEWS_W, height, "Peer reviews")]
     out.append("<defs>")
     out.append(
         f'<linearGradient id="revFadeL" x1="0" y1="0" x2="1" y2="0">'
@@ -403,26 +497,30 @@ def reviews_svg() -> str:
         "</linearGradient>"
     )
 
-    mark_size, quote_size, quote_track = 26.0, 12.5, 0.1
-    attr_size, attr_track = 9.5, 1.14
-    item_gap = 64.0
     widths = []
-    for i, (quote, source) in enumerate(REVIEWS):
-        mark_w = text_width("“", mark_size, quote_track)
-        quote_w = text_width(quote, quote_size, quote_track)
-        attr = f"— {source}"
-        attr_w = text_width(attr, attr_size, attr_track)
-        out.append(
-            f'<g id="rev-{i}">'
-            f'<path d="{text_path("“", mark_size, quote_track, 0, 0)}" '
-            f'fill="{CORAL}" fill-opacity="0.9"/>'
-            f'<path d="{text_path(quote, quote_size, quote_track, mark_w + 6, 0)}" '
-            f'fill="{PAPER}" fill-opacity="0.8"/>'
-            f'<path d="{text_path(attr, attr_size, attr_track, mark_w + 6 + quote_w + 18, 0)}" '
-            f'fill="{CORAL}" fill-opacity="0.82"/>'
-            "</g>"
+    for i, (lines, (_, source)) in enumerate(zip(blocks, REVIEWS)):
+        parts = [
+            f'<rect x="0" y="0" width="{card_w}" height="{card_h}" rx="14" '
+            f'fill="{LIFT}" stroke="{PAPER}" stroke-opacity="0.07"/>',
+            f'<rect x="0" y="20" width="3" height="{card_h - 40}" fill="{CORAL}"/>',
+            f'<path d="{text_path("“", mark_size, mark_track, pad, 46)}" '
+            f'fill="{CORAL}" fill-opacity="0.9"/>',
+        ]
+        for j, line in enumerate(lines):
+            parts.append(
+                f'<path d="{text_path(line, quote_size, quote_track, text_x, 40 + j * line_h)}" '
+                f'fill="{PAPER}" fill-opacity="0.82"/>'
+            )
+        parts.append(
+            f'<line x1="{pad}" y1="{hair_y}" x2="{card_w - pad}" y2="{hair_y}" '
+            f'stroke="{PAPER}" stroke-opacity="0.08"/>'
         )
-        widths.append(mark_w + 6 + quote_w + 18 + attr_w + item_gap)
+        parts.append(
+            f'<path d="{text_path("— " + source, attr_size, attr_track, pad, attr_y)}" '
+            f'fill="{CORAL}" fill-opacity="0.78"/>'
+        )
+        out.append(f'<g id="rev-{i}">' + "".join(parts) + "</g>")
+        widths.append(card_w + 28)
     out.append("</defs>")
 
     out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
@@ -431,16 +529,16 @@ def reviews_svg() -> str:
     out.append(hairline(MARGIN, 57, REVIEWS_W - MARGIN, 0.08))
 
     row_width = sum(widths)
-    row_start = 80.0
-    duration = row_width / 34.0
+    row_start = 80.0 - row_width
+    duration = row_width / 32.0
     out.append(
-        '<g transform="translate(0 92)"><g>'
+        '<g transform="translate(0 64)"><g>'
         '<animateTransform attributeName="transform" type="translate" '
         f'from="{row_start:.2f} 0" to="{row_start - row_width:.2f} 0" '
         f'dur="{duration:.3f}s" repeatCount="indefinite"/>'
     )
     x = 0.0
-    for _ in range(2):
+    for _ in range(3):
         for i, item_w in enumerate(widths):
             out.append(
                 f'<use href="#rev-{i}" xlink:href="#rev-{i}" x="{x:.2f}"/>'
@@ -449,13 +547,13 @@ def reviews_svg() -> str:
     out.append("</g></g>")
 
     out.append(
-        f'<rect x="0" y="66" width="80" height="48" fill="url(#revFadeL)"/>'
+        f'<rect x="0" y="64" width="80" height="{card_h}" fill="url(#revFadeL)"/>'
     )
     out.append(
-        f'<rect x="{REVIEWS_W - 80}" y="66" width="80" height="48" '
+        f'<rect x="{REVIEWS_W - 80}" y="64" width="80" height="{card_h}" '
         'fill="url(#revFadeR)"/>'
     )
-    out.append(hairline(MARGIN, REVIEWS_H - 1, REVIEWS_W - MARGIN))
+    out.append(hairline(MARGIN, height - 1, REVIEWS_W - MARGIN))
     out.append("</svg>")
     return "".join(out)
 
@@ -569,7 +667,7 @@ def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     data = json.loads((HERE / "loc.json").read_text())
     write_rail("deck-stack.svg", stack_svg())
-    write_rail("deck-now.svg", now_svg())
+    write_rail("deck-projects.svg", projects_svg())
     write_rail("deck-live.svg", live_svg())
     write_rail("deck-reviews.svg", reviews_svg())
     write_rail("deck-contact.svg", contact_svg())
