@@ -2,11 +2,12 @@
 """Render the two data rails that sit between the header and the project
 plates: a two-row technology marquee and a language line.
 
-The stack is a vector marquee: 24 Simple Icons paths in the deck's coral, laid
-over two full-width rows that scroll slowly in opposite directions under a
-re-added title. Because it is an SVG, the icons stay sharp at any zoom and the
-loop costs almost nothing to load. The language line reads the pygount snapshot
-(loc.json) and prints each language's share of the counted lines.
+The stack is a vector marquee: 24 coral icons over two full-width rows that
+scroll slowly in opposite directions under a re-added title. The names are the
+interesting parts of the projects, not the generic tools around them. Because it
+is an SVG, the icons stay sharp at any zoom and the loop costs almost nothing to
+load. The language line reads the pygount snapshot (loc.json) and prints each
+language's share of the counted lines.
 
 Both boards use the deck's ambient palette and type and stack flush with the
 header and plates.
@@ -33,55 +34,50 @@ NAVY = "#0c0a3e"
 CORAL = "#f9564f"
 PAPER = "#fffaf0"
 
-TECH_ROWS = (
-    (
-        ("Next.js", "nextdotjs"),
-        ("React", "react"),
-        ("Three.js", "threedotjs"),
-        ("Vite", "vite"),
-        ("Tailwind", "tailwindcss"),
-        ("Bun", "bun"),
-    ),
-    (
-        ("Hono", "hono"),
-        ("Node.js", "nodedotjs"),
-        ("WordPress", "wordpress"),
-        ("Postgres", "postgresql"),
-        ("SQLite", "sqlite"),
-        ("MariaDB", "mariadb"),
-    ),
-    (
-        ("Docker", "docker"),
-        ("Nginx", "nginx"),
-        ("Linux", "linux"),
-        ("Debian", "debian"),
-        ("VirtualBox", "virtualbox"),
-        ("OpenSSL", "openssl"),
-    ),
-    (
-        ("Let's Encrypt", "letsencrypt"),
-        ("Git", "git"),
-        ("GitHub", "github"),
-        ("GH Actions", "githubactions"),
-        ("npm", "npm"),
-        ("VS Code", "visualstudiocode"),
-    ),
+ROW_TOP = (
+    ("Bun", "bun"),
+    ("Hono", "hono"),
+    ("SQLite", "sqlite"),
+    ("OpenCode", "opencode"),
+    ("Next.js", "nextdotjs"),
+    ("Three.js", "threedotjs"),
+    ("Rapier", "rapier"),
+    ("Spigot", "spigotmc"),
+    ("llama.cpp", "llamacpp"),
+    ("PostgreSQL", "postgresql"),
+    ("Tailscale", "tailscale"),
+    ("Cloudflare", "cloudflareworkers"),
 )
 
-ROW_TOP = TECH_ROWS[0] + TECH_ROWS[1]
-ROW_BOTTOM = TECH_ROWS[2] + TECH_ROWS[3]
+ROW_BOTTOM = (
+    ("C", "c"),
+    ("C++", "cplusplus"),
+    ("Go", "go"),
+    ("Docker", "docker"),
+    ("NGINX", "nginx"),
+    ("Debian", "debian"),
+    ("LUKS", "luks"),
+    ("LVM", "lvm"),
+    ("Vault", "vault"),
+    ("nftables", "nftables"),
+    ("Suricata", "suricata"),
+    ("Firecracker", "firecracker"),
+)
 
 ICONS = json.loads((HERE / "tech-icons.json").read_text())
+ICONS.update(json.loads((HERE / "tech-icons-generic.json").read_text()))
 
 LANG_DISPLAY = {"Other": "Bash"}
 
 STACK_W = 900
-STACK_H = 136
+STACK_H = 150
 MARGIN = 48
-ICON = 24
-LABEL_SIZE = 12.0
+ICON = 34
+ICON_GAP = 6
+ITEM_GAP = 20
+LABEL_SIZE = 12.5
 LABEL_TRACK = 0.72
-SPEED = 70.0  # marquee units per second
+SPEED = 62.0  # marquee units per second
 
 FONT = TTFont(FONTS / "ibm-plex-mono-500-v1.woff2")
 UPM = FONT["head"].unitsPerEm
@@ -101,6 +97,11 @@ def text_width(text: str, size: float, tracking: float) -> float:
     return total - tracking
 
 
+def short_number(value: float) -> str:
+    text = f"{value:.2f}".rstrip("0").rstrip(".")
+    return "0" if text in ("", "-0") else text
+
+
 def text_path(
     text: str, size: float, tracking: float, x: float = 0.0, baseline: float = 0.0
 ) -> str:
@@ -110,7 +111,7 @@ def text_path(
         glyph = CMAP.get(ord(ch))
         if glyph is None:
             continue
-        pen = SVGPathPen(GLYPHS)
+        pen = SVGPathPen(GLYPHS, ntos=short_number)
         transform = Transform(size / UPM, 0, 0, -size / UPM, pen_x, baseline)
         GLYPHS[glyph].draw(TransformPen(pen, transform))
         commands = pen.getCommands()
@@ -120,21 +121,35 @@ def text_path(
     return " ".join(parts)
 
 
-def stack_svg() -> str:
-    label_w = max(
-        text_width(label.upper(), LABEL_SIZE, LABEL_TRACK)
-        for label, _ in ROW_TOP + ROW_BOTTOM
+def icon_symbol(slug: str) -> str:
+    icon = ICONS[slug]
+    if isinstance(icon, str):
+        return f'<symbol id="ico-{slug}" viewBox="0 0 24 24"><path d="{icon}"/></symbol>'
+    scale = 24 / icon.get("viewBox", 24)
+    return (
+        f'<symbol id="ico-{slug}" viewBox="0 0 24 24">'
+        f'<g transform="scale({scale:.6f})"><path d="{icon["path"]}"/></g>'
+        "</symbol>"
     )
-    pitch = ICON + 10 + label_w + 46
-    half = pitch * 12
-    duration = half / SPEED
 
+
+def item_width(label: str) -> float:
+    return (
+        ICON
+        + ICON_GAP
+        + text_width(label.upper(), LABEL_SIZE, LABEL_TRACK)
+        + ITEM_GAP
+    )
+
+
+def stack_svg() -> str:
     row1_y = 52
-    row2_y = 96
+    row2_y = 100
     rule_y = STACK_H - 1
-    fade_w = 96
+    fade_w = 88
     band_y = row1_y - 8
     band_h = row2_y + ICON + 8 - band_y
+    label_y = 21.5
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
@@ -145,9 +160,7 @@ def stack_svg() -> str:
     ]
 
     for _, slug in ROW_TOP + ROW_BOTTOM:
-        out.append(
-            f'<symbol id="ico-{slug}" viewBox="0 0 24 24"><path d="{ICONS[slug]}"/></symbol>'
-        )
+        out.append(icon_symbol(slug))
 
     for i, (label, _) in enumerate(ROW_TOP + ROW_BOTTOM):
         d = text_path(label.upper(), LABEL_SIZE, LABEL_TRACK)
@@ -157,7 +170,7 @@ def stack_svg() -> str:
         out.append(
             f'<g id="it-{i}">'
             f'<use href="#ico-{slug}" xlink:href="#ico-{slug}" width="{ICON}" height="{ICON}" fill="{CORAL}"/>'
-            f'<use href="#lab-{i}" xlink:href="#lab-{i}" x="34" y="16.5" fill="{PAPER}" fill-opacity="0.64"/>'
+            f'<use href="#lab-{i}" xlink:href="#lab-{i}" x="{ICON + ICON_GAP}" y="{label_y}" fill="{PAPER}" fill-opacity="0.64"/>'
             "</g>"
         )
 
@@ -180,32 +193,39 @@ def stack_svg() -> str:
     # Title.
     title_size = 13.0
     title_track = 2.08
-    out.append(f'<rect x="{MARGIN}" y="21" width="9" height="9" fill="{CORAL}"/>')
+    out.append(f'<rect x="{MARGIN}" y="19" width="9" height="9" fill="{CORAL}"/>')
     tx = MARGIN + 9 + 10
-    d = text_path("STACK", title_size, title_track, tx, 30)
+    d = text_path("STACK", title_size, title_track, tx, 28)
     out.append(f'<path d="{d}" fill="{PAPER}"/>')
     tx += text_width("STACK", title_size, title_track) + title_track + 8
-    d = text_path("/", title_size, title_track, tx, 30)
+    d = text_path("/", title_size, title_track, tx, 28)
     out.append(f'<path d="{d}" fill="{CORAL}"/>')
     tx += text_width("/", title_size, title_track) + title_track + 8
-    d = text_path("USED", title_size, title_track, tx, 30)
+    d = text_path("USED", title_size, title_track, tx, 28)
     out.append(f'<path d="{d}" fill="{PAPER}" fill-opacity="0.55"/>')
 
-    # Two marquee rows, each duplicated once so the loop is seamless.
-    for idx, base in enumerate((0, 12)):
+    # Two marquee rows, each duplicated once so the loop is seamless. The gap
+    # is measured from each label, not from the longest label in the deck.
+    for idx, row in enumerate((ROW_TOP, ROW_BOTTOM)):
         y = row1_y if idx == 0 else row2_y
         reverse = idx == 1
-        start, end = (0, -half) if not reverse else (-half, 0)
+        row_width = sum(item_width(label) for label, _ in row)
+        duration = row_width / SPEED
+        start, end = (0, -row_width) if not reverse else (-row_width, 0)
         out.append(f'<g transform="translate(0 {y})"><g>')
         out.append(
             f'<animateTransform attributeName="transform" type="translate" '
             f'from="{start:.2f} 0" to="{end:.2f} 0" dur="{duration:.3f}s" repeatCount="indefinite"/>'
         )
-        for k in range(24):
-            item = base + k % 12
-            out.append(
-                f'<use href="#it-{item}" xlink:href="#it-{item}" x="{k * pitch:.2f}"/>'
-            )
+        base = idx * len(ROW_TOP)
+        x = 0.0
+        for _ in range(2):
+            for i, (label, _) in enumerate(row):
+                item = base + i
+                out.append(
+                    f'<use href="#it-{item}" xlink:href="#it-{item}" x="{x:.2f}"/>'
+                )
+                x += item_width(label)
         out.append("</g></g>")
 
     out.append(

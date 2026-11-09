@@ -22,9 +22,10 @@ shows how the terrain is built, not a finished space scene.
 Between the header and the plates sit two deck-width strips:
 
 - `deck-stack.svg` — twenty-four technologies in two full-width rows that scroll
-  slowly in opposite directions under a `Stack / Used` title: web and data on
-  top, infra and tools below. Coral Simple Icons paths, a soft fade at each edge,
-  no count. Vector, 900 × 136, and roughly a 31-second seamless loop.
+  slowly in opposite directions under a `Stack / Used` title: product and data on
+  top, systems and security below. Coral vector icons, a soft fade at each edge,
+  no count. Vector, 900 × 150, with the rows looping every 20–23 seconds at the
+  same scroll speed.
 - `deck-languages.png` — a slim language line, most used first: TypeScript,
   JavaScript, Python, C, Java, Go and Bash, each with its share of the counted
   lines (39.2% down to 1.7%). `loc.json` is the `pygount` snapshot behind the
@@ -57,6 +58,7 @@ stat.
 - `stats.py` — writes the stack marquee as SVG and renders the language line at
   2x. HTML goes to the ignored `.build/` folder.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
+- `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png` — the two rendered data rails.
 
