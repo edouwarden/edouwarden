@@ -44,8 +44,8 @@ space, marks and cards rather than full-width rules:
   card itself is unchanged. It replaces the old filled live-demo caption.
 - `deck-open.svg` — a thin 900 × 44 capsule with the same weight as the try
   strip: a pulsing coral dot, `Open to work · Switzerland`, and the quiet
-  `Systems · Infrastructure · AI` meta on the right. It is the shared asset for
-  the above-header and below-header placement options.
+  `Systems · Infrastructure · AI` meta on the right. It sits directly above the
+  header.
 - `deck-reviews.svg` — a slow marquee of peer-review cards under a
   `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
   the longest quote. The three quotes in `stats.py` are mock placeholders;
@@ -53,16 +53,13 @@ space, marks and cards rather than full-width rules:
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
   handle and URL. The header moves the location line to `Switzerland · 42
-  Paris`; the base PNG keeps the quiet `Open to hard problems` pill. The footer
-  drops the `No forms, no trackers` label and the CTA pill, leads with `Bring me
-  a hard problem`, sets the 20 px email and 24 px coral arrow directly above the
-  footline, and closes with `Open to work · Switzerland · 42 Paris` and `Updated
-  November 2026`. `boards.py` reads the production boards, replaces the copy and
-  screenshots the variants at 2x; the production boards are not modified.
-- `deck-header-work.svg` — the optional header treatment: the pill becomes a
-  coral `Open to work · Switzerland` tag and its hidden dot is redrawn as a
-  pulsing dot and ring inside the embedded header PNG. Option A of the three
-  preview pages uses this asset; the main deck currently does too.
+  Paris` and keeps the quiet `Open to hard problems` pill. The footer drops the
+  `No forms, no trackers` label and the CTA pill, leads with `Bring me a hard
+  problem`, sets a coral square, the 20 px email and 24 px coral arrow directly
+  above the footline, and closes with `Open to work · Switzerland · 42 Paris`
+  and `Updated November 2026`. `boards.py` reads the production boards, replaces
+  the copy and screenshots the variants at 2x; the production boards are not
+  modified.
 
 ## Text fallback
 
@@ -104,14 +101,10 @@ public numbers exist; the card currently opens the repositories tab.
   rails as SVG and renders the language line at 2x. HTML goes to the ignored
   `.build/` folder.
 - `boards.py` — reads the production header and footer boards and renders
-  `deck-header.png`, `deck-footer.png` and `deck-header-work.svg` with the email
-  in place of the visible GitHub copy. HTML goes to the ignored `.build/`
-  folder.
+  `deck-header.png` and `deck-footer.png` with the email in place of the visible
+  GitHub copy. HTML goes to the ignored `.build/` folder.
 - `embed.py` — base64-embeds a rendered PNG inside an SVG so a live SMIL overlay
   can sit on top of a raster board.
-- `preview/option-a.md`, `preview/option-b.md`, `preview/option-c.md` — the three
-  open-to-work placements: animated header tag, strip above the header, strip
-  below the header. Compare them on the preview branch before keeping one.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
