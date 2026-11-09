@@ -7,10 +7,15 @@ as SVG in the ambient palette.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a generated world chunk, a terminal, a raycast corridor, an IRC
-frame beside a single-thread server, a stack of containers, and a hardened
-Debian server. No node graphs, no layer trees, and no tiny labels that disappear
-at README width. Every plate is self-contained, so the public `build.py` pipeline
+frame beside a single-thread server, a stack of containers, and a Debian VM
+console. No node graphs, no layer trees, and no tiny labels that disappear at
+README width. Every plate is self-contained, so the public `build.py` pipeline
 and the production README are untouched.
+
+The Space plate is an **animated GIF** (1600 × 533, ~600 KB). It holds the
+finished chunk, flattens it back to the grid, then rebuilds the strata, the
+surface and the ore. Frame one is the finished scene, so a non-animating client
+still shows a complete illustration.
 
 ## What each project leads with
 
@@ -32,8 +37,10 @@ stat.
 ## Files
 
 - `plates.py` — renders all eight plates at 1200 × 400, 2x, using the deck
-  fonts. HTML goes to the ignored `.build/` folder.
-- `plate-01.png` … `plate-08.png` — the rendered plates.
+  fonts. HTML goes to the ignored `.build/` folder. The Space plate is assembled
+  as a 1600 × 533 GIF and optimized with `gifsicle`.
+- `plate-01.png`, `plate-02.png`, `plate-03.gif`, `plate-04.png` … `plate-08.png`
+  — the rendered plates.
 
 ```bash
 python3 assets/readme/prototype/plates.py

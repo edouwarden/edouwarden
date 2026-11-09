@@ -4,17 +4,24 @@ project in the deck.
 
 Each card keeps the same anatomy: number, title, meta, hook, three project
 stats, stack, and a 360 x 203 illustration drawn inline as SVG in the ambient
-palette. The illustrations are deliberately different diagrams, not screenshots:
-a dashboard shell, a game-engine world, an orbital chart, a shell pipeline, a
-raycast view, a poll loop, a container network, and a disk stack.
+palette. The illustrations are scenes and objects, not screenshots: a dashboard,
+an engine editor, a generated chunk, a shell terminal, a raycast corridor, an
+IRC frame, a container stack, and a Debian VM console.
+
+The Space plate is an animated GIF: the generated chunk flattens back to its
+grid, then rebuilds strata, surface and ore. The first frame is the finished
+scene, so it still reads as a still image.
 
 Standalone: production README and build.py are untouched.
 
     python3 assets/readme/prototype/plates.py
 """
 
+import math
+import subprocess
 from pathlib import Path
 
+from PIL import Image
 from playwright.sync_api import sync_playwright
 
 HERE = Path(__file__).resolve().parent
@@ -280,12 +287,81 @@ def art_transcendence() -> str:
     {label(316, 175, "60 fps", 6.5, PAPER, 0.35, 400, "end")}
   </g>
 """)
-def art_space() -> str:
+
+
+def art_space_stage(depth=1.0, surface=1.0, ore=1.0, ghost=1.0) -> str:
+    depth = max(0.0, min(1.0, depth))
+    surface = max(0.0, min(1.0, surface))
+    ore = max(0.0, min(1.0, ore))
+    ghost = max(0.0, min(1.0, ghost))
+    d = 58 * depth
+
     strata = []
     for t in (0.22, 0.46, 0.7):
-        strata.append(f'<line x1="{86 - 0:.1f}" y1="{64 + 58 * t:.1f}" x2="190" y2="{96 + 58 * t:.1f}"/>')
-        strata.append(f'<line x1="294" y1="{64 + 58 * t:.1f}" x2="190" y2="{96 + 58 * t:.1f}"/>')
+        y1 = 64 + d * t
+        y2 = 96 + d * t
+        strata.append(f'<line x1="86" y1="{y1:.1f}" x2="190" y2="{y2:.1f}"/>')
+        strata.append(f'<line x1="294" y1="{y1:.1f}" x2="190" y2="{y2:.1f}"/>')
     strata = "".join(strata)
+
+    surface_layer = f"""
+    <polygon points="100,66 132,54 150,60 128,76 106,78" fill="{PAPER}" opacity=".1"/>
+    <polygon points="210,50 238,40 258,48 236,62" fill="{PAPER}" opacity=".08"/>
+    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{CORAL}" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{PAPER}" stroke-opacity=".25" stroke-width="1.4"/>
+    <g>
+      <polygon points="112,52 120,48 128,52 120,56" fill="{PAPER}" opacity=".25"/>
+      <polygon points="112,52 120,56 120,62 112,58" fill="{PAPER}" opacity=".12"/>
+      <polygon points="128,52 120,56 120,62 128,58" fill="{PAPER}" opacity=".18"/>
+    </g>
+    <g>
+      <polygon points="222,52 230,48 238,52 230,56" fill="{CORAL}" opacity=".45"/>
+      <polygon points="222,52 230,56 230,63 222,59" fill="{CORAL}" opacity=".2"/>
+      <polygon points="238,52 230,56 230,63 238,59" fill="{CORAL}" opacity=".3"/>
+    </g>
+    <g>
+      <line x1="144" y1="62" x2="144" y2="68" stroke="{DEEP}" stroke-width="2"/>
+      <polygon points="144,48 152,52 144,56 136,52" fill="{CORAL}"/>
+      <polygon points="136,52 144,56 144,64 136,60" fill="{DEEP}"/>
+      <polygon points="152,52 144,56 144,64 152,60" fill="{CORAL}" opacity=".55"/>
+    </g>
+    <g>
+      <line x1="238" y1="68" x2="238" y2="73" stroke="{DEEP}" stroke-width="1.8"/>
+      <polygon points="238,57 245,60 238,64 231,60" fill="{PAPER}" opacity=".55"/>
+      <polygon points="231,60 238,64 238,71 231,67" fill="{PAPER}" opacity=".25"/>
+      <polygon points="245,60 238,64 238,71 245,67" fill="{PAPER}" opacity=".35"/>
+    </g>
+    """
+
+    ore_layer = f"""
+    <g>
+      <polygon points="118,112 130,106 142,112 130,118" fill="{CORAL}" opacity=".9"/>
+      <polygon points="118,112 130,118 130,126 118,120" fill="{DEEP}"/>
+      <polygon points="142,112 130,118 130,126 142,120" fill="{CORAL}" opacity=".55"/>
+    </g>
+    <g>
+      <polygon points="156,128 166,123 176,128 166,133" fill="{PAPER}" opacity=".55"/>
+      <polygon points="156,128 166,133 166,139 156,134" fill="{PAPER}" opacity=".25"/>
+      <polygon points="176,128 166,133 166,139 176,134" fill="{PAPER}" opacity=".35"/>
+    </g>
+    <g>
+      <polygon points="210,120 220,115 230,120 220,125" fill="{CORAL}" opacity=".65"/>
+      <polygon points="210,120 220,125 220,131 210,126" fill="{DEEP}" opacity=".8"/>
+      <polygon points="230,120 220,125 220,131 230,126" fill="{CORAL}" opacity=".35"/>
+    </g>
+    """
+
+    ghost_layer = f"""
+    <g stroke="{CORAL}" stroke-opacity=".4" stroke-dasharray="4 5" fill="{LIFT}" fill-opacity=".25">
+      <polygon points="30,50 60,38 90,50 60,62"/>
+      <path d="M30,50 v14 M60,62 v14 M90,50 v14" fill="none"/>
+    </g>
+    <path d="M92,52 C102,52 104,56 110,62" fill="none" stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="3 4"/>
+    <polygon points="112,64 104,60 106,68" fill="{CORAL}" opacity=".6"/>
+    {label(60, 76, "next chunk", 6.5, CORAL, 0.65, 400, "middle")}
+    {label(30, 30, "worldgen", 7, CORAL, 0.65, 500)}
+    """
+
     return art(f"""
   <defs>
     <clipPath id="topface"><polygon points="86,64 190,32 294,64 190,96"/></clipPath>
@@ -301,14 +377,7 @@ def art_space() -> str:
     <line x1="320" y1="24" x2="320" y2="176"/>
   </g>
 
-  <g stroke="{CORAL}" stroke-opacity=".4" stroke-dasharray="4 5" fill="{LIFT}" fill-opacity=".25">
-    <polygon points="30,50 60,38 90,50 60,62"/>
-    <path d="M30,50 v14 M60,62 v14 M90,50 v14" fill="none"/>
-  </g>
-  {label(60, 76, "next chunk", 6.5, CORAL, 0.65, 400, "middle")}
-  <path d="M92,52 C102,52 104,56 110,62" fill="none" stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="3 4"/>
-  <polygon points="112,64 104,60 106,68" fill="{CORAL}" opacity=".6"/>
-  {label(30, 30, "worldgen", 7, CORAL, 0.65, 500)}
+  <g opacity="{ghost:.3f}">{ghost_layer}</g>
 
   <polygon points="86,64 190,32 294,64 190,96" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".45"/>
   <g clip-path="url(#topface)">
@@ -320,60 +389,24 @@ def art_space() -> str:
       <line x1="192" y1="30" x2="192" y2="96"/>
       <line x1="244" y1="30" x2="244" y2="96"/>
     </g>
-    <polygon points="100,66 132,54 150,60 128,76 106,78" fill="{PAPER}" opacity=".1"/>
-    <polygon points="210,50 238,40 258,48 236,62" fill="{PAPER}" opacity=".08"/>
-    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{CORAL}" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/>
-    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{PAPER}" stroke-opacity=".25" stroke-width="1.4"/>
+    <g opacity="{surface:.3f}">{surface_layer}</g>
   </g>
 
-  <polygon points="86,64 190,96 190,154 86,122" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".25"/>
-  <polygon points="294,64 190,96 190,154 294,122" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".18"/>
+  <polygon points="86,64 190,96 190,{96 + d:.1f} 86,{64 + d:.1f}" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".25"/>
+  <polygon points="294,64 190,96 190,{96 + d:.1f} 294,{64 + d:.1f}" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".18"/>
   <g stroke="{PAPER}" stroke-opacity=".12">{strata}</g>
   <line x1="86" y1="64" x2="190" y2="96" stroke="{CORAL}" stroke-opacity=".4"/>
   <line x1="294" y1="64" x2="190" y2="96" stroke="{CORAL}" stroke-opacity=".3"/>
 
-  <g>
-    <polygon points="118,112 130,106 142,112 130,118" fill="{CORAL}" opacity=".9"/>
-    <polygon points="118,112 130,118 130,126 118,120" fill="{DEEP}"/>
-    <polygon points="142,112 130,118 130,126 142,120" fill="{CORAL}" opacity=".55"/>
-  </g>
-  <g>
-    <polygon points="156,128 166,123 176,128 166,133" fill="{PAPER}" opacity=".55"/>
-    <polygon points="156,128 166,133 166,139 156,134" fill="{PAPER}" opacity=".25"/>
-    <polygon points="176,128 166,133 166,139 176,134" fill="{PAPER}" opacity=".35"/>
-  </g>
-  <g>
-    <polygon points="210,120 220,115 230,120 220,125" fill="{CORAL}" opacity=".65"/>
-    <polygon points="210,120 220,125 220,131 210,126" fill="{DEEP}" opacity=".8"/>
-    <polygon points="230,120 220,125 220,131 230,126" fill="{CORAL}" opacity=".35"/>
-  </g>
-
-  <g>
-    <polygon points="112,52 120,48 128,52 120,56" fill="{PAPER}" opacity=".25"/>
-    <polygon points="112,52 120,56 120,62 112,58" fill="{PAPER}" opacity=".12"/>
-    <polygon points="128,52 120,56 120,62 128,58" fill="{PAPER}" opacity=".18"/>
-  </g>
-  <g>
-    <polygon points="222,52 230,48 238,52 230,56" fill="{CORAL}" opacity=".45"/>
-    <polygon points="222,52 230,56 230,63 222,59" fill="{CORAL}" opacity=".2"/>
-    <polygon points="238,52 230,56 230,63 238,59" fill="{CORAL}" opacity=".3"/>
-  </g>
-
-  <g>
-    <line x1="144" y1="62" x2="144" y2="68" stroke="{DEEP}" stroke-width="2"/>
-    <polygon points="144,48 152,52 144,56 136,52" fill="{CORAL}"/>
-    <polygon points="136,52 144,56 144,64 136,60" fill="{DEEP}"/>
-    <polygon points="152,52 144,56 144,64 152,60" fill="{CORAL}" opacity=".55"/>
-  </g>
-  <g>
-    <line x1="238" y1="68" x2="238" y2="73" stroke="{DEEP}" stroke-width="1.8"/>
-    <polygon points="238,57 245,60 238,64 231,60" fill="{PAPER}" opacity=".55"/>
-    <polygon points="231,60 238,64 238,71 231,67" fill="{PAPER}" opacity=".25"/>
-    <polygon points="245,60 238,64 238,71 245,67" fill="{PAPER}" opacity=".35"/>
-  </g>
-
-  {label(190, 176, "generated chunk · strata + ore", 6.5, PAPER, 0.4, 400, "middle")}
+  <g opacity="{ore:.3f}">{ore_layer}</g>
+  <g opacity="{ore:.3f}">{label(190, 176, "generated chunk · strata + ore", 6.5, PAPER, 0.4, 400, "middle")}</g>
 """)
+
+
+def art_space() -> str:
+    return art_space_stage()
+
+
 def art_minishell() -> str:
     return art(f"""
   <g>
@@ -535,126 +568,141 @@ def art_irc() -> str:
     {label(74, 166.5, "Phi-3 · 3.8B · llama.cpp", 7.5, PAPER, 0.55)}
   </g>
 """)
+
+
 def art_inception() -> str:
     return art(f"""
   <g>
-    <circle cx="32" cy="52" r="10" fill="none" stroke="{PAPER}" stroke-opacity=".35"/>
-    <ellipse cx="32" cy="52" rx="4" ry="10" fill="none" stroke="{PAPER}" stroke-opacity=".25"/>
-    <line x1="22" y1="52" x2="42" y2="52" stroke="{PAPER}" stroke-opacity=".2"/>
-    <line x1="42" y1="52" x2="62" y2="52" stroke="{CORAL}" stroke-width="2.5"/>
-    <path d="M62,52 l-6,-4 v8 z" fill="{CORAL}"/>
-    {label(48, 38, "443", 7, CORAL, 0.9, 500, "middle")}
+    <circle cx="30" cy="54" r="10" fill="none" stroke="{PAPER}" stroke-opacity=".35"/>
+    <ellipse cx="30" cy="54" rx="4" ry="10" fill="none" stroke="{PAPER}" stroke-opacity=".25"/>
+    <line x1="20" y1="54" x2="40" y2="54" stroke="{PAPER}" stroke-opacity=".2"/>
+    <line x1="40" y1="54" x2="58" y2="54" stroke="{CORAL}" stroke-width="2.5"/>
+    <path d="M58,54 l-6,-4 v8 z" fill="{CORAL}"/>
+    {label(49, 40, "443", 7, CORAL, 0.9, 500, "middle")}
+  </g>
+
+  <rect x="48" y="30" width="290" height="156" rx="14" fill="none" stroke="{PAPER}" stroke-opacity=".12" stroke-dasharray="4 5"/>
+  {label(193, 23, "compose network", 6.5, PAPER, 0.4, 400, "middle")}
+
+  <g>
+    <rect x="58" y="42" width="258" height="40" rx="8" fill="{CORAL}"/>
+    <rect x="58" y="42" width="258" height="1.5" rx="0.75" fill="{PAPER}" opacity=".25"/>
+    <g transform="translate(70,53)">
+      <rect y="6" width="16" height="12" rx="2.5" fill="{NAVY}" opacity=".7"/>
+      <path d="M3.5,6 v-3 a4.5,4.5 0 0 1 9,0 v3" fill="none" stroke="{NAVY}" stroke-opacity=".7" stroke-width="2"/>
+    </g>
+    {label(96, 67, "nginx", 13, NAVY, 1, 500)}
+    {label(151, 66, "TLS · published", 6.5, NAVY, 0.55)}
+    <rect x="248" y="53" width="56" height="18" rx="9" fill="{NAVY}"/>
+    {label(276, 65, "443", 7, PAPER, 0.9, 500, "middle")}
   </g>
 
   <g>
-    <rect x="62" y="30" width="238" height="40" rx="8" fill="{CORAL}"/>
-    <g transform="translate(74,41)">
-      <polygon points="0,7 8,3 16,7 8,11" fill="{NAVY}" opacity=".65"/>
-      <polygon points="0,7 8,11 8,19 0,15" fill="{NAVY}" opacity=".4"/>
-      <polygon points="16,7 8,11 8,19 16,15" fill="{NAVY}" opacity=".5"/>
-    </g>
-    {label(98, 55, "nginx", 13, NAVY, 1, 500)}
-    {label(156, 54, "TLS · edge", 6.5, NAVY, 0.55)}
-    <rect x="252" y="41" width="40" height="17" rx="8.5" fill="{NAVY}"/>
-    {label(272, 53, "443", 7, PAPER, 0.9, 500, "middle")}
+    <rect x="58" y="92" width="258" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <circle cx="78" cy="112" r="8" fill="{PAPER}" opacity=".18"/>
+    {label(78, 115.5, "W", 8, PAPER, 0.85, 500, "middle")}
+    {label(96, 117, "wordpress", 12, PAPER, 0.92, 500)}
+    {label(174, 116, "php-fpm :9000", 6.5, PAPER, 0.45)}
+    <rect x="248" y="103" width="56" height="17" rx="8.5" fill="none" stroke="{PAPER}" stroke-opacity=".2"/>
+    {label(276, 114.5, "internal", 6, PAPER, 0.45, 400, "middle")}
   </g>
 
   <g>
-    <rect x="62" y="82" width="238" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <g transform="translate(74,93)">
-      <polygon points="0,7 8,3 16,7 8,11" fill="{PAPER}" opacity=".5"/>
-      <polygon points="0,7 8,11 8,19 0,15" fill="{PAPER}" opacity=".2"/>
-      <polygon points="16,7 8,11 8,19 16,15" fill="{PAPER}" opacity=".3"/>
+    <rect x="58" y="142" width="258" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".16"/>
+    <g transform="translate(69,151)">
+      <ellipse cx="9" cy="4" rx="8.5" ry="3.4" fill="{PAPER}" opacity=".3"/>
+      <path d="M0.5,4 v12 c0,1.9 3.8,3.4 8.5,3.4 s8.5,-1.5 8.5,-3.4 v-12" fill="none" stroke="{PAPER}" stroke-opacity=".35"/>
+      <path d="M0.5,10 c0,1.9 3.8,3.4 8.5,3.4 s8.5,-1.5 8.5,-3.4" fill="none" stroke="{PAPER}" stroke-opacity=".2"/>
     </g>
-    {label(98, 107, "wordpress", 12, PAPER, 0.92, 500)}
-    {label(180, 106, "php-fpm :9000", 6.5, PAPER, 0.45)}
-    {label(290, 106, "internal", 6.5, PAPER, 0.35, 400, "end")}
+    {label(96, 167, "mariadb", 12, PAPER, 0.92, 500)}
+    {label(174, 166, "3306 · innodb", 6.5, PAPER, 0.45)}
+    <rect x="248" y="153" width="56" height="17" rx="8.5" fill="none" stroke="{PAPER}" stroke-opacity=".2"/>
+    {label(276, 164.5, "volume", 6, PAPER, 0.45, 400, "middle")}
   </g>
 
-  <g>
-    <rect x="62" y="134" width="238" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".16"/>
-    <g transform="translate(74,145)">
-      <polygon points="0,7 8,3 16,7 8,11" fill="{PAPER}" opacity=".5"/>
-      <polygon points="0,7 8,11 8,19 0,15" fill="{PAPER}" opacity=".2"/>
-      <polygon points="16,7 8,11 8,19 16,15" fill="{PAPER}" opacity=".3"/>
-    </g>
-    {label(98, 159, "mariadb", 12, PAPER, 0.92, 500)}
-    {label(180, 158, "3306 · data", 6.5, PAPER, 0.45)}
-    {label(290, 158, "internal", 6.5, PAPER, 0.35, 400, "end")}
+  <g stroke="{CORAL}" stroke-opacity=".55" stroke-dasharray="3 3">
+    <line x1="150" y1="82" x2="150" y2="92"/>
+    <line x1="150" y1="132" x2="150" y2="142"/>
   </g>
-
-  <g stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="3 3">
-    <line x1="150" y1="70" x2="150" y2="82"/>
-    <line x1="150" y1="122" x2="150" y2="134"/>
+  <g fill="{CORAL}" opacity=".75">
+    <polygon points="150,94 146,88 154,88"/>
+    <polygon points="150,140 146,146 154,146"/>
   </g>
-  <g fill="{CORAL}" opacity=".7">
-    <polygon points="150,84 146,78 154,78"/>
-    <polygon points="150,132 146,138 154,138"/>
-  </g>
-
-  {label(181, 23, "docker compose · one network", 6.5, PAPER, 0.4, 400, "middle")}
 """)
+
+
+def debian_swirl(cx, cy, scale=1.0):
+    pts = []
+    steps = 90
+    turns = 2.6
+    for i in range(steps + 1):
+        t = i / steps
+        theta = t * turns * 2 * math.pi
+        r = (2.5 + 16 * t) * scale
+        pts.append(f"{cx + r * math.cos(theta):.1f},{cy + r * math.sin(theta):.1f}")
+    return (
+        f'<polyline points="{" ".join(pts)}" fill="none" stroke="{CORAL}" '
+        f'stroke-width="{2.6 * scale:.1f}" stroke-linecap="round" stroke-linejoin="round"/>'
+    )
+
+
 def art_born2beroot() -> str:
-    bolts = []
-    for dx, dy in ((0, -34), (24, -24), (34, 0), (24, 24), (0, 34), (-24, 24), (-34, 0), (-24, -24)):
-        bolts.append(f'<circle cx="{114 + dx}" cy="{100 + dy}" r="2.2" fill="{PAPER}" opacity=".55"/>')
-    bolts = "".join(bolts)
     return art(f"""
   <g>
-    <rect x="48" y="26" width="128" height="160" rx="10" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".22"/>
-    <rect x="48" y="26" width="128" height="22" rx="10" fill="{NAVY}"/>
-    <rect x="48" y="40" width="128" height="8" fill="{NAVY}"/>
-    {label(60, 41, "debian", 8, PAPER, 0.6, 500)}
-    <circle cx="162" cy="37" r="3" fill="{CORAL}"/>
+    <rect x="24" y="24" width="312" height="156" rx="12" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <path d="M24,36 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v12 h-312 z" fill="{LIFT}"/>
+    <circle cx="41" cy="36" r="3.2" fill="{CORAL}"/>
+    <circle cx="52" cy="36" r="3.2" fill="{DEEP}"/>
+    <circle cx="63" cy="36" r="3.2" fill="{PAPER}" opacity=".4"/>
+    {label(78, 40, "debian — vm", 8.5, PAPER, 0.8, 500)}
+    {label(322, 40, "qemu", 6.5, PAPER, 0.35, 400, "end")}
+    <line x1="24" y1="48" x2="336" y2="48" stroke="{PAPER}" stroke-opacity=".1"/>
 
-    <circle cx="114" cy="100" r="46" fill="{NAVY}" stroke="{CORAL}" stroke-width="3"/>
-    <circle cx="114" cy="100" r="36" fill="none" stroke="{PAPER}" stroke-opacity=".18"/>
-    {bolts}
-    <g stroke="{CORAL}" stroke-width="4" stroke-linecap="round">
-      <line x1="92" y1="100" x2="136" y2="100"/>
-      <line x1="114" y1="78" x2="114" y2="122"/>
-    </g>
-    <circle cx="114" cy="100" r="7" fill="{CORAL}"/>
-    <circle cx="114" cy="100" r="2.5" fill="{NAVY}"/>
-    <rect x="90" y="93" width="48" height="15" rx="7.5" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".35"/>
-    {label(114, 104, "LUKS", 7.5, CORAL, 0.95, 500, "middle")}
+    <rect x="24" y="48" width="96" height="108" fill="{LIFT}" opacity=".55"/>
+    {debian_swirl(72, 88, 1.0)}
+    <circle cx="72" cy="88" r="3" fill="{PAPER}"/>
+    {label(72, 124, "debian", 11, PAPER, 0.9, 500, "middle")}
+    {label(72, 136, "12 · bookworm", 6, PAPER, 0.4, 400, "middle")}
+    <line x1="120" y1="48" x2="120" y2="156" stroke="{PAPER}" stroke-opacity=".08"/>
 
-    {label(62, 153, "LVM", 6.5, PAPER, 0.55, 500)}
-    <g fill="{PAPER}" opacity=".16">
-      <rect x="62" y="158" width="104" height="7" rx="3.5"/>
-      <rect x="62" y="169" width="104" height="7" rx="3.5"/>
-    </g>
-    <g fill="{CORAL}" opacity=".65">
-      <rect x="62" y="158" width="30" height="7" rx="3.5"/>
-      <rect x="62" y="169" width="46" height="7" rx="3.5"/>
-    </g>
-  </g>
+    {label(132, 70, "user@debian:~$", 9, CORAL, 0.95, 500)}
+    {label(222, 70, "lsblk", 9, PAPER, 0.9)}
+    {label(132, 88, "sda5", 9, PAPER, 0.65)}
+    <rect x="170" y="80" width="9" height="11" rx="2" fill="none" stroke="{CORAL}" stroke-opacity=".8"/>
+    <path d="M172,80 v-3 a2.5,2.5 0 0 1 5,0 v3" fill="none" stroke="{CORAL}" stroke-opacity=".8" stroke-width="1.4"/>
+    {label(186, 88, "LUKS", 9, CORAL, 0.95, 500)}
+    {label(132, 106, "├─ vg-root", 8.5, PAPER, 0.6)}
+    {label(322, 106, "12G  /", 8.5, PAPER, 0.8, 400, "end")}
+    {label(132, 122, "├─ vg-home", 8.5, PAPER, 0.6)}
+    {label(322, 122, "8G  /home", 8.5, PAPER, 0.8, 400, "end")}
+    {label(132, 138, "└─ vg-swap", 8.5, PAPER, 0.6)}
+    {label(322, 138, "2G  [SWAP]", 8.5, PAPER, 0.8, 400, "end")}
+    {label(132, 152, "7 volumes · LUKS + LVM", 6.5, CORAL, 0.6, 500)}
 
-  <g>
-    <rect x="198" y="30" width="138" height="156" rx="9" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    <rect x="198" y="30" width="138" height="22" rx="9" fill="{CORAL}" opacity=".18"/>
-    <rect x="198" y="44" width="138" height="8" fill="{CORAL}" opacity=".18"/>
-    {label(210, 45, "HARDENING", 6.5, CORAL, 0.9, 500)}
-
-    <g fill="{CORAL}">
-      <circle cx="212" cy="72" r="2.4"/>
-      <circle cx="212" cy="94" r="2.4"/>
-      <circle cx="212" cy="116" r="2.4"/>
-      <circle cx="212" cy="138" r="2.4"/>
-      <circle cx="212" cy="160" r="2.4"/>
+    <line x1="24" y1="156" x2="336" y2="156" stroke="{PAPER}" stroke-opacity=".1"/>
+    <g>
+      <rect x="34" y="163" width="68" height="15" rx="7.5" fill="{PAPER}" opacity=".06" stroke="{PAPER}" stroke-opacity=".12"/>
+      <circle cx="43" cy="170.5" r="2" fill="{CORAL}"/>
+      {label(51, 173, "SSH 4242", 6, PAPER, 0.8, 500)}
     </g>
-    {label(222, 75, "firewall", 8, PAPER, 0.55)}
-    {label(326, 75, "ufw on", 8, PAPER, 0.9, 500, "end")}
-    {label(222, 97, "ssh", 8, PAPER, 0.55)}
-    {label(326, 97, "4242", 8, CORAL, 0.95, 500, "end")}
-    {label(222, 119, "sudo", 8, PAPER, 0.55)}
-    {label(326, 119, "logged", 8, PAPER, 0.9, 500, "end")}
-    {label(222, 141, "wall", 8, PAPER, 0.55)}
-    {label(326, 141, "10 min", 8, PAPER, 0.9, 500, "end")}
-    {label(222, 163, "disk", 8, PAPER, 0.55)}
-    {label(326, 163, "LUKS + LVM", 8, PAPER, 0.9, 500, "end")}
+    <g>
+      <rect x="108" y="163" width="68" height="15" rx="7.5" fill="{PAPER}" opacity=".06" stroke="{PAPER}" stroke-opacity=".12"/>
+      <circle cx="117" cy="170.5" r="2" fill="{CORAL}"/>
+      {label(125, 173, "UFW on", 6, PAPER, 0.8, 500)}
+    </g>
+    <g>
+      <rect x="182" y="163" width="68" height="15" rx="7.5" fill="{PAPER}" opacity=".06" stroke="{PAPER}" stroke-opacity=".12"/>
+      <circle cx="191" cy="170.5" r="2" fill="{CORAL}"/>
+      {label(199, 173, "SUDO logged", 6, PAPER, 0.8, 500)}
+    </g>
+    <g>
+      <rect x="256" y="163" width="68" height="15" rx="7.5" fill="{PAPER}" opacity=".06" stroke="{PAPER}" stroke-opacity=".12"/>
+      <circle cx="265" cy="170.5" r="2" fill="{CORAL}"/>
+      {label(273, 173, "WALL 10m", 6, PAPER, 0.8, 500)}
+    </g>
   </g>
 """)
+
 
 PROJECTS = [
     {
@@ -694,7 +742,7 @@ PROJECTS = [
     },
     {
         "n": "03",
-        "file": "plate-03.png",
+        "file": "plate-03.gif",
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
@@ -932,6 +980,59 @@ def document(project: dict) -> str:
     )
 
 
+def _ease(t: float) -> float:
+    return 1 - (1 - t) ** 2
+
+
+def render_gif(page, project: dict) -> None:
+    """Animate the worldgen card: hold, flatten to the grid, rebuild, hold."""
+    steps = [(1, 1, 1, 1)] * 8
+    for i in range(1, 5):
+        k = 1 - i / 4
+        steps.append((k, k, k, k))
+    steps.append((0, 0, 0, 0))
+    for i in range(1, 11):
+        steps.append((_ease(i / 10), 0, 0, 0))
+    for i in range(1, 5):
+        steps.append((1, i / 4, 0, 0))
+    for i in range(1, 4):
+        steps.append((1, 1, i / 3, 0))
+    for i in range(1, 4):
+        steps.append((1, 1, 1, i / 3))
+    steps.extend([(1, 1, 1, 1)] * 4)
+
+    frames = []
+    for n, (depth, surface, ore, ghost) in enumerate(steps):
+        frame_project = dict(project)
+        frame_project["art"] = art_space_stage(
+            depth=depth, surface=surface, ore=ore, ghost=ghost
+        )
+        page_path = BUILD / "space-frame.html"
+        page_path.write_text(document(frame_project))
+        page.goto(page_path.as_uri())
+        page.wait_for_function("document.fonts.status === 'loaded'")
+        shot = BUILD / "space-frame.png"
+        page.screenshot(
+            path=str(shot),
+            clip={"x": 0, "y": 0, "width": 1200, "height": 400},
+        )
+        frames.append(Image.open(shot).convert("RGB").resize((1600, 533), Image.LANCZOS))
+
+    gif_path = HERE / project["file"]
+    frames[0].save(
+        gif_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=83,
+        loop=0,
+        optimize=True,
+    )
+    subprocess.run(
+        ["gifsicle", "-O3", "--colors", "128", "--careful", str(gif_path), "-o", str(gif_path)],
+        check=True,
+    )
+
+
 def main() -> None:
     BUILD.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as playwright:
@@ -941,14 +1042,17 @@ def main() -> None:
             device_scale_factor=2,
         )
         for project in PROJECTS:
-            page_path = BUILD / project["file"].replace(".png", ".html")
-            page_path.write_text(document(project))
-            page.goto(page_path.as_uri())
-            page.wait_for_function("document.fonts.status === 'loaded'")
-            page.screenshot(
-                path=str(HERE / project["file"]),
-                clip={"x": 0, "y": 0, "width": 1200, "height": 400},
-            )
+            if project["file"].endswith(".gif"):
+                render_gif(page, project)
+            else:
+                page_path = BUILD / Path(project["file"]).with_suffix(".html")
+                page_path.write_text(document(project))
+                page.goto(page_path.as_uri())
+                page.wait_for_function("document.fonts.status === 'loaded'")
+                page.screenshot(
+                    path=str(HERE / project["file"]),
+                    clip={"x": 0, "y": 0, "width": 1200, "height": 400},
+                )
             print(f"rendered {project['file']}")
         browser.close()
 
