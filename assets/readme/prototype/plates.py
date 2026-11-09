@@ -206,81 +206,174 @@ DASHBOARD_ART = f"""
 def art_transcendence() -> str:
     return art(f"""
   <g>
-    <polygon points="248,74 284,54 320,74 284,94" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".5"/>
-    <polygon points="248,74 284,94 284,101 248,81" fill="{DEEP}" opacity=".45"/>
-    <polygon points="320,74 284,94 284,101 320,81" fill="{NAVY}" opacity=".8"/>
-  </g>
-  <g>
-    <polygon points="146,114 198,84 250,114 198,144" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".6"/>
-    <polygon points="146,114 198,144 198,151 146,121" fill="{DEEP}" opacity=".5"/>
-    <polygon points="250,114 198,144 198,151 250,121" fill="{NAVY}" opacity=".8"/>
-  </g>
-  <g>
-    <polygon points="24,144 116,98 208,144 116,190" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".7"/>
-    <polygon points="24,144 116,190 116,198 24,152" fill="{DEEP}" opacity=".55"/>
-    <polygon points="208,144 116,190 116,198 208,152" fill="{NAVY}" opacity=".8"/>
-    <polyline points="24,144 116,98 208,144" fill="none" stroke="{CORAL}" stroke-opacity=".9" stroke-width="2"/>
-  </g>
+    <rect x="24" y="22" width="312" height="158" rx="12" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <path d="M24,34 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v16 h-312 z" fill="{LIFT}"/>
+    <circle cx="41" cy="36" r="3.2" fill="{CORAL}"/>
+    <circle cx="52" cy="36" r="3.2" fill="{DEEP}"/>
+    <circle cx="63" cy="36" r="3.2" fill="{PAPER}" opacity=".4"/>
+    {label(78, 40, "ThreeWrapper", 9, PAPER, 0.85, 500)}
+    {label(171, 40, "scene · course.01", 7.5, PAPER, 0.4)}
+    <rect x="270" y="30" width="54" height="14" rx="7" fill="{CORAL}"/>
+    {label(297, 40, "EDITOR", 6.5, NAVY, 1, 500, "middle")}
+    <line x1="24" y1="50" x2="336" y2="50" stroke="{PAPER}" stroke-opacity=".1"/>
 
-  <g>
-    <path d="M104,124 C124,100 136,82 150,68" fill="none" stroke="{PAPER}" stroke-opacity=".25" stroke-dasharray="3 4"/>
-    <circle cx="150" cy="58" r="7.5" fill="{PAPER}"/>
-    <rect x="143" y="64" width="14" height="21" rx="7" fill="{CORAL}"/>
-    <line x1="144" y1="71" x2="134" y2="64" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
-    <line x1="156" y1="71" x2="166" y2="63" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
-    <line x1="147" y1="84" x2="142" y2="93" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
-    <line x1="153" y1="84" x2="158" y2="93" stroke="{PAPER}" stroke-width="2.4" stroke-linecap="round"/>
-  </g>
+    <rect x="24" y="50" width="84" height="130" fill="{NAVY}" opacity=".6"/>
+    {label(34, 64, "SCENE", 6.5, CORAL, 0.8, 500)}
+    <rect x="30" y="72" width="72" height="15" rx="4" fill="{CORAL}" opacity=".16"/>
+    <path d="M36,77 l3.5,3.5 l-3.5,3.5" fill="none" stroke="{CORAL}" stroke-width="1.4"/>
+    {label(45, 83, "environment", 7, PAPER, 0.9)}
+    {label(45, 98, "modules", 7, PAPER, 0.55)}
+    {label(45, 113, "physics", 7, PAPER, 0.55)}
+    {label(45, 128, "camera", 7, PAPER, 0.55)}
+    {label(45, 143, "lights", 7, PAPER, 0.55)}
+    {label(45, 158, "input", 7, PAPER, 0.55)}
+    <line x1="108" y1="50" x2="108" y2="180" stroke="{PAPER}" stroke-opacity=".09"/>
 
-  <g>
-    <circle cx="294" cy="48" r="19" fill="none" stroke="{CORAL}" stroke-width="4"/>
-    <circle cx="294" cy="48" r="11" fill="none" stroke="{PAPER}" stroke-opacity=".45"/>
-    <line x1="294" y1="30" x2="294" y2="66" stroke="{PAPER}" stroke-opacity=".5"/>
-    <polygon points="294,34 308,40 294,46" fill="{PAPER}" opacity=".85"/>
-  </g>
-
-  <g fill="{PAPER}" opacity=".1" stroke="{CORAL}" stroke-opacity=".35">
-    <polygon points="50,78 62,71 74,78 62,85"/>
-    <polygon points="224,44 234,38 244,44 234,50"/>
-  </g>
-""")
-
-
-def art_space() -> str:
-    return art(f"""
-  <circle cx="36" cy="202" r="108" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".28"/>
-  <path d="M-62,164 A108,108 0 0 1 142,138" fill="none" stroke="{CORAL}" stroke-opacity=".18" stroke-width="2"/>
-  <ellipse cx="36" cy="202" rx="136" ry="30" transform="rotate(-14 36 202)" fill="none" stroke="{PAPER}" stroke-opacity=".14" stroke-width="2"/>
-
-  <g>
-    <circle cx="238" cy="92" r="34" fill="none" stroke="{CORAL}" stroke-opacity=".85" stroke-width="3"/>
-    <circle cx="238" cy="92" r="22" fill="none" stroke="{PAPER}" stroke-opacity=".3"/>
-    <circle cx="238" cy="92" r="9" fill="{CORAL}"/>
-    <circle cx="238" cy="92" r="3.5" fill="{PAPER}"/>
-    <g stroke="{PAPER}" stroke-opacity=".45">
-      <line x1="204" y1="92" x2="214" y2="92"/>
-      <line x1="262" y1="92" x2="272" y2="92"/>
-      <line x1="238" y1="58" x2="238" y2="68"/>
-      <line x1="238" y1="116" x2="238" y2="126"/>
+    <g stroke="{PAPER}" stroke-opacity=".055">
+      <line x1="108" y1="68" x2="336" y2="68"/>
+      <line x1="108" y1="90" x2="336" y2="90"/>
+      <line x1="108" y1="112" x2="336" y2="112"/>
+      <line x1="108" y1="134" x2="336" y2="134"/>
+      <line x1="126" y1="50" x2="126" y2="164"/>
+      <line x1="156" y1="50" x2="156" y2="164"/>
+      <line x1="186" y1="50" x2="186" y2="164"/>
+      <line x1="216" y1="50" x2="216" y2="164"/>
+      <line x1="246" y1="50" x2="246" y2="164"/>
+      <line x1="276" y1="50" x2="276" y2="164"/>
+      <line x1="306" y1="50" x2="306" y2="164"/>
     </g>
-    <rect x="196" y="86" width="10" height="12" rx="1.5" fill="{PAPER}" opacity=".22" stroke="{CORAL}" stroke-opacity=".4"/>
-    <rect x="270" y="86" width="10" height="12" rx="1.5" fill="{PAPER}" opacity=".22" stroke="{CORAL}" stroke-opacity=".4"/>
+
+    <g>
+      <polygon points="168,104 208,84 248,104 208,124" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".55"/>
+      <polygon points="168,104 208,124 208,140 168,120" fill="{DEEP}" opacity=".4"/>
+      <polygon points="248,104 208,124 208,140 248,120" fill="{NAVY}"/>
+      <polyline points="168,104 208,84 248,104" fill="none" stroke="{CORAL}" stroke-opacity=".8"/>
+    </g>
+    <g stroke="{CORAL}" stroke-opacity=".55" stroke-dasharray="4 4" fill="none">
+      <rect x="170" y="86" width="76" height="38" transform="rotate(-1 208 105)"/>
+    </g>
+    <g fill="{CORAL}">
+      <rect x="169" y="85" width="5" height="5"/>
+      <rect x="241" y="85" width="5" height="5"/>
+      <rect x="169" y="119" width="5" height="5"/>
+      <rect x="241" y="119" width="5" height="5"/>
+    </g>
+
+    <g stroke="{PAPER}" stroke-opacity=".45" fill="none">
+      <path d="M272,126 l14,-7 l14,7 l-14,7 z"/>
+      <path d="M272,126 v10 l14,7 v-10"/>
+      <path d="M300,126 v10 l-14,7"/>
+    </g>
+
+    <g stroke-linecap="round">
+      <line x1="136" y1="146" x2="162" y2="146" stroke="{CORAL}" stroke-width="2.2"/>
+      <polygon points="166,146 158,142 158,150" fill="{CORAL}"/>
+      <line x1="136" y1="146" x2="136" y2="124" stroke="{PAPER}" stroke-width="2.2"/>
+      <polygon points="136,120 132,128 140,128" fill="{PAPER}" opacity=".8"/>
+      <line x1="136" y1="146" x2="150" y2="138" stroke="{DEEP}" stroke-width="2.2"/>
+      <circle cx="136" cy="146" r="3" fill="{PAPER}"/>
+    </g>
+
+    <line x1="108" y1="164" x2="336" y2="164" stroke="{PAPER}" stroke-opacity=".09"/>
+    {label(116, 175, "physics · rapier", 6.5, PAPER, 0.45)}
+    {label(196, 175, "tick 20 Hz", 6.5, CORAL, 0.9, 500)}
+    {label(316, 175, "60 fps", 6.5, PAPER, 0.35, 400, "end")}
+  </g>
+""")
+def art_space() -> str:
+    strata = []
+    for t in (0.22, 0.46, 0.7):
+        strata.append(f'<line x1="{86 - 0:.1f}" y1="{64 + 58 * t:.1f}" x2="190" y2="{96 + 58 * t:.1f}"/>')
+        strata.append(f'<line x1="294" y1="{64 + 58 * t:.1f}" x2="190" y2="{96 + 58 * t:.1f}"/>')
+    strata = "".join(strata)
+    return art(f"""
+  <defs>
+    <clipPath id="topface"><polygon points="86,64 190,32 294,64 190,96"/></clipPath>
+  </defs>
+
+  <g stroke="{PAPER}" stroke-opacity=".05">
+    <line x1="40" y1="40" x2="320" y2="40"/>
+    <line x1="40" y1="80" x2="320" y2="80"/>
+    <line x1="40" y1="120" x2="320" y2="120"/>
+    <line x1="80" y1="24" x2="80" y2="176"/>
+    <line x1="160" y1="24" x2="160" y2="176"/>
+    <line x1="240" y1="24" x2="240" y2="176"/>
+    <line x1="320" y1="24" x2="320" y2="176"/>
+  </g>
+
+  <g stroke="{CORAL}" stroke-opacity=".4" stroke-dasharray="4 5" fill="{LIFT}" fill-opacity=".25">
+    <polygon points="30,50 60,38 90,50 60,62"/>
+    <path d="M30,50 v14 M60,62 v14 M90,50 v14" fill="none"/>
+  </g>
+  {label(60, 76, "next chunk", 6.5, CORAL, 0.65, 400, "middle")}
+  <path d="M92,52 C102,52 104,56 110,62" fill="none" stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="3 4"/>
+  <polygon points="112,64 104,60 106,68" fill="{CORAL}" opacity=".6"/>
+  {label(30, 30, "worldgen", 7, CORAL, 0.65, 500)}
+
+  <polygon points="86,64 190,32 294,64 190,96" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".45"/>
+  <g clip-path="url(#topface)">
+    <g stroke="{PAPER}" stroke-opacity=".09">
+      <line x1="86" y1="50" x2="294" y2="50"/>
+      <line x1="86" y1="66" x2="294" y2="66"/>
+      <line x1="86" y1="82" x2="294" y2="82"/>
+      <line x1="140" y1="30" x2="140" y2="96"/>
+      <line x1="192" y1="30" x2="192" y2="96"/>
+      <line x1="244" y1="30" x2="244" y2="96"/>
+    </g>
+    <polygon points="100,66 132,54 150,60 128,76 106,78" fill="{PAPER}" opacity=".1"/>
+    <polygon points="210,50 238,40 258,48 236,62" fill="{PAPER}" opacity=".08"/>
+    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{CORAL}" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M92,72 C122,80 142,62 176,66 C208,70 232,86 286,76" fill="none" stroke="{PAPER}" stroke-opacity=".25" stroke-width="1.4"/>
+  </g>
+
+  <polygon points="86,64 190,96 190,154 86,122" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".25"/>
+  <polygon points="294,64 190,96 190,154 294,122" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".18"/>
+  <g stroke="{PAPER}" stroke-opacity=".12">{strata}</g>
+  <line x1="86" y1="64" x2="190" y2="96" stroke="{CORAL}" stroke-opacity=".4"/>
+  <line x1="294" y1="64" x2="190" y2="96" stroke="{CORAL}" stroke-opacity=".3"/>
+
+  <g>
+    <polygon points="118,112 130,106 142,112 130,118" fill="{CORAL}" opacity=".9"/>
+    <polygon points="118,112 130,118 130,126 118,120" fill="{DEEP}"/>
+    <polygon points="142,112 130,118 130,126 142,120" fill="{CORAL}" opacity=".55"/>
+  </g>
+  <g>
+    <polygon points="156,128 166,123 176,128 166,133" fill="{PAPER}" opacity=".55"/>
+    <polygon points="156,128 166,133 166,139 156,134" fill="{PAPER}" opacity=".25"/>
+    <polygon points="176,128 166,133 166,139 176,134" fill="{PAPER}" opacity=".35"/>
+  </g>
+  <g>
+    <polygon points="210,120 220,115 230,120 220,125" fill="{CORAL}" opacity=".65"/>
+    <polygon points="210,120 220,125 220,131 210,126" fill="{DEEP}" opacity=".8"/>
+    <polygon points="230,120 220,125 220,131 230,126" fill="{CORAL}" opacity=".35"/>
   </g>
 
   <g>
-    <path d="M82,88 L52,98" stroke="{CORAL}" stroke-width="5" stroke-linecap="round" opacity=".55"/>
-    <path d="M82,88 L58,96" stroke="{PAPER}" stroke-width="1.5" stroke-linecap="round" opacity=".55"/>
-    <polygon points="92,74 144,54 132,84 106,96" fill="{CORAL}"/>
-    <polygon points="92,74 144,54 132,84" fill="{PAPER}" opacity=".28"/>
-    <circle cx="116" cy="76" r="3" fill="{NAVY}"/>
+    <polygon points="112,52 120,48 128,52 120,56" fill="{PAPER}" opacity=".25"/>
+    <polygon points="112,52 120,56 120,62 112,58" fill="{PAPER}" opacity=".12"/>
+    <polygon points="128,52 120,56 120,62 128,58" fill="{PAPER}" opacity=".18"/>
+  </g>
+  <g>
+    <polygon points="222,52 230,48 238,52 230,56" fill="{CORAL}" opacity=".45"/>
+    <polygon points="222,52 230,56 230,63 222,59" fill="{CORAL}" opacity=".2"/>
+    <polygon points="238,52 230,56 230,63 238,59" fill="{CORAL}" opacity=".3"/>
   </g>
 
-  <path d="M148,60 Q190,54 208,78" fill="none" stroke="{CORAL}" stroke-opacity=".5" stroke-width="2" stroke-dasharray="4 5"/>
-  <circle cx="306" cy="152" r="12" fill="{PAPER}" opacity=".12" stroke="{PAPER}" stroke-opacity=".2"/>
-  <circle cx="306" cy="152" r="22" fill="{CORAL}" opacity=".05"/>
+  <g>
+    <line x1="144" y1="62" x2="144" y2="68" stroke="{DEEP}" stroke-width="2"/>
+    <polygon points="144,48 152,52 144,56 136,52" fill="{CORAL}"/>
+    <polygon points="136,52 144,56 144,64 136,60" fill="{DEEP}"/>
+    <polygon points="152,52 144,56 144,64 152,60" fill="{CORAL}" opacity=".55"/>
+  </g>
+  <g>
+    <line x1="238" y1="68" x2="238" y2="73" stroke="{DEEP}" stroke-width="1.8"/>
+    <polygon points="238,57 245,60 238,64 231,60" fill="{PAPER}" opacity=".55"/>
+    <polygon points="231,60 238,64 238,71 231,67" fill="{PAPER}" opacity=".25"/>
+    <polygon points="245,60 238,64 238,71 245,67" fill="{PAPER}" opacity=".35"/>
+  </g>
+
+  {label(190, 176, "generated chunk · strata + ore", 6.5, PAPER, 0.4, 400, "middle")}
 """)
-
-
 def art_minishell() -> str:
     return art(f"""
   <g>
@@ -403,100 +496,165 @@ def art_cub3d() -> str:
 def art_irc() -> str:
     return art(f"""
   <g>
-    <rect x="24" y="24" width="312" height="155" rx="12" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <path d="M24,36 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v14 h-312 z" fill="{LIFT}"/>
-    <circle cx="42" cy="42" r="4" fill="{CORAL}"/>
-    {label(54, 46, "#ai-lab", 9, CORAL, 1, 500)}
-    {label(320, 46, "Phi-3", 6.5, PAPER, 0.45, 400, "end")}
-    <line x1="24" y1="56" x2="336" y2="56" stroke="{PAPER}" stroke-opacity=".1"/>
+    <rect x="28" y="34" width="74" height="58" rx="9" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <path d="M28,43 a9,9 0 0 1 9,-9 h56 a9,9 0 0 1 9,9 v9 h-74 z" fill="{NAVY}"/>
+    <circle cx="41" cy="43" r="2.6" fill="{CORAL}"/>
+    {label(52, 47, "alice", 7.5, PAPER, 0.82, 500)}
+    {label(38, 70, "#ai-lab", 8, CORAL, 0.9, 500)}
+    <rect x="38" y="77" width="48" height="3" rx="1.5" fill="{PAPER}" opacity=".18"/>
+  </g>
 
-    <circle cx="48" cy="80" r="9" fill="{CORAL}" opacity=".85"/>
-    {label(64, 75, "alice", 6.5, PAPER, 0.45)}
-    <rect x="64" y="80" width="160" height="28" rx="9" fill="{PAPER}" opacity=".08" stroke="{PAPER}" stroke-opacity=".12"/>
-    {label(76, 98, "is the model local?", 10, PAPER, 0.88)}
+  <line x1="102" y1="63" x2="244" y2="63" stroke="{PAPER}" stroke-opacity=".18" stroke-width="3"/>
+  <g>
+    <rect x="118" y="55" width="16" height="10" rx="2.5" fill="{CORAL}"/>
+    <rect x="156" y="55" width="16" height="10" rx="2.5" fill="{PAPER}" opacity=".5"/>
+    <rect x="194" y="55" width="16" height="10" rx="2.5" fill="{DEEP}"/>
+  </g>
+  <path d="M212,63 l6,-4 v8 z" fill="{CORAL}" opacity=".8"/>
 
-    <circle cx="312" cy="130" r="9" fill="{PAPER}" opacity=".85"/>
-    {label(296, 125, "assistant", 6.5, PAPER, 0.45, 400, "end")}
-    <rect x="136" y="132" width="160" height="28" rx="9" fill="{CORAL}" opacity=".16" stroke="{CORAL}" stroke-opacity=".3"/>
-    {label(148, 150, "yes — one poll loop", 10, CORAL, 0.95)}
+  <g>
+    <rect x="244" y="30" width="92" height="72" rx="10" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".65"/>
+    <circle cx="324" cy="42" r="3" fill="{CORAL}"/>
+    {label(256, 45, "IRC SERVER", 6.5, PAPER, 0.4, 500)}
+    {label(290, 76, "poll()", 18, CORAL, 0.95, 500, "middle")}
+    {label(290, 92, "1 thread · 1 loop", 6.5, PAPER, 0.45, 400, "middle")}
+  </g>
 
-    {label(40, 172, "1 thread · 1 loop · 3.8B", 6.5, PAPER, 0.32)}
+  <g>
+    <rect x="28" y="112" width="308" height="62" rx="9" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
+    <rect x="40" y="122" width="26" height="11" rx="2.5" fill="{CORAL}"/>
+    {label(53, 130.5, "TCP", 5.5, NAVY, 1, 500, "middle")}
+    {label(74, 130.5, "6667 · alice → server", 7, PAPER, 0.5)}
+
+    <rect x="40" y="140" width="26" height="11" rx="2.5" fill="{PAPER}"/>
+    {label(53, 148.5, "IRC", 5.5, NAVY, 1, 500, "middle")}
+    {label(74, 148.5, "PRIVMSG #ai-lab :hello", 11, PAPER, 0.92, 500)}
+
+    <rect x="40" y="158" width="26" height="11" rx="2.5" fill="{DEEP}"/>
+    {label(53, 166.5, "BOT", 5.5, NAVY, 1, 500, "middle")}
+    {label(74, 166.5, "Phi-3 · 3.8B · llama.cpp", 7.5, PAPER, 0.55)}
   </g>
 """)
-
-
 def art_inception() -> str:
     return art(f"""
   <g>
-    <polygon points="40,92 64,74 184,74 160,92" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".12"/>
-    <rect x="40" y="92" width="120" height="38" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".12"/>
-    <polygon points="160,92 184,74 184,112 160,130" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".12"/>
-
-    <polygon points="200,70 224,52 344,52 320,70" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".2"/>
-    <rect x="200" y="70" width="120" height="38" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".2"/>
-    <polygon points="320,70 344,52 344,90 320,108" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".2"/>
-
-    <polygon points="70,112 104,84 294,84 260,112" fill="{DEEP}"/>
-    <rect x="70" y="112" width="190" height="58" fill="{CORAL}"/>
-    <polygon points="260,112 294,84 294,142 260,170" fill="{LIFT}"/>
-
-    <g stroke="{NAVY}" stroke-opacity=".18">
-      <line x1="88" y1="116" x2="88" y2="166"/>
-      <line x1="106" y1="116" x2="106" y2="166"/>
-      <line x1="124" y1="116" x2="124" y2="166"/>
-      <line x1="142" y1="116" x2="142" y2="166"/>
-      <line x1="160" y1="116" x2="160" y2="166"/>
-      <line x1="178" y1="116" x2="178" y2="166"/>
-      <line x1="196" y1="116" x2="196" y2="166"/>
-    </g>
-
-    <rect x="206" y="120" width="46" height="40" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <circle cx="244" cy="140" r="2.5" fill="{PAPER}" opacity=".6"/>
-    <g transform="translate(218,128)">
-      <rect width="20" height="16" rx="3" fill="{CORAL}"/>
-      <path d="M4,0 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="{CORAL}" stroke-width="2"/>
-      <circle cx="10" cy="8" r="1.8" fill="{NAVY}"/>
-    </g>
-
-    <circle cx="288" cy="120" r="23" fill="{CORAL}" opacity=".12"/>
-    <circle cx="288" cy="120" r="15" fill="{PAPER}"/>
-    {label(288, 125, "443", 11, NAVY, 1, 500, "middle")}
+    <circle cx="32" cy="52" r="10" fill="none" stroke="{PAPER}" stroke-opacity=".35"/>
+    <ellipse cx="32" cy="52" rx="4" ry="10" fill="none" stroke="{PAPER}" stroke-opacity=".25"/>
+    <line x1="22" y1="52" x2="42" y2="52" stroke="{PAPER}" stroke-opacity=".2"/>
+    <line x1="42" y1="52" x2="62" y2="52" stroke="{CORAL}" stroke-width="2.5"/>
+    <path d="M62,52 l-6,-4 v8 z" fill="{CORAL}"/>
+    {label(48, 38, "443", 7, CORAL, 0.9, 500, "middle")}
   </g>
+
+  <g>
+    <rect x="62" y="30" width="238" height="40" rx="8" fill="{CORAL}"/>
+    <g transform="translate(74,41)">
+      <polygon points="0,7 8,3 16,7 8,11" fill="{NAVY}" opacity=".65"/>
+      <polygon points="0,7 8,11 8,19 0,15" fill="{NAVY}" opacity=".4"/>
+      <polygon points="16,7 8,11 8,19 16,15" fill="{NAVY}" opacity=".5"/>
+    </g>
+    {label(98, 55, "nginx", 13, NAVY, 1, 500)}
+    {label(156, 54, "TLS · edge", 6.5, NAVY, 0.55)}
+    <rect x="252" y="41" width="40" height="17" rx="8.5" fill="{NAVY}"/>
+    {label(272, 53, "443", 7, PAPER, 0.9, 500, "middle")}
+  </g>
+
+  <g>
+    <rect x="62" y="82" width="238" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <g transform="translate(74,93)">
+      <polygon points="0,7 8,3 16,7 8,11" fill="{PAPER}" opacity=".5"/>
+      <polygon points="0,7 8,11 8,19 0,15" fill="{PAPER}" opacity=".2"/>
+      <polygon points="16,7 8,11 8,19 16,15" fill="{PAPER}" opacity=".3"/>
+    </g>
+    {label(98, 107, "wordpress", 12, PAPER, 0.92, 500)}
+    {label(180, 106, "php-fpm :9000", 6.5, PAPER, 0.45)}
+    {label(290, 106, "internal", 6.5, PAPER, 0.35, 400, "end")}
+  </g>
+
+  <g>
+    <rect x="62" y="134" width="238" height="40" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".16"/>
+    <g transform="translate(74,145)">
+      <polygon points="0,7 8,3 16,7 8,11" fill="{PAPER}" opacity=".5"/>
+      <polygon points="0,7 8,11 8,19 0,15" fill="{PAPER}" opacity=".2"/>
+      <polygon points="16,7 8,11 8,19 16,15" fill="{PAPER}" opacity=".3"/>
+    </g>
+    {label(98, 159, "mariadb", 12, PAPER, 0.92, 500)}
+    {label(180, 158, "3306 · data", 6.5, PAPER, 0.45)}
+    {label(290, 158, "internal", 6.5, PAPER, 0.35, 400, "end")}
+  </g>
+
+  <g stroke="{CORAL}" stroke-opacity=".5" stroke-dasharray="3 3">
+    <line x1="150" y1="70" x2="150" y2="82"/>
+    <line x1="150" y1="122" x2="150" y2="134"/>
+  </g>
+  <g fill="{CORAL}" opacity=".7">
+    <polygon points="150,84 146,78 154,78"/>
+    <polygon points="150,132 146,138 154,138"/>
+  </g>
+
+  {label(181, 23, "docker compose · one network", 6.5, PAPER, 0.4, 400, "middle")}
 """)
-
-
 def art_born2beroot() -> str:
+    bolts = []
+    for dx, dy in ((0, -34), (24, -24), (34, 0), (24, 24), (0, 34), (-24, 24), (-34, 0), (-24, -24)):
+        bolts.append(f'<circle cx="{114 + dx}" cy="{100 + dy}" r="2.2" fill="{PAPER}" opacity=".55"/>')
+    bolts = "".join(bolts)
     return art(f"""
   <g>
-    <ellipse cx="118" cy="116" rx="74" ry="44" fill="{LIFT}" stroke="{CORAL}" stroke-opacity=".6"/>
-    <ellipse cx="118" cy="116" rx="46" ry="26" fill="none" stroke="{PAPER}" stroke-opacity=".18"/>
-    <ellipse cx="118" cy="116" rx="20" ry="11" fill="none" stroke="{PAPER}" stroke-opacity=".12"/>
-    <circle cx="118" cy="116" r="6" fill="{CORAL}"/>
-    <line x1="54" y1="64" x2="100" y2="98" stroke="{PAPER}" stroke-opacity=".35" stroke-width="3"/>
-    <circle cx="100" cy="98" r="4" fill="{PAPER}" opacity=".6"/>
-  </g>
+    <rect x="48" y="26" width="128" height="160" rx="10" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".22"/>
+    <rect x="48" y="26" width="128" height="22" rx="10" fill="{NAVY}"/>
+    <rect x="48" y="40" width="128" height="8" fill="{NAVY}"/>
+    {label(60, 41, "debian", 8, PAPER, 0.6, 500)}
+    <circle cx="162" cy="37" r="3" fill="{CORAL}"/>
 
-  <g transform="translate(184,70)">
-    <rect x="0" y="18" width="44" height="36" rx="5" fill="{CORAL}"/>
-    <path d="M9,18 v-10 a13,13 0 0 1 26,0 v10" fill="none" stroke="{CORAL}" stroke-width="4"/>
-    <circle cx="22" cy="34" r="3.4" fill="{NAVY}"/>
-    <rect x="20" y="38" width="4" height="7" fill="{NAVY}"/>
+    <circle cx="114" cy="100" r="46" fill="{NAVY}" stroke="{CORAL}" stroke-width="3"/>
+    <circle cx="114" cy="100" r="36" fill="none" stroke="{PAPER}" stroke-opacity=".18"/>
+    {bolts}
+    <g stroke="{CORAL}" stroke-width="4" stroke-linecap="round">
+      <line x1="92" y1="100" x2="136" y2="100"/>
+      <line x1="114" y1="78" x2="114" y2="122"/>
+    </g>
+    <circle cx="114" cy="100" r="7" fill="{CORAL}"/>
+    <circle cx="114" cy="100" r="2.5" fill="{NAVY}"/>
+    <rect x="90" y="93" width="48" height="15" rx="7.5" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".35"/>
+    {label(114, 104, "LUKS", 7.5, CORAL, 0.95, 500, "middle")}
+
+    {label(62, 153, "LVM", 6.5, PAPER, 0.55, 500)}
+    <g fill="{PAPER}" opacity=".16">
+      <rect x="62" y="158" width="104" height="7" rx="3.5"/>
+      <rect x="62" y="169" width="104" height="7" rx="3.5"/>
+    </g>
+    <g fill="{CORAL}" opacity=".65">
+      <rect x="62" y="158" width="30" height="7" rx="3.5"/>
+      <rect x="62" y="169" width="46" height="7" rx="3.5"/>
+    </g>
   </g>
 
   <g>
-    <rect x="248" y="40" width="88" height="118" rx="8" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <rect x="248" y="40" width="88" height="18" rx="8" fill="{CORAL}" opacity=".2"/>
-    {label(258, 53, "ssh", 6, CORAL, 0.8, 500)}
-    {label(258, 82, "4242", 18, PAPER, 0.95, 500)}
-    {label(258, 98, "one port", 6, PAPER, 0.4)}
-    {label(258, 124, "sudo", 7, PAPER, 0.45)}
-    {label(292, 124, "logged", 7, CORAL, 0.7)}
-    {label(258, 142, "wall", 7, PAPER, 0.45)}
-    {label(292, 142, "10 min", 7, PAPER, 0.7)}
+    <rect x="198" y="30" width="138" height="156" rx="9" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
+    <rect x="198" y="30" width="138" height="22" rx="9" fill="{CORAL}" opacity=".18"/>
+    <rect x="198" y="44" width="138" height="8" fill="{CORAL}" opacity=".18"/>
+    {label(210, 45, "HARDENING", 6.5, CORAL, 0.9, 500)}
+
+    <g fill="{CORAL}">
+      <circle cx="212" cy="72" r="2.4"/>
+      <circle cx="212" cy="94" r="2.4"/>
+      <circle cx="212" cy="116" r="2.4"/>
+      <circle cx="212" cy="138" r="2.4"/>
+      <circle cx="212" cy="160" r="2.4"/>
+    </g>
+    {label(222, 75, "firewall", 8, PAPER, 0.55)}
+    {label(326, 75, "ufw on", 8, PAPER, 0.9, 500, "end")}
+    {label(222, 97, "ssh", 8, PAPER, 0.55)}
+    {label(326, 97, "4242", 8, CORAL, 0.95, 500, "end")}
+    {label(222, 119, "sudo", 8, PAPER, 0.55)}
+    {label(326, 119, "logged", 8, PAPER, 0.9, 500, "end")}
+    {label(222, 141, "wall", 8, PAPER, 0.55)}
+    {label(326, 141, "10 min", 8, PAPER, 0.9, 500, "end")}
+    {label(222, 163, "disk", 8, PAPER, 0.55)}
+    {label(326, 163, "LUKS + LVM", 8, PAPER, 0.9, 500, "end")}
   </g>
 """)
-
-
 
 PROJECTS = [
     {
@@ -539,17 +697,18 @@ PROJECTS = [
         "file": "plate-03.png",
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
-        "hook": "A 2019 Spigot sandbox: ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry, voice over a TCP relay.",
+        "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
         "stats": [("2,000+", "members"), ("05", "powers"), ("11×11", "orbital slots")],
         "stack": "Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python",
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
         "alt": (
-            "03 space-gameserver, 2019, solo, game systems and geometry: a Spigot "
-            "sandbox with ships on an 11 by 11 orbital grid, five weapon systems "
-            "as closed-form geometry and a TCP proximity-voice relay; 2,000+ "
-            "members, 5 powers, 11 by 11 orbital slots; Java 8, Paper 1.14.4, "
-            "WorldEdit, WorldGuard, Python. Opens the repository."
+            "03 space-gameserver, 2019, solo, systems and geometry: a Spigot "
+            "sandbox with custom space and exoplanet dimensions, a chunk "
+            "generator with strata and ore, ships on an 11 by 11 orbital grid, "
+            "and five weapon systems as closed-form geometry; 2,000+ members, "
+            "5 powers, 11 by 11 orbital slots; Java 8, Paper 1.14.4, WorldEdit, "
+            "WorldGuard, Python. Opens the repository."
         ),
     },
     {
