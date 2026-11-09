@@ -21,10 +21,10 @@ shows how the terrain is built, not a finished space scene.
 
 Between the header and the plates sit two deck-width strips:
 
-- `deck-stack.gif` — twenty-four technologies across four rows light up in
-  sequence, each as a monochrome paper icon that turns coral with a rule that
-  fills. 2400 × 336, 96 frames at 25 fps, seamless loop. Languages are left to
-  the line below; this strip covers frameworks, data, infra and tools.
+- `deck-stack.gif` — twenty-four technologies across four rows, all coral, lit
+  by a slow diagonal scan that passes over every cell. 2400 × 336, a nine-second
+  loop at 25 fps. Languages are left to the line below; this strip covers
+  frameworks, data, infra and tools.
 - `deck-languages.png` — a slim language line, most used first: TypeScript,
   JavaScript, Python, C, Java, Go and Bash. No totals, percentages or bars; it
   only signals which languages the work is fluent in. `loc.json` is the

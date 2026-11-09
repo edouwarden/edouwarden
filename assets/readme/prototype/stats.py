@@ -2,10 +2,11 @@
 """Render the two data rails that sit between the header and the project
 plates: an animated technology strip and a language line counter.
 
-The strip is a 24-cell sequencer over four rows — web, data, infra and tools —
-using monochrome Simple Icons paths recoloured to the deck palette. The language
-line reads the same pygount snapshot (loc.json) and shows only the names, in
-order of use, so it signals fluency without turning into a line-count contest.
+The strip lays 24 technologies over four rows — web, data, infra and tools — and
+sends a slow diagonal scan across them. The icons are Simple Icons paths in the
+deck's coral; the scan only lifts their brightness. The language line reads the
+same pygount snapshot (loc.json) and shows only the names, in order of use, so it
+signals fluency without turning into a line-count contest.
 
 Both boards use the deck's ambient palette and type, render at 2x, and stack
 flush with the header and plates.
@@ -69,9 +70,9 @@ TECH_ROWS = (
 ICONS = json.loads((HERE / "tech-icons.json").read_text())
 
 FPS = 25
-FRAMES_PER_CELL = 4
+COLS = 6
 CELLS = sum(len(row) for row in TECH_ROWS)
-FRAMES = CELLS * FRAMES_PER_CELL
+FRAMES = 225
 
 LANG_DISPLAY = {"Other": "Bash"}
 
@@ -102,8 +103,7 @@ def cells_html() -> str:
             cells.append(
                 '<div class="cell">'
                 f'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="{path}"/></svg>'
-                f'<span class="name">{label}</span>'
-                '<span class="bar"></span></div>'
+                f'<span class="name">{label}</span></div>'
             )
     return "".join(cells)
 
@@ -155,21 +155,17 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 .ico {{
   flex: none;
   width: 18px; height: 18px;
-  fill: rgba(255, 250, 240, 0.52);
+  fill: {CORAL};
+  opacity: 0.42;
+  will-change: opacity;
 }}
 .cell .name {{
   overflow: hidden;
   font-size: 11px; font-weight: 500; letter-spacing: 0.03em;
   line-height: 1; text-transform: uppercase; white-space: nowrap;
-  color: rgba(255, 250, 240, 0.52);
+  color: {PAPER};
+  opacity: 0.52;
 }}
-.cell .bar {{
-  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
-  background: {CORAL};
-  transform: scaleX(0); transform-origin: left;
-}}
-.cell.on .ico {{ fill: {CORAL}; }}
-.cell.on .name {{ color: {PAPER}; }}
 </style></head><body>
 <div class="strip">
   <div class="pin">
@@ -179,14 +175,27 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   <div class="grid">{cells_html()}</div>
 </div>
 <script>
+const COLS = {COLS};
+const FRAMES = {FRAMES};
 const cells = Array.from(document.querySelectorAll('.cell'));
 function setFrame(frame) {{
-  const active = Math.floor(frame / {FRAMES_PER_CELL}) % {CELLS};
-  const phase = (frame % {FRAMES_PER_CELL} + 1) / {FRAMES_PER_CELL};
+  const t = frame / FRAMES;
+  const u = Math.min(1, t / 0.86);
+  const band = -1 + u * 9.5;
+  let env;
+  if (u < 0.12) env = u / 0.12;
+  else if (u > 0.88) env = (1 - u) / 0.12;
+  else env = 1;
   cells.forEach((cell, i) => {{
-    cell.classList.toggle('on', i === active);
-    const bar = cell.querySelector('.bar');
-    bar.style.transform = i === active ? `scaleX(${{phase}})` : 'scaleX(0)';
+    const col = i % COLS;
+    const row = Math.floor(i / COLS);
+    const x = col + row * 0.6;
+    let prox = 1 - Math.abs(x - band) / 1.5;
+    prox = Math.max(0, Math.min(1, prox));
+    prox = prox * prox * (3 - 2 * prox);
+    const wave = Math.round(prox * env * 16) / 16;
+    const ico = cell.querySelector('.ico');
+    ico.style.opacity = (0.42 + 0.58 * wave).toFixed(3);
   }});
 }}
 </script>
@@ -284,7 +293,7 @@ def assemble_gif() -> None:
         [
             "ffmpeg", "-y", "-loglevel", "error",
             "-framerate", str(FPS), "-i", str(frames),
-            "-vf", "palettegen=max_colors=128:stats_mode=diff",
+            "-vf", "palettegen=max_colors=64:stats_mode=diff",
             str(palette),
         ],
         check=True,
