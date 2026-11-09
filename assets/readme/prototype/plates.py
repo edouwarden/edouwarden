@@ -5,8 +5,8 @@ project in the deck.
 Each card keeps the same anatomy: number, title, meta, hook, three project
 stats, stack, and a 360 x 203 illustration drawn inline as SVG in the ambient
 palette. The illustrations are scenes and objects, not screenshots: a dashboard,
-an engine editor, a generated world cross-section, a shell terminal, a raycast
-corridor, an IRC frame, a Docker host, and an encrypted server.
+an engine editor, a seeded height field, a shell terminal, a raycast corridor, an
+IRC frame, a Docker host, and a VM window on a host.
 
 Standalone: production README and build.py are untouched.
 
@@ -284,150 +284,204 @@ def art_transcendence() -> str:
 
 
 def art_space() -> str:
-    """A seeded world cut out of space: floating terrain, colony dome, ship."""
-    x0, x1 = 52.0, 308.0
-    surface = []
-    for i in range(65):
-        t = i / 64
-        x = x0 + (x1 - x0) * t
-        y = (
-            116.0
-            - 22.0 * math.sin(math.pi * t)
-            - 3.2 * math.sin(t * 2 * math.pi * 3.0 + 0.4)
-            - 1.8 * math.cos(t * 2 * math.pi * 5.0 + 0.2)
-        )
-        surface.append((x, y))
+    """A seeded height field sampled into a core column: how the world was generated."""
+    cols, rows = 26, 15
+    cell = 8.0
+    mx, my = 28.0, 56.0
+    seed = 4701234567
+    scale = 0.085
+    sample_i, sample_j = 14, 8
 
-    def xy(points):
-        return " L ".join(f"{px:.1f},{py:.1f}" for px, py in points)
+    def hash01(ix: int, iy: int, salt: int) -> float:
+        n = (ix * 374761393 + iy * 668265263 + salt * 1442695041) & 0xFFFFFFFF
+        n = ((n ^ (n >> 13)) * 1274126177) & 0xFFFFFFFF
+        return ((n ^ (n >> 16)) & 0xFFFF) / 65535.0
 
-    left_y = surface[0][1]
-    right_y = surface[-1][1]
-    top = xy(surface)
-    soil_rev = xy(list(reversed([(x, y + 9) for x, y in surface])))
-    island = (
-        f"M {x0:.0f},{left_y:.1f} L {top} "
-        f"L {x1:.0f},{right_y + 16:.1f} "
-        f"C 320,{right_y + 28:.1f} 312,146 292,158 "
-        f"L 274,168 L 254,160 L 236,174 L 214,166 L 196,182 "
-        f"L 178,172 L 158,184 L 138,174 L 118,182 L 100,170 "
-        f"L 82,176 L 66,158 C 44,144 40,{left_y + 28:.1f} {x0:.0f},{left_y + 16:.1f} "
-        f"Z"
+    def value_noise(x: float, y: float, salt: int) -> float:
+        x0, y0 = math.floor(x), math.floor(y)
+        fx, fy = x - x0, y - y0
+        sx = fx * fx * (3.0 - 2.0 * fx)
+        sy = fy * fy * (3.0 - 2.0 * fy)
+        n00 = hash01(x0, y0, salt)
+        n10 = hash01(x0 + 1, y0, salt)
+        n01 = hash01(x0, y0 + 1, salt)
+        n11 = hash01(x0 + 1, y0 + 1, salt)
+        top = n00 + (n10 - n00) * sx
+        bottom = n01 + (n11 - n01) * sx
+        return top + (bottom - top) * sy
+
+    def fbm(x: float, y: float) -> float:
+        total = 0.0
+        norm = 0.0
+        amp = 1.0
+        freq = 1.0
+        for octave in range(6):
+            total += amp * value_noise(x * freq, y * freq, seed + octave * 131)
+            norm += amp
+            amp *= 0.55
+            freq *= 2.0
+        return total / norm
+
+    field = [
+        [fbm(2.7 + i * scale, 5.1 + j * scale * 0.66) for i in range(cols)]
+        for j in range(rows)
+    ]
+    flat = [value for row in field for value in row]
+    low, high = min(flat), max(flat)
+    bands = [
+        [min(4, int((value - low) / (high - low) * 5)) for value in row]
+        for row in field
+    ]
+
+    fills = (
+        (PAPER, 0.045),
+        (PAPER, 0.10),
+        (CORAL, 0.30),
+        (CORAL, 0.62),
+        (CORAL, 0.95),
     )
-    soil_path = (
-        f"M {x0:.0f},{left_y:.1f} L {top} "
-        f"L {x1:.0f},{right_y + 9:.1f} L {soil_rev} Z"
-    )
 
-    strata = []
-    for i, y in enumerate((122, 132, 142, 152, 162, 172)):
-        pts = [(x, y + 2.2 * math.sin(x / 27.0 + i * 1.9)) for x in range(24, 340, 8)]
-        color = DEEP if i in (1, 3) else PAPER
-        opacity = ".32" if i in (1, 3) else ".11"
-        strata.append(
-            f'<polyline points="{" ".join(f"{px:.1f},{py:.1f}" for px, py in pts)}" '
-            f'fill="none" stroke="{color}" stroke-opacity="{opacity}" stroke-width="1"/>'
+    cells = []
+    grid = []
+    contours = []
+    for j, row in enumerate(bands):
+        for i, band in enumerate(row):
+            x = mx + i * cell
+            y = my + j * cell
+            color, opacity = fills[band]
+            cells.append(
+                f'<rect x="{x:.1f}" y="{y:.1f}" width="{cell:.1f}" height="{cell:.1f}" '
+                f'fill="{color}" fill-opacity="{opacity}"/>'
+            )
+            if i + 1 < cols and band != bands[j][i + 1]:
+                contours.append(
+                    f'<line x1="{x + cell:.1f}" y1="{y:.1f}" '
+                    f'x2="{x + cell:.1f}" y2="{y + cell:.1f}"/>'
+                )
+            if j + 1 < rows and band != bands[j + 1][i]:
+                contours.append(
+                    f'<line x1="{x:.1f}" y1="{y + cell:.1f}" '
+                    f'x2="{x + cell:.1f}" y2="{y + cell:.1f}"/>'
+                )
+    for i in range(cols + 1):
+        x = mx + i * cell
+        grid.append(
+            f'<line x1="{x:.1f}" y1="{my:.1f}" '
+            f'x2="{x:.1f}" y2="{my + rows * cell:.1f}"/>'
         )
-    strata = "".join(strata)
+    for j in range(rows + 1):
+        y = my + j * cell
+        grid.append(
+            f'<line x1="{mx:.1f}" y1="{y:.1f}" '
+            f'x2="{mx + cols * cell:.1f}" y2="{y:.1f}"/>'
+        )
 
-    ores = []
-    for x, y, kind in (
-        (92, 138, "c"), (112, 156, "p"), (132, 148, "c"), (146, 172, "c"),
-        (196, 160, "p"), (214, 170, "c"), (238, 148, "p"), (260, 164, "c"),
-        (278, 144, "p"), (98, 168, "p"), (184, 176, "p"),
-    ):
-        if kind == "c":
-            ores.append(
-                f'<rect x="{x - 3}" y="{y - 3}" width="6" height="6" '
-                f'transform="rotate(45 {x} {y})" fill="{CORAL}" opacity=".9"/>'
+    sx = mx + sample_i * cell
+    sy = my + sample_j * cell
+    scx = sx + cell / 2
+    scy = sy + cell / 2
+
+    # core column: four blocks wide, eight layers deep
+    blocks = []
+    bx, by = 273.0, 70.0
+    bw, bh, gap = 11.0, 11.0, 1.0
+    layer_fill = (
+        (PAPER, 0.80),
+        (PAPER, 0.30),
+        (PAPER, 0.19),
+        (PAPER, 0.30),
+        (PAPER, 0.19),
+        (PAPER, 0.46),
+        (PAPER, 0.36),
+        (DEEP, 0.30),
+    )
+    for layer in range(8):
+        color, base = layer_fill[layer]
+        for col in range(4):
+            x = bx + col * (bw + gap)
+            y = by + layer * (bh + gap)
+            if layer == 7:
+                blocks.append(
+                    f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{bh:.1f}" rx="1.5" '
+                    f'fill="{color}" fill-opacity="{base}" '
+                    f'stroke="{PAPER}" stroke-opacity=".32"/>'
+                )
+                blocks.append(
+                    f'<path d="M{x + 2:.1f},{y + bh - 2:.1f} l3,-{bh - 4:.1f} '
+                    f'm2,{bh - 4:.1f} l3,-{bh - 4:.1f}" '
+                    f'fill="none" stroke="{PAPER}" stroke-opacity=".22"/>'
+                )
+            else:
+                jitter = ((layer * 5 + col * 3) % 3 - 1) * 0.02
+                opacity = max(0.04, min(0.92, base + jitter))
+                blocks.append(
+                    f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{bh:.1f}" rx="1.5" '
+                    f'fill="{color}" fill-opacity="{opacity:.2f}" '
+                    f'stroke="{PAPER}" stroke-opacity=".12"/>'
+                )
+    for col in (0, 2):
+        blocks.append(
+            f'<circle cx="{bx + col * 12 + 5.5:.1f}" cy="{by + 5.5:.1f}" r="1.2" '
+            f'fill="{CORAL}" opacity=".85"/>'
+        )
+    ores = (
+        (1, 2, "iron"),
+        (2, 1, "coal"),
+        (3, 3, "iron"),
+        (4, 0, "coal"),
+        (4, 2, "coal"),
+    )
+    for layer, col, kind in ores:
+        ox = bx + col * 12 + 5.5
+        oy = by + layer * 12 + 5.5
+        if kind == "iron":
+            blocks.append(
+                f'<rect x="{ox - 2:.1f}" y="{oy - 2:.1f}" width="4" height="4" '
+                f'transform="rotate(45 {ox:.1f} {oy:.1f})" fill="{CORAL}"/>'
             )
         else:
-            ores.append(
-                f'<rect x="{x - 2}" y="{y - 2}" width="4" height="4" '
-                f'transform="rotate(45 {x} {y})" fill="{PAPER}" opacity=".45"/>'
+            blocks.append(
+                f'<rect x="{ox - 1.8:.1f}" y="{oy - 1.8:.1f}" width="3.6" height="3.6" '
+                f'transform="rotate(45 {ox:.1f} {oy:.1f})" fill="{PAPER}" opacity=".72"/>'
             )
-    ores = "".join(ores)
 
-    def surface_y(x: float) -> float:
-        t = (x - x0) / (x1 - x0)
-        return (
-            116.0
-            - 22.0 * math.sin(math.pi * t)
-            - 3.2 * math.sin(t * 2 * math.pi * 3.0 + 0.4)
-            - 1.8 * math.cos(t * 2 * math.pi * 5.0 + 0.2)
+    layer_labels = []
+    for text, y in (("top", 77.0), ("stone", 101.0), ("end", 137.0), ("rock", 161.0)):
+        layer_labels.append(
+            f'<line x1="269" y1="{y - 2:.1f}" x2="273" y2="{y - 2:.1f}" '
+            f'stroke="{PAPER}" stroke-opacity=".18"/>'
         )
-
-    sx = 246.0
-    sy = surface_y(sx) + 1
+        layer_labels.append(label(256, y, text, 4.1, PAPER, .36))
 
     return art(f"""
-  <defs>
-    <clipPath id="space-island"><path d="{island}"/></clipPath>
-    <linearGradient id="space-rock" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="{LIFT}"/>
-      <stop offset="1" stop-color="{NAVY}"/>
-    </linearGradient>
-  </defs>
-
-  <g fill="{PAPER}" opacity=".55">
-    <circle cx="96" cy="30" r="1.1"/>
-    <circle cx="142" cy="48" r=".9" opacity=".7"/>
-    <circle cx="176" cy="26" r=".8" opacity=".6"/>
-    <circle cx="218" cy="38" r="1"/>
-    <circle cx="252" cy="24" r=".7" opacity=".5"/>
-    <circle cx="330" cy="92" r=".9" opacity=".6"/>
-    <circle cx="66" cy="58" r=".8" opacity=".5"/>
+  <rect x="22" y="44" width="220" height="142" rx="7" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".16"/>
+  <g shape-rendering="crispEdges">
+    {''.join(cells)}
+  </g>
+  <g stroke="{PAPER}" stroke-opacity=".06" stroke-width=".5">
+    {''.join(grid)}
+  </g>
+  <g stroke="{PAPER}" stroke-opacity=".24" stroke-width=".8">
+    {''.join(contours)}
   </g>
 
-  <g transform="rotate(-16 300 46)">
-    <circle cx="300" cy="46" r="19" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".35"/>
-    <path d="M292,29 a19,19 0 0 1 8,34 a15,15 0 0 0 -8,-34 Z" fill="{PAPER}" opacity=".1"/>
-    <ellipse cx="300" cy="46" rx="32" ry="7.5" fill="none" stroke="{CORAL}" stroke-opacity=".6" stroke-width="1.4"/>
-    <circle cx="300" cy="46" r="19" fill="none" stroke="{PAPER}" stroke-opacity=".16"/>
-  </g>
+  <rect x="{sx - 1.2:.1f}" y="{sy - 1.2:.1f}" width="{cell + 2.4:.1f}" height="{cell + 2.4:.1f}" fill="none" stroke="{PAPER}" stroke-width="1.3"/>
+  <rect x="{sx - 2.8:.1f}" y="{sy - 2.8:.1f}" width="{cell + 5.6:.1f}" height="{cell + 5.6:.1f}" fill="none" stroke="{CORAL}" stroke-width=".9" opacity=".9"/>
+  <circle cx="{scx:.1f}" cy="{scy:.1f}" r="1.5" fill="{PAPER}"/>
+  <line x1="{sx + cell + 3:.1f}" y1="{scy:.1f}" x2="248" y2="{scy:.1f}" stroke="{CORAL}" stroke-opacity=".65" stroke-width="1.1" stroke-dasharray="2 3"/>
+  <polygon points="251,{scy:.1f} 244,{scy - 3.2:.1f} 244,{scy + 3.2:.1f}" fill="{CORAL}" opacity=".85"/>
 
-  <path d="M56,88 Q170,22 302,60" fill="none" stroke="{PAPER}" stroke-opacity=".16" stroke-dasharray="3 5"/>
+  <rect x="254" y="44" width="84" height="142" rx="7" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".16"/>
+  {''.join(blocks)}
+  {''.join(layer_labels)}
 
-  <g transform="translate(68,58) rotate(-14)">
-    <path d="M0,0 L34,-10 L48,0 L34,10 Z" fill="{CORAL}"/>
-    <path d="M16,-2 L30,-8 L30,2 Z" fill="{PAPER}" opacity=".82"/>
-    <path d="M10,0 L24,-6 L24,6 Z" fill="{LIFT}" opacity=".55"/>
-    <path d="M-2,0 L-10,-7 M-2,0 L-10,7" stroke="{CORAL}" stroke-width="2.2" stroke-linecap="round"/>
-    <circle cx="-13" cy="0" r="2.1" fill="{CORAL}" opacity=".65"/>
-    <circle cx="-18" cy="0" r="1.3" fill="{CORAL}" opacity=".3"/>
-  </g>
+  {label(296, 55, "core sample (8,8)", 5.4, CORAL, .95, 500, "middle")}
+  {label(296, 63, "h 65 · 8 layers", 4.1, PAPER, .42, 400, "middle")}
+  {label(292, 180, "4 andesite · 2 end · bedrock", 4.0, PAPER, .36, 400, "middle")}
 
-  <path d="{island}" fill="url(#space-rock)" stroke="{PAPER}" stroke-opacity=".4"/>
-  <g clip-path="url(#space-island)">
-    {strata}
-    <rect x="20" y="128" width="320" height="12" fill="{PAPER}" opacity=".04"/>
-    <rect x="20" y="150" width="320" height="13" fill="{DEEP}" opacity=".09"/>
-    <rect x="20" y="172" width="320" height="10" fill="{PAPER}" opacity=".03"/>
-    <g stroke="{PAPER}" stroke-opacity=".12">
-      <line x1="104" y1="140" x2="98" y2="160"/>
-      <line x1="232" y1="148" x2="238" y2="166"/>
-      <line x1="270" y1="130" x2="276" y2="148"/>
-    </g>
-    <path d="{soil_path}" fill="{PAPER}" opacity=".1"/>
-    <path d="M130,174 Q130,130 158,130 Q186,130 186,174 Z" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <path d="M138,174 Q138,140 158,140 Q178,140 178,174" fill="none" stroke="{CORAL}" stroke-opacity=".3" stroke-dasharray="2 3"/>
-    <circle cx="146" cy="160" r="2" fill="{CORAL}" opacity=".55"/>
-    <circle cx="170" cy="166" r="1.6" fill="{CORAL}" opacity=".4"/>
-    {ores}
-  </g>
-  <path d="{top}" fill="none" stroke="{CORAL}" stroke-width="2.6" stroke-linecap="round"/>
-
-  <g>
-    <rect x="{sx - 20:.0f}" y="{sy - 2:.1f}" width="40" height="5" rx="2" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-    <path d="M{sx - 17:.0f},{sy - 2:.1f} A 17,17 0 0 1 {sx + 17:.0f},{sy - 2:.1f} Z" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".55"/>
-    <rect x="{sx - 11:.0f}" y="{sy - 14:.1f}" width="22" height="4" rx="2" fill="{CORAL}" opacity=".85"/>
-    <line x1="{sx:.0f}" y1="{sy - 19:.1f}" x2="{sx:.0f}" y2="{sy - 30:.1f}" stroke="{PAPER}" stroke-opacity=".55"/>
-    <circle cx="{sx:.0f}" cy="{sy - 31:.1f}" r="2.2" fill="{CORAL}"/>
-    <circle cx="{sx - 17:.0f}" cy="{sy + 1:.1f}" r="1.2" fill="{CORAL}" opacity=".6"/>
-  </g>
-
-  {label(30, 32, "space + exoplanet", 7.5, PAPER, .85, 500)}
-  {label(30, 42, "seeded simplex · 6 octaves", 5.5, PAPER, .38)}
+  {label(30, 30, "worldgen · height field", 7.5, PAPER, .85, 500)}
+  {label(30, 40, "fbm · 6 octaves · amplitude ×12", 5, PAPER, .38)}
+  {label(28, 181, "26 × 15 samples · scale 0.085 · seed 4701234567", 4.3, PAPER, .4)}
 """)
 
 
@@ -702,106 +756,114 @@ def art_inception() -> str:
 
 
 def art_born2beroot() -> str:
+    """A guest VM window on a hypervisor host: one disk, one open port."""
     bricks = []
     row = 0
-    y = 66
-    while y < 172:
-        offset = 0 if row % 2 == 0 else 8
-        x = 273 + offset
-        while x < 310:
-            bricks.append(
-                f'<rect x="{x}" y="{y}" width="16" height="8" rx="1" '
-                f'fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".09"/>'
-            )
-            x += 18
-        y += 10
+    y = 58.0
+    while y < 142.0:
+        offset = 0.0 if row % 2 == 0 else -7.5
+        x = 252.0 + offset
+        while x < 284.0:
+            if x >= 251.5:
+                bricks.append(
+                    f'<rect x="{x:.1f}" y="{y:.1f}" width="14" height="6.2" rx="1" '
+                    f'fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".10"/>'
+                )
+            x += 15.0
+        y += 8.0
         row += 1
     bricks = "".join(bricks)
 
     slots = []
     for i in range(7):
-        x = 124 + i * 16
+        x = 126 + i * 15
         slots.append(
-            f'<rect x="{x}" y="148" width="12" height="16" rx="1.5" '
-            f'fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".16"/>'
+            f'<rect x="{x}" y="110" width="12" height="18" rx="2" '
+            f'fill="{PAPER}" fill-opacity=".06" stroke="{PAPER}" stroke-opacity=".22"/>'
         )
         slots.append(
-            f'<circle cx="{x + 6}" cy="160" r="1.2" fill="{CORAL}" '
-            f'opacity="{0.85 if i in (0, 5) else 0.22}"/>'
+            f'<rect x="{x + 3}" y="114" width="6" height="1.6" rx=".8" fill="{CORAL}" opacity=".55"/>'
+        )
+        slots.append(
+            f'<rect x="{x + 3}" y="118" width="4" height="1.6" rx=".8" fill="{PAPER}" opacity=".22"/>'
+        )
+        slots.append(
+            f'<circle cx="{x + 6}" cy="124" r="1.1" fill="{CORAL}" opacity="{0.9 if i in (0, 5) else 0.25}"/>'
         )
     slots = "".join(slots)
 
     return art(f"""
-  <defs><clipPath id="b2br-wall"><rect x="272" y="64" width="36" height="110" rx="4"/></clipPath></defs>
+  <defs><clipPath id="b2br-wall"><rect x="252" y="56" width="32" height="86" rx="3"/></clipPath></defs>
 
-  <g>
-    <rect x="26" y="64" width="68" height="26" rx="5" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".35" stroke-dasharray="3 3"/>
-    <g transform="translate(34,71)">
-      <ellipse cx="6" cy="2.6" rx="6" ry="2.2" fill="none" stroke="{PAPER}" stroke-opacity=".4"/>
-      <path d="M0,2.6 v8 c0,1.2 2.7,2.2 6,2.2 s6,-1 6,-2.2 v-8" fill="none" stroke="{PAPER}" stroke-opacity=".4"/>
-    </g>
-    {label(48, 76, "/boot", 7, PAPER, .85, 500)}
-    {label(48, 85, "outside luks", 4.8, PAPER, .4)}
-    <line x1="94" y1="77" x2="110" y2="77" stroke="{CORAL}" stroke-opacity=".35" stroke-dasharray="2 3"/>
+  <rect x="24" y="148" width="312" height="38" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
+  <path d="M24,156 a8,8 0 0 1 8,-8 h296 a8,8 0 0 1 8,8" fill="none" stroke="{CORAL}" stroke-opacity=".28"/>
+  <rect x="56" y="186" width="34" height="3" rx="1.5" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".12"/>
+  <rect x="270" y="186" width="34" height="3" rx="1.5" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".12"/>
+  {label(38, 166, "host machine", 6.4, PAPER, .72, 500)}
+  {label(38, 175, "hypervisor", 4.4, PAPER, .35)}
+  {label(322, 166, "virtualbox", 4.6, CORAL, .6, 500, "end")}
+  {label(322, 175, "guest disk · 30 gb", 4.2, PAPER, .3, 400, "end")}
+
+  <rect x="47" y="21" width="272" height="132" rx="9" fill="{NAVY}" opacity=".45"/>
+  <rect x="44" y="18" width="272" height="132" rx="9" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".3"/>
+  <path d="M44,27 a9,9 0 0 1 9,-9 h254 a9,9 0 0 1 9,9 v9 h-272 z" fill="{LIFT}"/>
+  <line x1="44" y1="36" x2="316" y2="36" stroke="{PAPER}" stroke-opacity=".14"/>
+  <circle cx="56" cy="27" r="2.6" fill="{CORAL}"/>
+  <circle cx="64" cy="27" r="2.6" fill="{DEEP}"/>
+  <circle cx="72" cy="27" r="2.6" fill="{PAPER}" opacity=".4"/>
+  {label(84, 30.5, "born2beroot", 6.4, PAPER, .9, 500)}
+  {label(288, 30.5, "debian 12", 4.4, PAPER, .42, 400, "end")}
+  <rect x="294" y="22" width="18" height="11" rx="5.5" fill="{CORAL}"/>
+  {label(303, 30, "VM", 4.8, NAVY, 1, 500, "middle")}
+
+  <rect x="52" y="46" width="60" height="36" rx="4" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".38" stroke-dasharray="3 3"/>
+  {label(58, 61, "/boot", 6.2, PAPER, .9, 500)}
+  {label(58, 70, "outside luks", 3.9, PAPER, .4)}
+  {label(58, 77, "unencrypted", 3.9, CORAL, .55)}
+  <g transform="translate(97,55)" fill="none" stroke="{PAPER}" stroke-opacity=".45">
+    <rect x="0" y="2" width="11" height="10" rx="1.5"/>
+    <circle cx="3.6" cy="7" r="2"/>
+    <line x1="8" y1="5" x2="8" y2="9"/>
   </g>
 
-  <g>
-    <rect x="26" y="114" width="68" height="46" rx="5" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
-    <path d="M26,119 a5,5 0 0 1 5,-5 h58 a5,5 0 0 1 5,5 v6 h-68 z" fill="{LIFT}"/>
-    <circle cx="34" cy="120" r="1.4" fill="{CORAL}"/>
-    <circle cx="39" cy="120" r="1.4" fill="{PAPER}" opacity=".3"/>
-    {label(34, 133, "wall", 6.5, CORAL, .9, 500)}
-    {label(88, 133, "10 min", 4.5, PAPER, .4, 400, "end")}
-    <path d="M32,145 h8 l3,-7 l4,13 l4,-10 l3,4 h8 l2,-3 l3,3 h8"
-          fill="none" stroke="{CORAL}" stroke-opacity=".7" stroke-width="1.4"/>
-    {label(34, 155, "every 600s", 4.5, PAPER, .32)}
-    <line x1="94" y1="137" x2="110" y2="137" stroke="{PAPER}" stroke-opacity=".18" stroke-dasharray="2 3"/>
-  </g>
+  <rect x="118" y="40" width="120" height="106" rx="7" fill="{CORAL}" fill-opacity=".03" stroke="{CORAL}" stroke-opacity=".22" stroke-dasharray="3 4"/>
+  {label(124, 47, "luks", 3.8, CORAL, .5)}
 
-  <polygon points="110,44 122,34 262,34 250,44" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".25"/>
-  <polygon points="250,44 262,34 262,164 250,174" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
-  <rect x="110" y="44" width="140" height="130" rx="6" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".28"/>
-
-  {label(126, 41, "debian · bookworm", 6.5, PAPER, .55, 500)}
-  {label(242, 41, "vm", 5.5, PAPER, .3, 400, "end")}
-
-  <g stroke="{PAPER}" stroke-opacity=".1">
-    <line x1="214" y1="62" x2="242" y2="62"/>
-    <line x1="214" y1="66" x2="242" y2="66"/>
-    <line x1="214" y1="70" x2="242" y2="70"/>
-  </g>
-
-  <path d="M164,100 v-9 a16,16 0 0 1 32,0 v9" fill="none" stroke="{CORAL}" stroke-width="5" stroke-linecap="round"/>
-  <rect x="156" y="100" width="48" height="36" rx="6" fill="{CORAL}" stroke="{DEEP}" stroke-opacity=".5"/>
-  <circle cx="180" cy="112" r="3.6" fill="{NAVY}"/>
-  <rect x="178" y="112" width="4" height="9" rx="2" fill="{NAVY}"/>
-  {label(180, 130, "LUKS", 7, NAVY, .95, 500, "middle")}
+  <path d="M164,68 v-9 a16,16 0 0 1 32,0 v9" fill="none" stroke="{CORAL}" stroke-width="4.6" stroke-linecap="round"/>
+  <rect x="156" y="68" width="48" height="32" rx="6" fill="{CORAL}" stroke="{DEEP}" stroke-opacity=".45"/>
+  <circle cx="180" cy="80" r="3.4" fill="{NAVY}"/>
+  <rect x="178" y="80" width="4" height="9" rx="2" fill="{NAVY}"/>
+  {label(180, 94, "LUKS", 5.4, NAVY, .95, 500, "middle")}
 
   {slots}
-  {label(180, 171, "7 volumes · lvm", 4.8, PAPER, .4, 400, "middle")}
+  {label(180, 141, "7 volumes · lvm", 4.1, PAPER, .42, 400, "middle")}
 
-  <rect x="272" y="64" width="36" height="110" rx="4" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".22"/>
+  <rect x="252" y="56" width="32" height="86" rx="3" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".22"/>
   <g clip-path="url(#b2br-wall)">{bricks}</g>
-  {label(290, 50, "ufw", 7, CORAL, .95, 500, "middle")}
-  {label(290, 59, "default deny", 4.5, PAPER, .4, 400, "middle")}
-
-  <g stroke="{CORAL}" stroke-opacity=".3" stroke-dasharray="2 3">
-    <line x1="262" y1="86" x2="286" y2="86"/>
-    <line x1="262" y1="164" x2="286" y2="164"/>
-  </g>
-  <g stroke="{CORAL}" stroke-opacity=".55" stroke-width="1.4">
-    <line x1="284" y1="82" x2="292" y2="90"/>
-    <line x1="292" y1="82" x2="284" y2="90"/>
-    <line x1="284" y1="160" x2="292" y2="168"/>
-    <line x1="292" y1="160" x2="284" y2="168"/>
+  {label(268, 45, "ufw", 6, CORAL, .95, 500, "middle")}
+  {label(268, 53, "default deny", 3.8, PAPER, .4, 400, "middle")}
+  <g stroke="{CORAL}" stroke-opacity=".55" stroke-width="1.2">
+    <line x1="264" y1="68" x2="272" y2="76"/>
+    <line x1="272" y1="68" x2="264" y2="76"/>
+    <line x1="264" y1="124" x2="272" y2="132"/>
+    <line x1="272" y1="124" x2="264" y2="132"/>
   </g>
 
-  <circle cx="290" cy="134" r="5" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".55"/>
-  <line x1="262" y1="134" x2="318" y2="134" stroke="{CORAL}" stroke-width="2.4"/>
-  <rect x="318" y="126" width="14" height="16" rx="2" fill="{CORAL}" stroke="{DEEP}" stroke-opacity=".6"/>
-  <rect x="318" y="130" width="4" height="8" rx="1" fill="{NAVY}" opacity=".5"/>
-  {label(325, 154, "4242", 6.5, CORAL, .95, 500, "middle")}
-  {label(325, 162, "ssh only", 4.5, PAPER, .4, 400, "middle")}
+  <circle cx="268" cy="100" r="4.4" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".7" stroke-width="1.1"/>
+  <line x1="230" y1="100" x2="294" y2="100" stroke="{CORAL}" stroke-width="2.2"/>
+  <rect x="294" y="92" width="14" height="16" rx="2.4" fill="{CORAL}" stroke="{DEEP}" stroke-opacity=".55"/>
+  <rect x="294" y="96" width="4" height="8" rx="1" fill="{NAVY}" opacity=".5"/>
+  {label(301, 119, "4242", 5.2, CORAL, .95, 500, "middle")}
+  {label(301, 126, "ssh only", 3.8, PAPER, .4, 400, "middle")}
+
+  <rect x="52" y="92" width="60" height="46" rx="5" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".18"/>
+  <path d="M52,97 a5,5 0 0 1 5,-5 h50 a5,5 0 0 1 5,5 v5 h-60 z" fill="{LIFT}"/>
+  <circle cx="59" cy="97" r="1.3" fill="{CORAL}"/>
+  {label(65, 100, "wall", 4.8, CORAL, .9, 500)}
+  {label(106, 100, "600s", 3.8, PAPER, .4, 400, "end")}
+  <path d="M58,113 h5 l2,-6 l3,11 l3,-9 l2,4 h6 l2,-2 l3,2 h5 l2,-3 l3,3 h7"
+        fill="none" stroke="{CORAL}" stroke-opacity=".7" stroke-width="1.3"/>
+  {label(58, 132, "every 600s", 3.8, PAPER, .32)}
 """)
 
 
@@ -853,11 +915,11 @@ PROJECTS = [
         "art": art_space(),
         "alt": (
             "03 space-gameserver, 2019, solo, systems and geometry: a Spigot "
-            "sandbox with custom space and exoplanet dimensions, a chunk "
-            "generator with strata and ore, ships on an 11 by 11 orbital grid, "
-            "and five weapon systems as closed-form geometry; 2,000+ members, "
-            "5 powers, 11 by 11 orbital slots; Java 8, Paper 1.14.4, WorldEdit, "
-            "WorldGuard, Python. Opens the repository."
+            "sandbox whose space and exoplanet terrain comes from a seeded six-"
+            "octave height field sampled into a core column, ships on an 11 by "
+            "11 orbital grid, and five weapon systems as closed-form geometry; "
+            "2,000+ members, 5 powers, 11 by 11 orbital slots; Java 8, Paper "
+            "1.14.4, WorldEdit, WorldGuard, Python. Opens the repository."
         ),
     },
     {
@@ -942,10 +1004,11 @@ PROJECTS = [
         "art": art_born2beroot(),
         "alt": (
             "08 born2beroot, 2024, solo, systems and hardening: a reproducible "
-            "Debian VM from a self-made ISO with LUKS under LVM, six filesystems, "
-            "SSH on port 4242 and every sudo logged; 7 volumes, 1 open port, wall "
-            "broadcast every 10 minutes; Debian, LUKS, LVM, UFW, systemd. Opens "
-            "the repository."
+            "Debian VM running in a guest window on a VirtualBox host, built from "
+            "a self-made ISO with LUKS under LVM, six filesystems, SSH on port "
+            "4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
+            "every 10 minutes; Debian, LUKS, LVM, UFW, systemd. Opens the "
+            "repository."
         ),
     },
 ]
