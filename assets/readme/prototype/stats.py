@@ -431,12 +431,13 @@ def reviews_svg() -> str:
     out.append(hairline(MARGIN, 57, REVIEWS_W - MARGIN, 0.08))
 
     row_width = sum(widths)
+    row_start = 80.0
     duration = row_width / 34.0
     out.append(
         '<g transform="translate(0 92)"><g>'
         '<animateTransform attributeName="transform" type="translate" '
-        f'from="0 0" to="{-row_width:.2f} 0" dur="{duration:.3f}s" '
-        'repeatCount="indefinite"/>'
+        f'from="{row_start:.2f} 0" to="{row_start - row_width:.2f} 0" '
+        f'dur="{duration:.3f}s" repeatCount="indefinite"/>'
     )
     x = 0.0
     for _ in range(2):
@@ -448,10 +449,10 @@ def reviews_svg() -> str:
     out.append("</g></g>")
 
     out.append(
-        f'<rect x="0" y="66" width="64" height="48" fill="url(#revFadeL)"/>'
+        f'<rect x="0" y="66" width="80" height="48" fill="url(#revFadeL)"/>'
     )
     out.append(
-        f'<rect x="{REVIEWS_W - 64}" y="66" width="64" height="48" '
+        f'<rect x="{REVIEWS_W - 80}" y="66" width="80" height="48" '
         'fill="url(#revFadeR)"/>'
     )
     out.append(hairline(MARGIN, REVIEWS_H - 1, REVIEWS_W - MARGIN))
