@@ -1,47 +1,43 @@
 # Proof plate prototype
 
-Four directions for the `dynamic-dashboard` plate. Every card keeps the same
-title, copy, stats, and stack; only the visual and its composition change. The
-card carries the project's own numbers — it does not repeat the profile-wide
-`2,000+ players served` figure.
+Direction **A** — a custom flat illustration on every project card — applied to
+the whole deck. Each card keeps the same anatomy: number, title, meta, hook,
+three project-specific stats, stack, and a 360 × 203 illustration drawn inline
+as SVG in the ambient palette.
 
-- **A — `plate-a.png`**: a flat illustration of the dashboard shell drawn inline
-  as SVG in the ambient palette. Sidebar, widget grid, stat panel, sparkline and
-  chart, all built from the same navy / coral / paper shapes. No screenshot,
-  fully scalable and palette-true.
-- **B — `plate-b.png`**: a real screenshot of the Personal OS tab in its native
-  colours, cropped to 720 × 405 and given a light contrast lift. It shows the
-  actual widgets and typography without a duotone or heavy grade.
-- **C — `plate-c.png`**: the same screenshot at 470 × 264, roughly 70% more
-  visual area. The screenshot leads the card and the copy gives it room.
-- **D — `plate-d.png`**: the illustration becomes a giant background ghost, the
-  same device the production plates use for the project number. The copy sits on
-  top, with the drawing faded out under the text and readable at the right.
+The illustrations are diagrams of the project's actual subject, not screenshots
+and not the same motif reused. Every plate is self-contained, so the public
+`build.py` pipeline and the production README are untouched.
 
-## Card content
+## What each project leads with
 
-- Title: `dynamic-dashboard`
-- Meta: `2026 · Solo · product & full stack`
-- Hook: a local-first dashboard builder — tabs of isolated HTML widgets on one
-  SQLite database, edited by an agent in place.
-- Stats: `28 starter widgets / 06 example tabs / 01 shared DB`
-- Stack: `Bun · Hono · SQLite · Vanilla JS · OpenCode`
+| Plate | Focus | Stats | Stack |
+|---|---|---|---|
+| `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
+| `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
+| `03` space-gameserver | 2019 systems and geometry: orbital grid, five powers, voice relay | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
+| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines · 64 stages · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
+| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | 640 rays · 03 maps · ~60 fps | C99 · X11 · raycasting · XPM · math |
+| `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
+| `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
+| `08` born2beroot | Reproducible Debian, LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
+
+`ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
+to `space-gameserver`, not to it. The profile header keeps its own profile-wide
+stat.
 
 ## Files
 
-- `plates.py` — renders all four variants at 1200 × 400, 2x, using the deck
+- `plates.py` — renders all eight plates at 1200 × 400, 2x, using the deck
   fonts. HTML goes to the ignored `.build/` folder.
-- `artifact-b.png` — the 720 × 405 Personal OS crop used by B and C.
-- `plate-a.png` … `plate-d.png` — the rendered plates. Each carries a small
-  lettered label in its top margin so the variants read in the project list.
+- `plate-01.png` … `plate-08.png` — the rendered plates.
 
 ```bash
 python3 assets/readme/prototype/plates.py
 ```
 
-This folder sits outside the production pipeline: `build.py` still generates
-the committed plates and the public README is unchanged. Once a direction is
-approved, the chosen composition can become a shared slot in `build.py` for all
-six projects — a widget grid for dynamic-dashboard, terminal frames for minishell
-and IRC, raycast stills for cub3D, topology diagrams for Inception and
-born2beroot.
+Once approved, the illustration slot can become a first-class field in
+`build.py` for every project: a widget shell for dynamic-dashboard, an engine
+world for ft_transcendence, an orbital chart for Space, a pipeline for
+minishell, a raycast view for cub3D, a poll loop for ft_irc, a container network
+for Inception, and a disk stack for born2beroot.
