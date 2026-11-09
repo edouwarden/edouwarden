@@ -45,3 +45,13 @@ artboard at 2x into the PNGs next to it. `.build/` holds throwaway HTML,
 
 The colors are flat by design: changing a token in `build.py` and re-running it
 regenerates the whole set.
+
+## Prototype
+
+`prototype/` holds a standalone proof-plate experiment: a real ft_transcendence
+gameplay capture duotoned into the palette, a one-line hook, and three spec
+chips. It is not wired into `README.md` or `build.py`.
+
+```bash
+python assets/readme/prototype/plate.py
+```
