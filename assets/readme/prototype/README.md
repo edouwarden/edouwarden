@@ -24,13 +24,12 @@ Between the header and the plates sit two deck-width strips:
 - `deck-stack.gif` — twenty-four technologies across four rows light up in
   sequence, each as a monochrome paper icon that turns coral with a rule that
   fills. 2400 × 336, 96 frames at 25 fps, seamless loop. Languages are left to
-  the counter below; this strip covers frameworks, data, infra and tools.
-- `deck-languages.png` — **66,521 lines of code** across 15 public repositories,
-  drawn as one stacked bar with a seven-entry legend. TypeScript leads with
-  26,100 lines, then JavaScript (14,975), Python (11,497) and C (5,183).
-  Counts come from `pygount`; HTML, CSS, JSON, YAML, Markdown, lockfiles and
-  generated data are excluded, and comments and blank lines are not counted.
-  `loc.json` is the snapshot the card reads.
+  the line below; this strip covers frameworks, data, infra and tools.
+- `deck-languages.png` — a slim language line, most used first: TypeScript,
+  JavaScript, Python, C, Java, Go and Bash. No totals, percentages or bars; it
+  only signals which languages the work is fluent in. `loc.json` is the
+  `pygount` snapshot behind the order, with HTML, CSS, JSON, YAML, Markdown,
+  lockfiles and generated data excluded.
 
 ## What each project leads with
 

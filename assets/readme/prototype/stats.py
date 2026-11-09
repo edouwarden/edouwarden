@@ -3,9 +3,9 @@
 plates: an animated technology strip and a language line counter.
 
 The strip is a 24-cell sequencer over four rows — web, data, infra and tools —
-using monochrome Simple Icons paths recoloured to the deck palette. The counter
-reads a pygount snapshot of every public repository (loc.json) and draws a
-stacked bar plus a legend, with HTML and CSS left out of the code total.
+using monochrome Simple Icons paths recoloured to the deck palette. The language
+line reads the same pygount snapshot (loc.json) and shows only the names, in
+order of use, so it signals fluency without turning into a line-count contest.
 
 Both boards use the deck's ambient palette and type, render at 2x, and stack
 flush with the header and plates.
@@ -73,15 +73,7 @@ FRAMES_PER_CELL = 4
 CELLS = sum(len(row) for row in TECH_ROWS)
 FRAMES = CELLS * FRAMES_PER_CELL
 
-SEGMENT_FILL = (
-    (CORAL, 1.0),
-    (CORAL, 0.62),
-    (PAPER, 0.92),
-    (PAPER, 0.72),
-    (PAPER, 0.56),
-    (PAPER, 0.42),
-    (PAPER, 0.28),
-)
+LANG_DISPLAY = {"Other": "Bash"}
 
 
 def font_faces() -> str:
@@ -201,116 +193,66 @@ function setFrame(frame) {{
 </body></html>"""
 
 
-def legend(data: dict) -> str:
+def language_line(data: dict) -> str:
     items = []
     for i, entry in enumerate(data["languages"]):
-        color, opacity = SEGMENT_FILL[i]
+        name = LANG_DISPLAY.get(entry["name"], entry["name"])
+        alpha = max(0.34, 0.80 - i * 0.075)
         items.append(
-            f'<div class="lang"><span class="chip" style="background:{color};opacity:{opacity}"></span>'
-            f'<span class="lname">{entry["name"]}</span>'
-            f'<span class="lcount">{entry["lines"]:,}</span></div>'
+            f'<span class="lang" style="color:rgba(255,250,240,{alpha:.2f})">{name}</span>'
         )
     return "".join(items)
 
 
-def bar(data: dict) -> str:
-    total = data["total"]
-    spans = []
-    for i, entry in enumerate(data["languages"]):
-        color, opacity = SEGMENT_FILL[i]
-        width = entry["lines"] / total * 100
-        spans.append(
-            f'<span style="width:{width:.3f}%;background:{color};opacity:{opacity}"></span>'
-        )
-    return "".join(spans)
-
-
-def lang_document(data: dict) -> str:
+def language_document(data: dict) -> str:
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
 {font_faces()}
 * {{ box-sizing: border-box; }}
 html, body {{ margin: 0; padding: 0; }}
 body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothing: antialiased; }}
-.card {{
+.line {{
   position: relative;
-  width: 1200px; height: 178px;
-  padding: 20px 64px 16px;
+  width: 1200px; height: 84px;
+  padding: 0 64px;
   display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
-  column-gap: 48px;
+  grid-template-columns: 232px minmax(0, 1fr);
+  align-items: center;
   background: {NAVY};
   color: {PAPER};
-  border-bottom: 1px solid rgba(255, 250, 240, 0.09);
 }}
-.top {{
-  grid-column: 1 / -1;
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 250, 240, 0.72);
+.line::after {{
+  content: ''; position: absolute; left: 64px; right: 64px; bottom: 0;
+  height: 1px; background: rgba(255, 250, 240, 0.09);
 }}
-.top .left {{ display: flex; align-items: center; gap: 11px; color: {PAPER}; }}
-.top .mark {{ width: 10px; height: 10px; background: {CORAL}; }}
-.top .slash {{ color: {CORAL}; }}
-.top .meta {{ color: rgba(255, 250, 240, 0.36); }}
-.total {{ align-self: center; }}
-.total b {{
-  display: block;
-  margin-top: 4px;
-  font-family: 'Days One', sans-serif; font-size: 62px; font-weight: 400;
-  line-height: 0.95; letter-spacing: -0.02em; color: {CORAL};
+.kicker {{
+  display: flex; align-items: center; gap: 11px;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: {PAPER};
 }}
-.total span {{
-  display: block; margin-top: 9px;
-  font-size: 10px; font-weight: 500; letter-spacing: 0.15em;
-  text-transform: uppercase; color: rgba(255, 250, 240, 0.44);
+.kicker .mark {{ width: 10px; height: 10px; background: {CORAL}; }}
+.kicker .slash {{ color: {CORAL}; }}
+.sub {{
+  margin-top: 8px;
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255, 250, 240, 0.36);
 }}
-.note {{
-  grid-column: 1 / -1;
-  align-self: end;
-  padding-top: 7px;
-  border-top: 1px solid rgba(255, 250, 240, 0.08);
-  font-size: 8.5px; letter-spacing: 0.04em; line-height: 1.4;
-  color: rgba(255, 250, 240, 0.28);
+.langs {{ display: flex; align-items: center; }}
+.langs::before {{
+  content: ''; flex: 1; height: 1px; margin-right: 26px;
+  background: rgba(255, 250, 240, 0.10);
 }}
-.detail {{ align-self: center; }}
-.bar {{
-  display: flex; gap: 2px;
-  width: 100%; height: 13px;
-  overflow: hidden; border-radius: 2px;
+.lang {{
+  font-size: 11px; font-weight: 500; letter-spacing: 0.07em;
+  line-height: 1; text-transform: uppercase; white-space: nowrap;
 }}
-.bar span {{ display: block; height: 100%; }}
-.legend {{
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 26px;
-  row-gap: 9px;
-  margin-top: 16px;
-}}
-.lang {{ display: flex; align-items: baseline; gap: 7px; min-width: 0; }}
-.chip {{ flex: none; width: 7px; height: 7px; transform: translateY(-1px); }}
-.lname {{
-  overflow: hidden; text-overflow: ellipsis;
-  font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(255, 250, 240, 0.65); white-space: nowrap;
-}}
-.lcount {{ margin-left: auto; font-size: 9.5px; color: rgba(255, 250, 240, 0.4); }}
+.lang + .lang {{ margin-left: 28px; }}
 </style></head><body>
-<div class="card">
-  <div class="top">
-    <div class="left"><span class="mark"></span>Lines <span class="slash">/</span> of code</div>
-    <div class="meta">Across {data['repos']} public repositories</div>
+<div class="line">
+  <div class="pin">
+    <div class="kicker"><span class="mark"></span>Languages <span class="slash">/</span> Confident</div>
+    <div class="sub">most used first</div>
   </div>
-  <div class="total">
-    <b>{data['total']:,}</b>
-    <span>lines · html and css excluded</span>
-  </div>
-  <div class="detail">
-    <div class="bar">{bar(data)}</div>
-    <div class="legend">{legend(data)}</div>
-  </div>
-  <div class="note">{data['note']}</div>
+  <div class="langs">{language_line(data)}</div>
 </div>
 </body></html>"""
 
@@ -361,14 +303,14 @@ def assemble_gif() -> None:
 
 
 def render_languages(page, data: dict) -> None:
-    page.set_viewport_size({"width": 1200, "height": 178})
+    page.set_viewport_size({"width": 1200, "height": 84})
     board = BUILD / "languages.html"
-    board.write_text(lang_document(data))
+    board.write_text(language_document(data))
     page.goto(board.as_uri())
     page.wait_for_function("document.fonts.status === 'loaded'")
     page.screenshot(
         path=str(HERE / "deck-languages.png"),
-        clip={"x": 0, "y": 0, "width": 1200, "height": 178},
+        clip={"x": 0, "y": 0, "width": 1200, "height": 84},
     )
     print("wrote deck-languages.png")
 
@@ -379,7 +321,7 @@ def main() -> None:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
         page = browser.new_page(
-            viewport={"width": 1200, "height": 178},
+            viewport={"width": 1200, "height": 168},
             device_scale_factor=2,
         )
         render_strip(page)
