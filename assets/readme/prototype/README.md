@@ -3,7 +3,8 @@
 Direction **A** — a custom flat illustration on every project card — applied to
 the whole deck. Each card keeps the same anatomy: number, title, meta, hook,
 three project-specific stats, stack, and a 360 × 203 illustration drawn inline
-as SVG in the ambient palette.
+as SVG in the ambient palette. Forge closes the series as the same card drawn
+as an outline: transparent body, coral edge, in-progress copy.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a seeded height field feeding a core column, a terminal, a raycast
@@ -19,7 +20,8 @@ shows how the terrain is built, not a finished space scene.
 
 ## The data rails
 
-Deck-width strips stack flush around the plates:
+Deck-width strips stack flush around the plates. Section boundaries are set by
+space, marks and cards rather than full-width rules:
 
 - `deck-stack.svg` — twenty-four technologies in two full-width rows that scroll
   slowly in opposite directions under a `Stack / Used` title: product and data on
@@ -32,18 +34,22 @@ Deck-width strips stack flush around the plates:
   shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
   excluded.
 - `deck-projects.svg` — the project-section header that introduces the plates:
-  `Projects / Selected work`, `Eight shipped · one in progress`, and the Forge
-  tease (`Now / Forge`, `Publishing in parts`) with a slow pulse and arrow. While
-  Forge has no repository, the strip links to the repositories tab.
-- `deck-live.svg` — a coral caption aligned to the dashboard card and set directly
-  under plate 01: navy `Live / Demo`, the no-signup and fictional-data notes, and
-  the `dynamic-dashboard.ednormand.fr` link. It reads as part of the dashboard
-  without sitting on the card.
+  `Projects / Selected work`, `Eight shipped · one in progress`, and the quiet
+  plate range `01 — 09`. The old Forge tease is gone; Forge is a plate now.
+- `deck-try.svg` — a thin 900 × 44 outline capsule aligned to the dashboard card
+  and set directly under plate 01: coral `Try it now`, the
+  `dynamic-dashboard.ednormand.fr` URL, a pulsing dot and a nudging arrow. Plate
+  01 is clipped just below the card so the capsule sits about 8 px under it; the
+  card itself is unchanged. It replaces the old filled live-demo caption.
 - `deck-reviews.svg` — a slow marquee of peer-review cards under a
   `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
   the longest quote. The three quotes in `stats.py` are mock placeholders;
   replace `REVIEWS` with real quotes before publishing.
 - `deck-contact.svg` — the closing email line, `ed.normand@protonmail.com`.
+- `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
+  and footer with `ed.normand@protonmail.com` in place of the visible GitHub
+  handle and URL. `boards.py` reads the production boards, replaces the copy and
+  screenshots the variants at 2x; the production boards are not modified.
 
 ## What each project leads with
 
@@ -57,33 +63,44 @@ Deck-width strips stack flush around the plates:
 | `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
 | `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
 | `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
+| `09` Forge | The next systems project, drawn as an in-progress outline card | 2026 start · 01 project · WIP | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
 stat.
 
+The Forge copy, stats, stack and link are placeholders until its repository and
+public numbers exist; the card currently opens the repositories tab.
+
 ## Files
 
-- `plates.py` — renders all eight plates at 1200 × 400, 2x, using the deck
-  fonts. HTML goes to the ignored `.build/` folder.
-- `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-08.png`
+- `plates.py` — renders all nine plates at 1200 × 400, 2x, using the deck
+  fonts; plate 01 is clipped to 1200 × 376 so the try strip can sit close to it.
+  HTML goes to the ignored `.build/` folder.
+- `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-09.png`
   — the rendered plates.
-- `stats.py` — writes the stack, project-section, live-demo, review and contact
+- `stats.py` — writes the stack, project-section, try-it, review and contact
   rails as SVG and renders the language line at 2x. HTML goes to the ignored
   `.build/` folder.
+- `boards.py` — reads the production header and footer boards and renders
+  `deck-header.png` and `deck-footer.png` with the email in place of the visible
+  GitHub copy. HTML goes to the ignored `.build/` folder.
 - `tech-icons.json` — monochrome Simple Icons paths keyed by slug for the strip.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
-- `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-live.svg`,
-  `deck-reviews.svg`, `deck-contact.svg` — the rendered data rails.
+- `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
+  `deck-reviews.svg`, `deck-contact.svg`, `deck-header.png`, `deck-footer.png` —
+  the rendered data rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py
 python3 assets/readme/prototype/stats.py
+python3 assets/readme/prototype/boards.py
 ```
 
 Once approved, the illustration slot can become a first-class field in
 `build.py` for every project: a widget shell for dynamic-dashboard, an engine
 editor for ft_transcendence, a seeded height field and core sample for Space, a
 terminal for minishell, a raycast view for cub3D, a protocol frame for ft_irc, a
-Docker host for Inception, and a VM window on a hypervisor host for born2beroot.
+Docker host for Inception, a VM window on a hypervisor host for born2beroot, and
+an anvil and hammer for Forge.

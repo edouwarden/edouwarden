@@ -867,10 +867,80 @@ def art_born2beroot() -> str:
 """)
 
 
+def art_forge() -> str:
+    """A workbench anvil with a glowing blank and a hammer caught mid-swing."""
+    sparks = []
+    for x1, y1, x2, y2, opacity in (
+        (166, 74, 146, 54, 0.9),
+        (172, 72, 180, 48, 0.7),
+        (178, 76, 198, 60, 0.55),
+        (160, 78, 138, 72, 0.5),
+        (184, 80, 206, 84, 0.45),
+    ):
+        sparks.append(
+            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
+            f'stroke="{CORAL}" stroke-opacity="{opacity}" stroke-width="1.4" '
+            'stroke-linecap="round"/>'
+        )
+    sparks = "".join(sparks)
+
+    return art(f"""
+  <ellipse cx="176" cy="78" rx="78" ry="34" fill="{CORAL}" opacity=".12"/>
+
+  <g>
+    <rect x="36" y="154" width="288" height="13" rx="4" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".18"/>
+    <rect x="54" y="167" width="12" height="22" rx="2" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".1"/>
+    <rect x="294" y="167" width="12" height="22" rx="2" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".1"/>
+    <line x1="48" y1="158" x2="312" y2="158" stroke="{PAPER}" stroke-opacity=".08"/>
+  </g>
+
+  <g>
+    <path d="M96,88 l-26,10 l26,10 z" fill="{DEEP}"/>
+    <rect x="92" y="84" width="118" height="15" rx="5" fill="{CORAL}"/>
+    <path d="M116,99 h70 v10 l16,33 h-102 l16,-33 z" fill="{CORAL}"/>
+    <path d="M186,99 h0 v10 l16,33 h-16 z" fill="{DEEP}" opacity=".55"/>
+    <rect x="84" y="142" width="134" height="13" rx="5" fill="{CORAL}"/>
+    <rect x="84" y="142" width="134" height="4" rx="2" fill="{PAPER}" opacity=".18"/>
+  </g>
+
+  <g>
+    <rect x="124" y="76" width="54" height="9" rx="3" fill="{PAPER}" opacity=".92"/>
+    <rect x="124" y="76" width="54" height="3" rx="1.5" fill="#ffffff" opacity=".55"/>
+    <ellipse cx="151" cy="80" rx="34" ry="8" fill="{CORAL}" opacity=".22"/>
+  </g>
+
+  <g transform="rotate(-34 208 58)">
+    <rect x="198" y="50" width="38" height="16" rx="4" fill="{CORAL}" stroke="{DEEP}" stroke-opacity=".6"/>
+    <rect x="228" y="53" width="62" height="9" rx="4.5" fill="{PAPER}" opacity=".8"/>
+    <rect x="282" y="51" width="10" height="13" rx="3" fill="{DEEP}"/>
+  </g>
+
+  <path d="M202,40 a26,26 0 0 1 18,-14" fill="none" stroke="{CORAL}" stroke-opacity=".32" stroke-width="1.4"/>
+  <path d="M214,34 a18,18 0 0 1 13,-8" fill="none" stroke="{PAPER}" stroke-opacity=".2" stroke-width="1.2"/>
+  {sparks}
+
+  <g fill="none" stroke="{CORAL}" stroke-opacity=".55" stroke-width="1.2">
+    <path d="M58,58 h20 v20 h-20 z"/>
+    <path d="M62,58 v-8 M74,58 v-8"/>
+    <path d="M58,94 h20 v20 h-20 z"/>
+    <path d="M68,94 v20"/>
+  </g>
+  <g fill="{CORAL}" opacity=".45">
+    <rect x="304" y="54" width="6" height="6" rx="1"/>
+    <rect x="316" y="54" width="6" height="6" rx="1"/>
+    <rect x="304" y="66" width="6" height="6" rx="1"/>
+    <rect x="316" y="66" width="6" height="6" rx="1"/>
+  </g>
+""")
+
+
 PROJECTS = [
     {
         "n": "01",
         "file": "plate-01.png",
+        # Clip the empty navy below the card so the try-it strip can sit close
+        # to it. The card itself is unchanged.
+        "clip_h": 376,
         "title": "dynamic-dashboard",
         "meta": "2026 · Solo · product &amp; full stack",
         "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
@@ -1011,11 +1081,31 @@ PROJECTS = [
             "repository."
         ),
     },
+    # Placeholder framing for Forge. Replace the copy, stats, stack and href
+    # once the repository and its public numbers exist.
+    {
+        "n": "09",
+        "file": "plate-09.png",
+        "variant": "outline",
+        "title": "Forge",
+        "meta": "2026 · Solo · systems &amp; tooling",
+        "hook": "The next systems project: a workshop for building, running and keeping software on one machine — published in parts.",
+        "stats": [("2026", "started"), ("01", "project"), ("WIP", "in progress")],
+        "stack": "Bun · TypeScript · SQLite · Docker · Linux",
+        "href": "https://github.com/edouwarden?tab=repositories",
+        "art": art_forge(),
+        "alt": (
+            "09 Forge, 2026, solo, systems and tooling, in progress: a workshop "
+            "for building, running and keeping software on one machine, "
+            "published in parts; 2026 start, 1 project, work in progress; Bun, "
+            "TypeScript, SQLite, Docker, Linux. Opens the repositories."
+        ),
+    },
 ]
 
 CARD = """
 <div class="plate">
-  <div class="card">
+  <div class="card {variant}">
     <div class="copy">
       <div class="head">
         <div class="num">{n}</div>
@@ -1116,6 +1206,30 @@ body {{
   border-radius: 50%; background: #ffffff;
   font-family: 'Days One', sans-serif; font-size: 19px;
 }}
+
+/* In-progress card: the same anatomy, drawn as an outline on the deck. */
+.card.outline {{
+  background: transparent;
+  color: {PAPER};
+  border: 1.5px solid {CORAL};
+}}
+.card.outline .num {{
+  background: transparent;
+  color: {CORAL};
+  border: 1.5px solid {CORAL};
+}}
+.card.outline .meta {{ color: rgba(255, 250, 240, 0.54); }}
+.card.outline .hook {{ color: rgba(255, 250, 240, 0.84); }}
+.card.outline .specs {{ border-top-color: rgba(255, 250, 240, 0.16); }}
+.card.outline .spec b {{ color: {PAPER}; }}
+.card.outline .spec b::before {{ background: {CORAL}; }}
+.card.outline .spec span {{ color: rgba(255, 250, 240, 0.5); }}
+.card.outline .stack {{ color: rgba(255, 250, 240, 0.42); }}
+.card.outline .art .go {{
+  background: transparent;
+  color: {CORAL};
+  box-shadow: inset 0 0 0 1.5px {CORAL};
+}}
 """
 
 
@@ -1124,6 +1238,7 @@ def card(project: dict) -> str:
         SPEC.format(value=value, label=name) for value, name in project["stats"]
     )
     return CARD.format(
+        variant=project.get("variant", ""),
         n=project["n"],
         title=project["title"],
         meta=project["meta"],
@@ -1157,9 +1272,10 @@ def main() -> None:
             page_path.write_text(document(project))
             page.goto(page_path.as_uri())
             page.wait_for_function("document.fonts.status === 'loaded'")
+            clip_h = project.get("clip_h", 400)
             page.screenshot(
                 path=str(HERE / project["file"]),
-                clip={"x": 0, "y": 0, "width": 1200, "height": 400},
+                clip={"x": 0, "y": 0, "width": 1200, "height": clip_h},
             )
             print(f"rendered {project['file']}")
         browser.close()
