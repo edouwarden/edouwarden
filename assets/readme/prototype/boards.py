@@ -23,7 +23,6 @@ BUILD = HERE.parent / ".build"
 EMAIL = "ed.normand@protonmail.com"
 
 HEADER_CSS = """
-.bottomline .say { text-transform: none; letter-spacing: 0.06em; }
 .handle b { letter-spacing: 0.05em; }
 """
 
@@ -69,8 +68,17 @@ FOOTER_RIGHT_NEW = "<span>Updated November 2026</span>"
 
 
 def header_transform(html: str) -> str:
-    """Point the location line at Switzerland."""
-    return html.replace("Paris, France · 42 Paris", "Switzerland · 42 Paris")
+    """Point the location line at Switzerland and keep one email in the header."""
+    html = html.replace("Paris, France · 42 Paris", "Switzerland · 42 Paris")
+    html = html.replace(' <span class="slash">/</span> Profile', "")
+    html = html.replace(
+        '  <div class="bottomline">\n'
+        '    <span class="say">github.com/edouwarden</span>\n'
+        '    <span>Selected work &nbsp;<span class="arrow">↓</span></span>\n'
+        "  </div>\n",
+        "",
+    )
+    return html
 
 
 def footer_transform(html: str) -> str:
@@ -126,7 +134,7 @@ def main() -> None:
             page,
             BUILD / "00-header.html",
             "header",
-            720,
+            680,
             HEADER_CSS,
             header_transform,
             HERE / "deck-header.png",

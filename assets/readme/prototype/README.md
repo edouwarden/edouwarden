@@ -1,11 +1,12 @@
 # Proof plate prototype
 
 Direction **A** — a custom flat illustration on every project card — applied to
-the whole deck. Each card keeps the same anatomy: number, title, meta, hook,
-three project-specific stats, stack, and a 360 × 203 illustration drawn inline
-as SVG in the ambient palette. Forge closes the series as the same card drawn
-as an outline: transparent body, coral edge, in-progress copy, and a slow ember
-pulse over the anvil.
+the whole deck. Each card keeps one quiet hierarchy: number, title, meta, a
+single-sentence hook, a muted stack line, and a 420 × 237 illustration drawn
+inline as SVG in the ambient palette. The three stat blocks were removed so the
+hook does the work and the art has room. Forge closes the series as the same
+card drawn as an outline: transparent body, coral edge, in-progress copy, and a
+slow ember pulse over the anvil.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a seeded height field feeding a core column, a terminal, a raycast
@@ -25,9 +26,9 @@ Deck-width strips stack flush around the plates. Section boundaries are set by
 space, marks and cards rather than full-width rules:
 
 - `deck-stack.svg` — twenty-four technologies in two full-width rows that scroll
-  slowly in opposite directions under a `Stack / Used` title: product and data on
-  top, systems and security below. Coral vector icons, a soft fade at each edge,
-  no count. Vector, 900 × 150, with the rows looping every 20–23 seconds at the
+  slowly in opposite directions under a `Stack` title: product and data on top,
+  systems and security below. Coral vector icons, a soft fade at each edge, no
+  count. Vector, 900 × 150, with the rows looping every 20–23 seconds at the
   same scroll speed.
 - `deck-languages.png` — a slim language line, most used first: TypeScript,
   JavaScript, Python, C, Java, Go and Bash, each with its share of the counted
@@ -35,8 +36,8 @@ space, marks and cards rather than full-width rules:
   shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
   excluded.
 - `deck-projects.svg` — the project-section header that introduces the plates:
-  `Projects / Selected work`, `Eight shipped · one in progress`, and the quiet
-  plate range `01 — 09`. The old Forge tease is gone; Forge is a plate now.
+  a single `Projects` title and the quiet plate range `01 — 09`. The old Forge
+  tease is gone; Forge is a plate now.
 - `deck-try.svg` — a thin 900 × 44 outline capsule aligned to the dashboard card
   and set directly under plate 01: coral `Try it now`, the
   `dynamic-dashboard.ednormand.fr` URL, a pulsing dot and a nudging arrow. Plate
@@ -46,20 +47,21 @@ space, marks and cards rather than full-width rules:
   strip: a pulsing coral dot, `Open to work · Switzerland`, and the quiet
   `Systems · Infrastructure · AI` meta on the right. It sits directly above the
   header.
-- `deck-reviews.svg` — a slow marquee of peer-review cards under a
-  `Peer / Reviews` title. Each quote wraps into a card, and the section grows with
-  the longest quote. The three quotes in `stats.py` are mock placeholders;
-  replace `REVIEWS` with real quotes before publishing.
+- `deck-reviews.svg` — a slow marquee of peer-review cards under a `Reviews`
+  title. Each quote wraps into a card, and the section grows with the longest
+  quote. The three quotes in `stats.py` are mock placeholders; replace `REVIEWS`
+  with real quotes before publishing.
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
-  handle and URL. The header moves the location line to `Switzerland · 42
-  Paris` and keeps the quiet `Open to hard problems` pill. The footer drops the
-  `No forms, no trackers` label and the CTA pill, leads with `Bring me a hard
-  problem`, sets a coral square, the 20 px email and 24 px coral arrow directly
-  above the footline, and closes with `Open to work · Switzerland · 42 Paris`
-  and `Updated November 2026`. `boards.py` reads the production boards, replaces
-  the copy and screenshots the variants at 2x; the production boards are not
-  modified.
+  handle and URL. The header keeps a single email under the portrait, drops the
+  duplicate bottom-line email and the `Profile` suffix, moves the location line
+  to `Switzerland · 42 Paris`, and keeps the quiet `Open to hard problems` pill.
+  The footer drops the `No forms, no trackers` label and the CTA pill, leads
+  with `Bring me a hard problem`, sets a coral square, the 20 px email and 24 px
+  coral arrow directly above the footline, and closes with `Open to work ·
+  Switzerland · 42 Paris` and `Updated November 2026`. `boards.py` reads the
+  production boards, replaces the copy and screenshots the variants at 2x; the
+  production boards are not modified.
 
 ## Text fallback
 
@@ -70,17 +72,17 @@ changing the image-first deck.
 
 ## What each project leads with
 
-| Plate | Focus | Stats | Stack |
-|---|---|---|---|
-| `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
-| `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
-| `03` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
-| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines · 64 stages · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
-| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | 640 rays · 03 maps · ~60 fps | C99 · X11 · raycasting · XPM · math |
-| `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
-| `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
-| `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
-| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | 2026 start · 01 project · WIP | Bun · TypeScript · SQLite · Docker · Linux |
+| Plate | Focus | Stack |
+|---|---|---|
+| `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | Bun · Hono · SQLite · Vanilla JS · OpenCode |
+| `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
+| `03` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
+| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | C99 · POSIX · fork/exec · dup2 · readline |
+| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | C99 · X11 · raycasting · XPM · math |
+| `06` ft_irc | One thread, one `poll()` loop, plus a local model | C++98 · sockets · poll() · llama.cpp |
+| `07` Inception | Three containers, one published port, TLS at the edge | Docker Compose · NGINX · WordPress · MariaDB · TLS |
+| `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | Debian · LUKS · LVM · UFW · systemd |
+| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
@@ -88,8 +90,8 @@ stat. Its role reads `Team lead · engine & frontend`, matching the portfolio.
 `minishell`, `cub3D` and `ft_irc` are labelled `Pair`, matching the credits in
 their project READMEs.
 
-The Forge copy, stats, stack and link are placeholders until its repository and
-public numbers exist; the card currently opens the repositories tab.
+The Forge copy and stack are placeholders until the project is ready; the card
+opens `github.com/edouwarden/theforge` and stays in progress.
 
 ## Files
 
@@ -111,8 +113,8 @@ public numbers exist; the card currently opens the repositories tab.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
-  `deck-open.svg`, `deck-reviews.svg`, `deck-header.png`, `deck-header-work.svg`,
-  `deck-footer.png` — the rendered data rails and board variants.
+  `deck-open.svg`, `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` —
+  the rendered data rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py

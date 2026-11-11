@@ -82,7 +82,7 @@ LABEL_SIZE = 12.5
 LABEL_TRACK = 0.72
 SPEED = 62.0  # marquee units per second
 
-PROJECTS_W, PROJECTS_H = 900, 112
+PROJECTS_W, PROJECTS_H = 900, 84
 TRY_W, TRY_H = 900, 44
 OPEN_W, OPEN_H = 900, 44
 REVIEWS_W = 900
@@ -176,24 +176,11 @@ def svg_open(width: int, height: int, title: str) -> str:
     )
 
 
-def kicker(main: str, alt: str, x: float, baseline: float) -> str:
+def kicker(main: str, x: float, baseline: float) -> str:
     size, track = 13.0, 2.08
-    parts = []
-    d = text_path(main, size, track, x, baseline)
-    parts.append(f'<path d="{d}" fill="{PAPER}"/>')
-    x += text_width(main, size, track) + track + 8
-    d = text_path("/", size, track, x, baseline)
-    parts.append(f'<path d="{d}" fill="{CORAL}"/>')
-    x += text_width("/", size, track) + track + 8
-    d = text_path(alt, size, track, x, baseline)
-    parts.append(f'<path d="{d}" fill="{PAPER}" fill-opacity="0.55"/>')
-    return "".join(parts)
-
-
-def subline(text: str, x: float, baseline: float) -> str:
     return (
-        f'<path d="{text_path(text, 9.5, 1.14, x, baseline)}" '
-        f'fill="{PAPER}" fill-opacity="0.36"/>'
+        f'<path d="{text_path(main, size, track, x, baseline)}" '
+        f'fill="{PAPER}"/>'
     )
 
 
@@ -283,12 +270,6 @@ def stack_svg() -> str:
     tx = MARGIN + 9 + 10
     d = text_path("STACK", title_size, title_track, tx, 28)
     out.append(f'<path d="{d}" fill="{PAPER}"/>')
-    tx += text_width("STACK", title_size, title_track) + title_track + 8
-    d = text_path("/", title_size, title_track, tx, 28)
-    out.append(f'<path d="{d}" fill="{CORAL}"/>')
-    tx += text_width("/", title_size, title_track) + title_track + 8
-    d = text_path("USED", title_size, title_track, tx, 28)
-    out.append(f'<path d="{d}" fill="{PAPER}" fill-opacity="0.55"/>')
 
     # Two marquee rows, each duplicated once so the loop is seamless. The gap
     # is measured from each label, not from the longest label in the deck.
@@ -326,13 +307,12 @@ def stack_svg() -> str:
 
 
 def projects_svg() -> str:
-    out = [svg_open(PROJECTS_W, PROJECTS_H, "Projects: selected work")]
+    out = [svg_open(PROJECTS_W, PROJECTS_H, "Projects")]
     right = PROJECTS_W - MARGIN
 
-    # Left: the section title and the count that introduces the plates.
+    # Left: the section title that introduces the plates.
     out.append(f'<rect x="{MARGIN}" y="41" width="9" height="9" fill="{CORAL}"/>')
-    out.append(kicker("PROJECTS", "SELECTED WORK", MARGIN + 19, 50))
-    out.append(subline("EIGHT SHIPPED · ONE IN PROGRESS", MARGIN + 19, 68))
+    out.append(kicker("PROJECTS", MARGIN + 19, 50))
 
     # Right: the range of plates, kept quiet so the header has one centre.
     size, track = 10.0, 1.4
@@ -461,7 +441,7 @@ def reviews_svg() -> str:
     hair_y = last_baseline + 23
     attr_y = hair_y + 20
     card_h = attr_y + 14
-    height = 64 + card_h + 20
+    height = 56 + card_h + 20
 
     out = [svg_open(REVIEWS_W, height, "Peer reviews")]
     out.append("<defs>")
@@ -505,14 +485,13 @@ def reviews_svg() -> str:
     out.append("</defs>")
 
     out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
-    out.append(kicker("PEER", "REVIEWS", MARGIN + 19, 28.5))
-    out.append(subline("SELECTED NOTES · 42 PARIS", MARGIN + 19, 45))
+    out.append(kicker("REVIEWS", MARGIN + 19, 28.5))
 
     row_width = sum(widths)
     row_start = 80.0 - row_width
     duration = row_width / 32.0
     out.append(
-        '<g transform="translate(0 64)"><g>'
+        '<g transform="translate(0 56)"><g>'
         '<animateTransform attributeName="transform" type="translate" '
         f'from="{row_start:.2f} 0" to="{row_start - row_width:.2f} 0" '
         f'dur="{duration:.3f}s" repeatCount="indefinite"/>'
@@ -590,11 +569,6 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
   text-transform: uppercase; color: {PAPER};
 }}
 .kicker .mark {{ width: 10px; height: 10px; background: {CORAL}; }}
-.sub {{
-  margin-top: 8px;
-  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: rgba(255, 250, 240, 0.36);
-}}
 .langs {{ display: flex; align-items: baseline; }}
 .langs::before {{
   content: ''; align-self: center; flex: 1; height: 1px; margin-right: 26px;
@@ -612,7 +586,6 @@ body {{ width: 1200px; font-family: 'Plex Mono', monospace; -webkit-font-smoothi
 <div class="line">
   <div class="pin">
     <div class="kicker"><span class="mark"></span>Languages</div>
-    <div class="sub">share of {data['total']:,} lines</div>
   </div>
   <div class="langs">{language_line(data)}</div>
 </div>
