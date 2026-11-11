@@ -1440,12 +1440,12 @@ body {{
   font-weight: 400; line-height: 1; letter-spacing: -0.02em;
 }}
 .meta {{
-  margin: 10px 0 0; font-size: 10.5px; font-weight: 500;
+  margin: 8px 0 0; font-size: 10.5px; font-weight: 500;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(12, 10, 62, 0.62);
 }}
 .hook {{
-  max-width: 520px; margin: 10px 0 0; font-size: 20px; font-weight: 700;
-  line-height: 1.3; color: rgba(12, 10, 62, 0.92);
+  max-width: 520px; margin: 8px 0 0; font-size: 22px;
+  line-height: 1.25; color: rgba(12, 10, 62, 0.92);
 }}
 .specs {{
   display: flex; gap: 26px; margin-top: auto; padding-top: 12px;
@@ -1521,7 +1521,7 @@ body {{
   margin-top: 8px; font-size: 8.5px; letter-spacing: 0.11em;
 }}
 .card.compact .hook {{
-  max-width: 660px; margin-top: 8px; font-size: 16px; line-height: 1.4;
+  max-width: 660px; margin-top: 8px; font-size: 18px; line-height: 1.4;
 }}
 .card.compact .stack {{
   margin-top: auto; padding-top: 10px; font-size: 8px;
