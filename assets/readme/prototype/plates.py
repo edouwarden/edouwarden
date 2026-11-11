@@ -2,11 +2,14 @@
 """Render the selected proof plate — a custom flat illustration — for every
 project in the deck.
 
-Each card keeps the same anatomy: number, title, meta, hook, three project
+Each lead card keeps the same anatomy: number, title, meta, hook, three project
 stats, stack, and a 360 x 203 illustration drawn inline as SVG in the ambient
-palette. The illustrations are scenes and objects, not screenshots: a dashboard,
-an engine editor, a seeded height field, a shell terminal, a raycast corridor, an
-IRC frame, a Docker host, and a VM window on a host.
+palette. The five bench cards repeat the anatomy at 1200 x 290 with smaller type
+and 260 x 147 art, so the hierarchy reads before the copy does. The illustrations
+are scenes and objects, not screenshots: an anvil, a theory notebook, a policy
+gate, a trading terminal, a dashboard, an engine editor, a seeded height field, a
+shell terminal, a raycast corridor, an IRC frame, a Docker host, and a VM window
+on a host.
 
 Standalone: production README and build.py are untouched.
 
@@ -1123,44 +1126,50 @@ def art_research() -> str:
 
 
 PROJECTS = [
+    # Forge is public but still under development, so it keeps the outline
+    # treatment and opens the deck.
     {
         "n": "01",
         "file": "plate-01.png",
-        # Clip the empty navy below the card so the try-it strip can sit close
-        # to it. The card itself is unchanged.
-        "clip_h": 376,
-        "title": "dynamic-dashboard",
-        "meta": "2026 · Solo · product &amp; full stack",
-        "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
-        "stats": [("28", "starter widgets"), ("06", "example tabs"), ("01", "shared DB")],
-        "stack": "Bun · Hono · SQLite · Vanilla JS · OpenCode",
-        "href": "https://github.com/edouwarden/dynamic-dashboard",
-        "art": DASHBOARD_ART,
+        "variant": "outline",
+        "motion": "forge",
+        "title": "Forge",
+        "meta": "2026 · Solo · AI systems &amp; tooling",
+        "hook": "A controlled code-generation system: a pipeline of 28 steps, 22 deterministic gates, and a model called only where judgement is needed.",
+        "stats": [("28", "pipeline steps"), ("06", "model-served"), ("21/21", "checks")],
+        "stack": "Bun · TypeScript · SQLite · Docker · Linux",
+        "href": "https://github.com/edouwarden/theforge",
+        "art": art_forge(),
         "alt": (
-            "01 dynamic-dashboard, 2026, solo product and full stack: a local-first "
-            "dashboard builder with isolated HTML widgets on one SQLite database, "
-            "edited by an agent; 28 starter widgets, 6 example tabs, 1 shared DB; "
-            "Bun, Hono, SQLite, Vanilla JS, OpenCode. Opens the repository."
+            "01 Forge, 2026, solo, AI systems and tooling, in progress: a "
+            "controlled code-generation system with a 28-step pipeline, 22 "
+            "deterministic gates and a model called only where judgement is "
+            "needed, with a slow ember pulse over the anvil; 28 pipeline "
+            "steps, 6 model-served, 21 of 21 checks passed; Bun, TypeScript, "
+            "SQLite, Docker, Linux. Opens the repository."
         ),
     },
+
     {
         "n": "02",
         "file": "plate-02.png",
-        "title": "ft_transcendence",
-        "meta": "2026 · Team lead · engine &amp; frontend",
-        "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics, live editors and a parkour arena.",
-        "stats": [("04", "engine layers"), ("04", "course maps"), ("20 Hz", "net tick")],
-        "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
-        "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
-        "art": art_transcendence(),
+        "title": "Financial-Market-Theories",
+        "title_size": 34,
+        "meta": "2026 · Solo · research",
+        "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
+        "stats": [("21", "theories"), ("04", "parts each"), ("00", "signals")],
+        "stack": "Python · JavaScript · market data · Markdown",
+        "href": "https://github.com/edouwarden/Financial-Market-Theories",
+        "art": art_research(),
         "alt": (
-            "02 ft_transcendence, 2026, team lead for engine and frontend on a team "
-            "of four: a browser game engine on Three.js with World, Environment and "
-            "Module layers, physics, editors and live tools, running a parkour "
-            "arena; 4 engine layers, 4 course maps, 20 Hz net tick; Next.js, "
-            "Three.js, Rapier, Bun, Go, PostgreSQL. Opens the repository."
+            "02 Financial-Market-Theories, 2026, solo, research: 21 falsifiable "
+            "market theories, each with a claim, mechanism, test and verdict, "
+            "and negative results kept in; 21 theories, 4 parts each, no "
+            "signals; Python, JavaScript, market data, Markdown. Opens the "
+            "repository."
         ),
     },
+
     {
         "n": "03",
         "file": "plate-03.png",
@@ -1179,6 +1188,7 @@ PROJECTS = [
             "Vault. Opens the repository."
         ),
     },
+
     {
         "n": "04",
         "file": "plate-04.png",
@@ -1198,28 +1208,10 @@ PROJECTS = [
             "JavaScript, Python, Gains API, SQLite, Discord. Opens the repository."
         ),
     },
+
     {
         "n": "05",
         "file": "plate-05.png",
-        "title": "Financial-Market-Theories",
-        "title_size": 34,
-        "meta": "2026 · Solo · research",
-        "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
-        "stats": [("21", "theories"), ("04", "parts each"), ("00", "signals")],
-        "stack": "Python · JavaScript · market data · Markdown",
-        "href": "https://github.com/edouwarden/Financial-Market-Theories",
-        "art": art_research(),
-        "alt": (
-            "05 Financial-Market-Theories, 2026, solo, research: 21 falsifiable "
-            "market theories, each with a claim, mechanism, test and verdict, "
-            "and negative results kept in; 21 theories, 4 parts each, no "
-            "signals; Python, JavaScript, market data, Markdown. Opens the "
-            "repository."
-        ),
-    },
-    {
-        "n": "06",
-        "file": "plate-06.png",
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
@@ -1228,7 +1220,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
         "alt": (
-            "06 space-gameserver, 2019, solo, systems and geometry: a Spigot "
+            "05 space-gameserver, 2019, solo, systems and geometry: a Spigot "
             "sandbox whose space and exoplanet terrain comes from a seeded six-"
             "octave height field sampled into a core column, ships on an 11 by "
             "11 orbital grid, and five weapon systems as closed-form geometry; "
@@ -1236,9 +1228,52 @@ PROJECTS = [
             "1.14.4, WorldEdit, WorldGuard, Python. Opens the repository."
         ),
     },
+
+    {
+        "n": "06",
+        "file": "plate-06.png",
+        # Clip the empty navy below the card so the try-it strip can sit close
+        # to it. The card itself is unchanged.
+        "clip_h": 376,
+        "title": "dynamic-dashboard",
+        "meta": "2026 · Solo · product &amp; full stack",
+        "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
+        "stats": [("28", "starter widgets"), ("06", "example tabs"), ("01", "shared DB")],
+        "stack": "Bun · Hono · SQLite · Vanilla JS · OpenCode",
+        "href": "https://github.com/edouwarden/dynamic-dashboard",
+        "art": DASHBOARD_ART,
+        "alt": (
+            "06 dynamic-dashboard, 2026, solo product and full stack: a local-first "
+            "dashboard builder with isolated HTML widgets on one SQLite database, "
+            "edited by an agent; 28 starter widgets, 6 example tabs, 1 shared DB; "
+            "Bun, Hono, SQLite, Vanilla JS, OpenCode. Opens the repository."
+        ),
+    },
+
     {
         "n": "07",
         "file": "plate-07.png",
+        "title": "ft_transcendence",
+        "meta": "2026 · Team lead · engine &amp; frontend",
+        "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics, live editors and a parkour arena.",
+        "stats": [("04", "engine layers"), ("04", "course maps"), ("20 Hz", "net tick")],
+        "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
+        "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
+        "art": art_transcendence(),
+        "alt": (
+            "07 ft_transcendence, 2026, team lead for engine and frontend on a team "
+            "of four: a browser game engine on Three.js with World, Environment and "
+            "Module layers, physics, editors and live tools, running a parkour "
+            "arena; 4 engine layers, 4 course maps, 20 Hz net tick; Next.js, "
+            "Three.js, Rapier, Bun, Go, PostgreSQL. Opens the repository."
+        ),
+    },
+
+    {
+        "n": "08",
+        "file": "plate-08.png",
+        "variant": "compact",
+        "height": 290,
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
@@ -1247,15 +1282,18 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/minishell",
         "art": art_minishell(),
         "alt": (
-            "07 minishell, 2025, pair, systems and parsing: a Unix shell with "
+            "08 minishell, 2025, pair, systems and parsing: a Unix shell with "
             "quote-aware lexing, expansion, heredocs and 64-stage pipelines, "
             "readline only; 3,000 lines of C, 64 pipe stages, 0 zombies; C99, "
             "POSIX, fork and exec, dup2, readline. Opens the repository."
         ),
     },
+
     {
-        "n": "08",
-        "file": "plate-08.png",
+        "n": "09",
+        "file": "plate-09.png",
+        "variant": "compact",
+        "height": 290,
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
@@ -1264,16 +1302,19 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/cube3D",
         "art": art_cub3d(),
         "alt": (
-            "08 cub3D, 2025, pair, rendering and math: a hand-written raycast "
+            "09 cub3D, 2025, pair, rendering and math: a hand-written raycast "
             "renderer with 640 rays per frame, textured walls floor to ceiling and "
             "every pixel written into an X11 buffer without a GPU; 640 rays per "
             "frame, 3 showcase maps, about 60 fps cap; C99, X11, raycasting, XPM, "
             "math. Opens the repository."
         ),
     },
+
     {
-        "n": "09",
-        "file": "plate-09.png",
+        "n": "10",
+        "file": "plate-10.png",
+        "variant": "compact",
+        "height": 290,
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
@@ -1282,15 +1323,18 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/irc",
         "art": art_irc(),
         "alt": (
-            "09 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
+            "10 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
             "thread and one poll loop with buffered TCP framing, channel modes and "
             "a local Phi-3 answering in #ai-lab; 1 thread, 1 poll loop, 3.8B local "
             "model; C++98, sockets, poll, llama.cpp. Opens the repository."
         ),
     },
+
     {
-        "n": "10",
-        "file": "plate-10.png",
+        "n": "11",
+        "file": "plate-11.png",
+        "variant": "compact",
+        "height": 290,
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
@@ -1299,16 +1343,19 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/inception",
         "art": art_inception(),
         "alt": (
-            "10 Inception, 2026, solo, containers and infrastructure: a WordPress "
+            "11 Inception, 2026, solo, containers and infrastructure: a WordPress "
             "stack where every part is a container, nginx holds TLS, PHP-FPM runs "
             "WordPress and MariaDB never leaves the compose network; 3 services, "
             "1 open port, 4 secrets; Docker Compose, NGINX, WordPress, MariaDB, "
             "TLS. Opens the repository."
         ),
     },
+
     {
-        "n": "11",
-        "file": "plate-11.png",
+        "n": "12",
+        "file": "plate-12.png",
+        "variant": "compact",
+        "height": 290,
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
@@ -1317,7 +1364,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/born2beroot",
         "art": art_born2beroot(),
         "alt": (
-            "11 born2beroot, 2024, solo, systems and hardening: a reproducible "
+            "12 born2beroot, 2024, solo, systems and hardening: a reproducible "
             "Debian VM running in a guest window on a VirtualBox host, built from "
             "a self-made ISO with LUKS under LVM, six XFS filesystems plus swap, SSH "
             "on port 4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
@@ -1325,33 +1372,11 @@ PROJECTS = [
             "repository."
         ),
     },
-    # Forge is public but still under development, so it keeps the outline
-    # treatment and closes the deck.
-    {
-        "n": "12",
-        "file": "plate-12.png",
-        "variant": "outline",
-        "motion": "forge",
-        "title": "Forge",
-        "meta": "2026 · Solo · AI systems &amp; tooling",
-        "hook": "A controlled code-generation system: a pipeline of 28 steps, 22 deterministic gates, and a model called only where judgement is needed.",
-        "stats": [("28", "pipeline steps"), ("06", "model-served"), ("21/21", "checks")],
-        "stack": "Bun · TypeScript · SQLite · Docker · Linux",
-        "href": "https://github.com/edouwarden/theforge",
-        "art": art_forge(),
-        "alt": (
-            "12 Forge, 2026, solo, AI systems and tooling, in progress: a "
-            "controlled code-generation system with a 28-step pipeline, 22 "
-            "deterministic gates and a model called only where judgement is "
-            "needed, with a slow ember pulse over the anvil; 28 pipeline "
-            "steps, 6 model-served, 21 of 21 checks passed; Bun, TypeScript, "
-            "SQLite, Docker, Linux. Opens the repository."
-        ),
-    },
+
 ]
 
 CARD = """
-<div class="plate">
+<div class="plate{plate_class}">
   <div class="card {variant}">
     <div class="copy">
       <div class="head">
@@ -1477,6 +1502,37 @@ body {{
   color: {CORAL};
   box-shadow: inset 0 0 0 1.5px {CORAL};
 }}
+
+/* Compact cards: the bench after the seven lead plates. Same anatomy at a
+   smaller scale, so the hierarchy reads before any copy is parsed. */
+.plate.compact {{ height: 290px; padding: 24px 84px; }}
+.card.compact {{
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 26px;
+  padding: 20px 28px;
+  border-radius: 24px;
+}}
+.card.compact .head {{ gap: 14px; }}
+.card.compact .num {{
+  width: 42px; height: 42px; border-radius: 8px; font-size: 17px;
+}}
+.card.compact .title {{ font-size: 34px; }}
+.card.compact .meta {{
+  margin-top: 10px; font-size: 9px; letter-spacing: 0.12em;
+}}
+.card.compact .hook {{
+  max-width: 620px; margin-top: 10px; font-size: 14.5px; line-height: 1.45;
+}}
+.card.compact .specs {{ gap: 22px; padding-top: 10px; }}
+.card.compact .spec b {{ gap: 6px; font-size: 17px; }}
+.card.compact .spec b::before {{ width: 5px; height: 5px; }}
+.card.compact .spec span {{ font-size: 7.5px; letter-spacing: 0.11em; }}
+.card.compact .stack {{ margin-top: 9px; font-size: 8px; }}
+.card.compact .art {{ width: 260px; height: 147px; }}
+.card.compact .art svg {{ width: 260px; height: 147px; border-radius: 13px; }}
+.card.compact .art .go {{
+  right: -10px; bottom: -10px; width: 38px; height: 38px; font-size: 16px;
+}}
 """
 
 
@@ -1489,8 +1545,10 @@ def card(project: dict) -> str:
         if project.get("title_size")
         else ""
     )
+    plate_class = " compact" if project.get("variant") == "compact" else ""
     return CARD.format(
         variant=project.get("variant", ""),
+        plate_class=plate_class,
         n=project["n"],
         title=project["title"],
         title_style=title_style,
@@ -1559,7 +1617,7 @@ def main() -> None:
             page_path.write_text(document(project))
             page.goto(page_path.as_uri())
             page.wait_for_function("document.fonts.status === 'loaded'")
-            clip_h = project.get("clip_h", 400)
+            clip_h = project.get("clip_h", project.get("height", 400))
             page.screenshot(
                 path=str(HERE / project["file"]),
                 clip={"x": 0, "y": 0, "width": 1200, "height": clip_h},
