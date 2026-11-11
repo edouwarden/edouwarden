@@ -2,13 +2,12 @@
 
 Direction **A** — a custom flat illustration on every project card — applied to
 the whole deck. The seven lead cards keep the full anatomy: number, title, hook,
-three project-specific stats, a full-width footer with date and team chips on
-the left and the stack chip on the right, and a 360 × 203 illustration drawn
-inline as SVG in the ambient palette. The five
-bench cards repeat the same anatomy at 1200 × 260 with 230 × 130 art and smaller
-type, minus the stat row, so the hierarchy reads before any copy is parsed. On the
-lead cards the stats and footer chips sit under one hairline rule; the bench cards
-keep the rule above the chips. The chips show only the date, the team or solo
+one proof stat in large type, a full-width footer with date and team chips on the
+left and the stack chip on the right, and a 360 × 203 illustration drawn inline
+as SVG in the ambient palette. The five bench cards repeat the same anatomy at
+1200 × 260 with 230 × 130 art and smaller type, minus the proof stat, so the
+hierarchy reads before any copy is parsed. On the lead cards the proof and footer
+chips sit under one hairline rule; the bench cards keep the rule above the chips. The chips show only the date, the team or solo
 label and the stack. Project-type labels and Minecraft plugin names such as
 WorldEdit are deliberately left out. Forge opens the series as the same card
 drawn as an outline: transparent body, coral edge, in-progress copy, and a slow
@@ -85,15 +84,15 @@ path without changing the image-first deck.
 
 ## What each project leads with
 
-| Plate | Format | Focus | Stats (lead cards only) | Stack |
+| Plate | Format | Focus | Proof stat (lead cards only) | Stack |
 |---|---|---|---|---|
-| `01` Forge | outline | The public slice of a controlled code-generation pipeline, with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
-| `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript |
-| `03` AEGIS Fabric | full | One ingress, six egress lanes and no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | nftables · Tailscale · Suricata · Firecracker · Vault |
-| `04` Trading-Support-Tools | full | A crash-safe order lifecycle and the journal that survived it | 1,059 rows · 98 trade IDs · 1.84 PF | JavaScript · Python · SQLite |
-| `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · Python |
-| `06` dynamic-dashboard | full | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
-| `07` ft_transcendence | full | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
+| `01` Forge | outline | The public slice of a controlled code-generation pipeline, with a slow ember pulse | 21/21 checks pass | Bun · TypeScript · SQLite · Docker · Linux |
+| `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 0 signals shipped | Python · JavaScript |
+| `03` AEGIS Fabric | full | One ingress, six egress lanes and no public admin plane | 0 admin ports exposed | nftables · Tailscale · Suricata · Firecracker · Vault |
+| `04` Trading-Support-Tools | full | A crash-safe order lifecycle and the journal that survived it | 1,059 journal rows | JavaScript · Python · SQLite |
+| `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members | Java 8 · Paper 1.14.4 · Python |
+| `06` dynamic-dashboard | full | Tabs of isolated widgets on one SQLite database | 28 starter widgets | Bun · Hono · SQLite · Vanilla JS · OpenCode |
+| `07` ft_transcendence | full | The engine (`World → Environment → Module`), not just the match | 20 Hz net tick | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
 | `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | — | C99 · POSIX · readline |
 | `09` cub3D | compact | Hand-written raycast into an X11 buffer, no GPU | — | C99 · X11 |
 | `10` ft_irc | compact | One thread, one `poll()` loop, plus a local model | — | C++98 · POSIX sockets · llama.cpp |

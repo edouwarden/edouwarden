@@ -2,7 +2,7 @@
 """Render the selected proof plate — a custom flat illustration — for every
 project in the deck.
 
-Each lead card keeps the same anatomy: number, title, hook, three project stats,
+Each lead card keeps the same anatomy: number, title, hook, one proof stat,
 a footer of date, team and stack chips, and a 360 x 203 illustration drawn inline
 as SVG in the ambient palette. The five bench cards repeat the anatomy at
 1200 x 260 with smaller type, 230 x 130 art, no stat row and the same footer
@@ -1137,17 +1137,16 @@ PROJECTS = [
         "title": "Forge",
         "meta": "2026 · Solo · AI systems &amp; tooling",
         "hook": "A controlled code-generation system: a pipeline of 28 steps, 22 deterministic gates, and a model called only where judgement is needed.",
-        "stats": [("28", "pipeline steps"), ("06", "model-served"), ("21/21", "checks")],
+        "stat": ("21/21", "checks pass"),
         "stack": "Bun · TypeScript · SQLite · Docker · Linux",
         "href": "https://github.com/edouwarden/theforge",
         "art": art_forge(),
         "alt": (
-            "01 Forge, 2026, solo, AI systems and tooling, in progress: a "
-            "controlled code-generation system with a 28-step pipeline, 22 "
-            "deterministic gates and a model called only where judgement is "
-            "needed, with a slow ember pulse over the anvil; 28 pipeline "
-            "steps, 6 model-served, 21 of 21 checks passed; Bun, TypeScript, "
-            "SQLite, Docker, Linux. Opens the repository."
+            "01 Forge, 2026, solo, AI systems and tooling, in progress: a controlled"
+            "code-generation system with a 28-step pipeline, 22 deterministic gates"
+            "and a model called only where judgement is needed, with a slow ember"
+            "pulse over the anvil; 21 of 21 checks passed; Bun, TypeScript, SQLite,"
+            "Docker, Linux. Opens the repository."
         ),
     },
 
@@ -1158,16 +1157,15 @@ PROJECTS = [
         "title_size": 34,
         "meta": "2026 · Solo · research",
         "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
-        "stats": [("21", "theories"), ("04", "parts each"), ("00", "signals")],
+        "stat": ("0", "signals shipped"),
         "stack": "Python · JavaScript",
         "href": "https://github.com/edouwarden/Financial-Market-Theories",
         "art": art_research(),
         "alt": (
-            "02 Financial-Market-Theories, 2026, solo, research: 21 falsifiable "
-            "market theories, each with a claim, mechanism, test and verdict, "
-            "and negative results kept in; 21 theories, 4 parts each, no "
-            "signals; Python, JavaScript. Opens the "
-            "repository."
+            "02 Financial-Market-Theories, 2026, solo, research: 21 falsifiable"
+            "market theories, each with a claim, mechanism, test and verdict, and"
+            "negative results kept in; no signals shipped; Python, JavaScript. Opens"
+            "the repository."
         ),
     },
 
@@ -1177,16 +1175,15 @@ PROJECTS = [
         "title": "AEGIS Fabric",
         "meta": "2026 · Solo · infrastructure &amp; security for a 12-person studio",
         "hook": "A zero-trust fabric for a 12-person studio: one ingress, six egress lanes, every device enrolled — and nothing administrative exposed.",
-        "stats": [("24", "devices"), ("06", "egress lanes"), ("00", "admin ports")],
+        "stat": ("0", "admin ports exposed"),
         "stack": "nftables · Tailscale · Suricata · Firecracker · Vault",
         "href": "https://github.com/edouwarden/aegis-fabric",
         "art": art_aegis(),
         "alt": (
-            "03 AEGIS Fabric, 2026, solo, infrastructure and security for a "
-            "12-person studio: a zero-trust network with one ingress, six egress lanes, "
-            "24 managed devices and no public admin ports; 24 devices, 6 egress "
-            "lanes, 0 admin ports; nftables, Tailscale, Suricata, Firecracker, "
-            "Vault. Opens the repository."
+            "03 AEGIS Fabric, 2026, solo, infrastructure and security for a 12-person"
+            "studio: a zero-trust network with one ingress, six egress lanes, 24"
+            "managed devices and no public admin ports; 0 admin ports exposed;"
+            "nftables, Tailscale, Suricata, Firecracker, Vault. Opens the repository."
         ),
     },
 
@@ -1197,15 +1194,14 @@ PROJECTS = [
         "title_size": 40,
         "meta": "2026 · Solo · execution systems",
         "hook": "A perpetual-futures bot and the tooling around it: a crash-safe order lifecycle and a 1,059-row journal that survived real use.",
-        "stats": [("1,059", "journal rows"), ("98", "trade IDs"), ("1.84", "profit factor")],
+        "stat": ("1,059", "journal rows"),
         "stack": "JavaScript · Python · SQLite",
         "href": "https://github.com/edouwarden/Trading-Support-Tools",
         "art": art_trading(),
         "alt": (
-            "04 Trading-Support-Tools, 2026, solo, execution systems: a "
-            "perpetual-futures bot and its crash-safe order lifecycle, an "
-            "auditable journal and small operational tools that survived real "
-            "use; 1,059 journal rows, 98 trade IDs, 1.84 profit factor; "
+            "04 Trading-Support-Tools, 2026, solo, execution systems: a perpetual-"
+            "futures bot and its crash-safe order lifecycle, an auditable journal and"
+            "small operational tools that survived real use; 1,059 journal rows;"
             "JavaScript, Python, SQLite. Opens the repository."
         ),
     },
@@ -1216,17 +1212,16 @@ PROJECTS = [
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
-        "stats": [("2,000+", "members"), ("05", "powers"), ("11×11", "orbital slots")],
+        "stat": ("2,000+", "members"),
         "stack": "Java 8 · Paper 1.14.4 · Python",
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
         "alt": (
-            "05 space-gameserver, 2019, solo, systems and geometry: a Spigot "
-            "sandbox whose space and exoplanet terrain comes from a seeded six-"
-            "octave height field sampled into a core column, ships on an 11 by "
-            "11 orbital grid, and five weapon systems as closed-form geometry; "
-            "2,000+ members, 5 powers, 11 by 11 orbital slots; Java 8, Paper "
-            "1.14.4, Python. Opens the repository."
+            "05 space-gameserver, 2019, solo, systems and geometry: a Spigot sandbox"
+            "whose space and exoplanet terrain comes from a seeded six-octave height"
+            "field sampled into a core column, ships on an 11 by 11 orbital grid, and"
+            "five weapon systems as closed-form geometry; 2,000+ members; Java 8,"
+            "Paper 1.14.4, Python. Opens the repository."
         ),
     },
 
@@ -1239,15 +1234,15 @@ PROJECTS = [
         "title": "dynamic-dashboard",
         "meta": "2026 · Solo · product &amp; full stack",
         "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
-        "stats": [("28", "starter widgets"), ("06", "example tabs"), ("01", "shared DB")],
+        "stat": ("28", "starter widgets"),
         "stack": "Bun · Hono · SQLite · Vanilla JS · OpenCode",
         "href": "https://github.com/edouwarden/dynamic-dashboard",
         "art": DASHBOARD_ART,
         "alt": (
-            "06 dynamic-dashboard, 2026, solo product and full stack: a local-first "
-            "dashboard builder with isolated HTML widgets on one SQLite database, "
-            "edited by an agent; 28 starter widgets, 6 example tabs, 1 shared DB; "
-            "Bun, Hono, SQLite, Vanilla JS, OpenCode. Opens the repository."
+            "06 dynamic-dashboard, 2026, solo product and full stack: a local-first"
+            "dashboard builder with isolated HTML widgets on one SQLite database,"
+            "edited by an agent; 28 starter widgets; Bun, Hono, SQLite, Vanilla JS,"
+            "OpenCode. Opens the repository."
         ),
     },
 
@@ -1257,16 +1252,16 @@ PROJECTS = [
         "title": "ft_transcendence",
         "meta": "2026 · Team lead · engine &amp; frontend",
         "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics, live editors and a parkour arena.",
-        "stats": [("04", "engine layers"), ("04", "course maps"), ("20 Hz", "net tick")],
+        "stat": ("20 Hz", "net tick"),
         "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
         "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
         "art": art_transcendence(),
         "alt": (
-            "07 ft_transcendence, 2026, team lead for engine and frontend on a team "
-            "of four: a browser game engine on Three.js with World, Environment and "
-            "Module layers, physics, editors and live tools, running a parkour "
-            "arena; 4 engine layers, 4 course maps, 20 Hz net tick; Next.js, "
-            "Three.js, Rapier, Bun, Go, PostgreSQL. Opens the repository."
+            "07 ft_transcendence, 2026, team lead for engine and frontend on a team"
+            "of four: a browser game engine on Three.js with World, Environment and"
+            "Module layers, physics, editors and live tools, running a parkour arena;"
+            "20 Hz net tick; Next.js, Three.js, Rapier, Bun, Go, PostgreSQL. Opens"
+            "the repository."
         ),
     },
 
@@ -1278,15 +1273,14 @@ PROJECTS = [
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
-        "stats": [("3,000", "lines of C"), ("64", "pipe stages"), ("0", "zombies")],
+        "stat": ("0", "zombies left"),
         "stack": "C99 · POSIX · readline",
         "href": "https://github.com/edouwarden/minishell",
         "art": art_minishell(),
         "alt": (
-            "08 minishell, 2025, pair, systems and parsing: a Unix shell with "
-            "quote-aware lexing, expansion, heredocs and 64-stage pipelines, "
-            "readline only; 3,000 lines of C, 64 pipe stages, 0 zombies; C99, "
-            "POSIX, readline. Opens the repository."
+            "08 minishell, 2025, pair, systems and parsing: a Unix shell with quote-"
+            "aware lexing, expansion, heredocs and 64-stage pipelines, readline only;"
+            "0 zombies left; C99, POSIX, readline. Opens the repository."
         ),
     },
 
@@ -1298,16 +1292,15 @@ PROJECTS = [
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
-        "stats": [("640", "rays / frame"), ("03", "showcase maps"), ("~60", "frame cap")],
+        "stat": ("640", "rays per frame"),
         "stack": "C99 · X11",
         "href": "https://github.com/edouwarden/cube3D",
         "art": art_cub3d(),
         "alt": (
-            "09 cub3D, 2025, pair, rendering and math: a hand-written raycast "
-            "renderer with 640 rays per frame, textured walls floor to ceiling and "
-            "every pixel written into an X11 buffer without a GPU; 640 rays per "
-            "frame, 3 showcase maps, about 60 fps cap; C99, X11. Opens the "
-            "repository."
+            "09 cub3D, 2025, pair, rendering and math: a hand-written raycast"
+            "renderer with 640 rays per frame, textured walls floor to ceiling and"
+            "every pixel written into an X11 buffer without a GPU; 640 rays per"
+            "frame; C99, X11. Opens the repository."
         ),
     },
 
@@ -1319,15 +1312,15 @@ PROJECTS = [
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
-        "stats": [("1", "thread"), ("1", "poll loop"), ("3.8B", "local model")],
+        "stat": ("3.8B", "local model"),
         "stack": "C++98 · POSIX sockets · llama.cpp",
         "href": "https://github.com/edouwarden/irc",
         "art": art_irc(),
         "alt": (
-            "10 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
-            "thread and one poll loop with buffered TCP framing, channel modes and "
-            "a local Phi-3 answering in #ai-lab; 1 thread, 1 poll loop, 3.8B local "
-            "model; C++98, POSIX sockets, llama.cpp. Opens the repository."
+            "10 ft_irc, 2026, pair, protocols and systems: an IRC server on one"
+            "thread and one poll loop with buffered TCP framing, channel modes and a"
+            "local Phi-3 answering in #ai-lab; 3.8B local model; C++98, POSIX"
+            "sockets, llama.cpp. Opens the repository."
         ),
     },
 
@@ -1339,16 +1332,15 @@ PROJECTS = [
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
-        "stats": [("03", "services"), ("01", "open port"), ("04", "secrets")],
+        "stat": ("1", "open port"),
         "stack": "Docker Compose · NGINX · WordPress · MariaDB · TLS",
         "href": "https://github.com/edouwarden/inception",
         "art": art_inception(),
         "alt": (
-            "11 Inception, 2026, solo, containers and infrastructure: a WordPress "
-            "stack where every part is a container, nginx holds TLS, PHP-FPM runs "
-            "WordPress and MariaDB never leaves the compose network; 3 services, "
-            "1 open port, 4 secrets; Docker Compose, NGINX, WordPress, MariaDB, "
-            "TLS. Opens the repository."
+            "11 Inception, 2026, solo, containers and infrastructure: a WordPress"
+            "stack where every part is a container, nginx holds TLS, PHP-FPM runs"
+            "WordPress and MariaDB never leaves the compose network; 1 open port;"
+            "Docker Compose, NGINX, WordPress, MariaDB, TLS. Opens the repository."
         ),
     },
 
@@ -1360,17 +1352,16 @@ PROJECTS = [
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
-        "stats": [("07", "volumes"), ("01", "open port"), ("10 min", "wall")],
+        "stat": ("1", "open port"),
         "stack": "Debian · LUKS · LVM · UFW · systemd",
         "href": "https://github.com/edouwarden/born2beroot",
         "art": art_born2beroot(),
         "alt": (
-            "12 born2beroot, 2024, solo, systems and hardening: a reproducible "
-            "Debian VM running in a guest window on a VirtualBox host, built from "
-            "a self-made ISO with LUKS under LVM, six XFS filesystems plus swap, SSH "
-            "on port 4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
-            "every 10 minutes; Debian, LUKS, LVM, UFW, systemd. Opens the "
-            "repository."
+            "12 born2beroot, 2024, solo, systems and hardening: a reproducible Debian"
+            "VM running in a guest window on a VirtualBox host, built from a self-"
+            "made ISO with LUKS under LVM, six XFS filesystems plus swap, SSH on port"
+            "4242 and every sudo logged; 1 open port; Debian, LUKS, LVM, UFW,"
+            "systemd. Opens the repository."
         ),
     },
 
@@ -1454,7 +1445,7 @@ body {{
   grid-column: 1 / -1; grid-row: 2;
   padding-top: 8px; border-top: 1px solid rgba(12, 10, 62, 0.24);
 }}
-.specs {{ display: flex; gap: 26px; margin-top: auto; padding: 0; border: 0; }}
+.specs {{ margin-top: auto; }}
 .chips {{
   display: flex; align-items: center; justify-content: space-between;
   gap: 18px; flex-wrap: nowrap; min-width: 0;
@@ -1469,15 +1460,14 @@ body {{
 }}
 .chip-date {{ background: {NAVY}; border-color: {NAVY}; color: {PAPER}; }}
 .chip-stack {{ color: rgba(12, 10, 62, 0.7); }}
-.spec {{ display: flex; flex-direction: column; gap: 2px; }}
+.spec {{ display: flex; align-items: baseline; gap: 12px; }}
 .spec b {{
-  display: flex; align-items: center; gap: 7px;
-  font-family: 'Days One', sans-serif; font-size: 22px; font-weight: 400; line-height: 1;
+  font-family: 'Days One', sans-serif; font-size: 34px; font-weight: 400;
+  line-height: 1; letter-spacing: -0.02em;
 }}
-.spec b::before {{ content: ''; width: 6px; height: 6px; background: {NAVY}; }}
 .spec span {{
-  font-size: 8.5px; font-weight: 500; letter-spacing: 0.13em;
-  text-transform: uppercase; color: rgba(12, 10, 62, 0.6);
+  font-size: 16px; font-weight: 500; letter-spacing: 0.01em;
+  color: rgba(12, 10, 62, 0.66);
 }}
 .art {{ position: relative; align-self: center; width: 360px; height: 203px; }}
 .art svg {{
@@ -1506,8 +1496,7 @@ body {{
 .card.outline .hook {{ color: rgba(255, 250, 240, 0.84); }}
 .card.outline .footwrap {{ border-top-color: rgba(255, 250, 240, 0.16); }}
 .card.outline .spec b {{ color: {PAPER}; }}
-.card.outline .spec b::before {{ background: {CORAL}; }}
-.card.outline .spec span {{ color: rgba(255, 250, 240, 0.5); }}
+.card.outline .spec span {{ color: rgba(255, 250, 240, 0.62); }}
 .card.outline .chip {{
   border-color: rgba(255, 250, 240, 0.3);
   color: rgba(255, 250, 240, 0.8);
@@ -1523,7 +1512,7 @@ body {{
 }}
 
 /* Compact cards: the bench after the seven lead plates. Same anatomy at a
-   smaller scale and without the stat row, so the hierarchy reads before any
+   smaller scale and without the proof stat, so the hierarchy reads before any
    copy is parsed. */
 .plate.compact {{ height: 260px; padding: 20px 84px; }}
 .card.compact {{
@@ -1553,13 +1542,12 @@ body {{
 
 
 def card(project: dict) -> str:
-    specs = "".join(
-        SPEC.format(value=value, label=name) for value, name in project["stats"]
-    )
     specs_block = (
         ""
         if project.get("variant") == "compact"
-        else f'<div class="specs">{specs}</div>'
+        else '<div class="specs">'
+        + SPEC.format(value=project["stat"][0], label=project["stat"][1])
+        + "</div>"
     )
     meta = [part.strip() for part in project["meta"].split(" · ")]
     date = meta[0]
