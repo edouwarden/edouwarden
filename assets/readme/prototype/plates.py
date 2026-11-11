@@ -2,14 +2,15 @@
 """Render the selected proof plate — a custom flat illustration — for every
 project in the deck.
 
-Each lead card keeps the same anatomy: number, title, meta, hook, three project
-stats, stack, and a 360 x 203 illustration drawn inline as SVG in the ambient
-palette. The five bench cards repeat the anatomy at 1200 x 250 with smaller type,
-230 x 130 art and no stat row, so the hierarchy reads before the copy does. The
-illustrations are scenes and objects, not screenshots: an anvil, a theory
-notebook, a policy gate, a trading terminal, a dashboard, an engine editor, a
-seeded height field, a shell terminal, a raycast corridor, an IRC frame, a Docker
-host, and a VM window on a host.
+Each lead card keeps the same anatomy: number, title, hook, three project stats,
+a footer of date, team and stack chips, and a 360 x 203 illustration drawn inline
+as SVG in the ambient palette. The five bench cards repeat the anatomy at
+1200 x 260 with smaller type, 230 x 130 art, no stat row and the same footer
+chips, so the hierarchy reads before the copy does. The illustrations are scenes
+and objects, not screenshots: an anvil, a theory notebook, a policy gate, a
+trading terminal, a dashboard, an engine editor, a seeded height field, a shell
+terminal, a raycast corridor, an IRC frame, a Docker host, and a VM window on a
+host.
 
 Standalone: production README and build.py are untouched.
 
@@ -1216,7 +1217,7 @@ PROJECTS = [
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
         "stats": [("2,000+", "members"), ("05", "powers"), ("11×11", "orbital slots")],
-        "stack": "Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python",
+        "stack": "Java 8 · Paper 1.14.4 · Python",
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
         "alt": (
@@ -1225,7 +1226,7 @@ PROJECTS = [
             "octave height field sampled into a core column, ships on an 11 by "
             "11 orbital grid, and five weapon systems as closed-form geometry; "
             "2,000+ members, 5 powers, 11 by 11 orbital slots; Java 8, Paper "
-            "1.14.4, WorldEdit, WorldGuard, Python. Opens the repository."
+            "1.14.4, Python. Opens the repository."
         ),
     },
 
@@ -1273,7 +1274,7 @@ PROJECTS = [
         "n": "08",
         "file": "plate-08.png",
         "variant": "compact",
-        "height": 250,
+        "height": 260,
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
@@ -1293,7 +1294,7 @@ PROJECTS = [
         "n": "09",
         "file": "plate-09.png",
         "variant": "compact",
-        "height": 250,
+        "height": 260,
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
@@ -1314,7 +1315,7 @@ PROJECTS = [
         "n": "10",
         "file": "plate-10.png",
         "variant": "compact",
-        "height": 250,
+        "height": 260,
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
@@ -1334,7 +1335,7 @@ PROJECTS = [
         "n": "11",
         "file": "plate-11.png",
         "variant": "compact",
-        "height": 250,
+        "height": 260,
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
@@ -1355,7 +1356,7 @@ PROJECTS = [
         "n": "12",
         "file": "plate-12.png",
         "variant": "compact",
-        "height": 250,
+        "height": 260,
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
@@ -1383,9 +1384,10 @@ CARD = """
         <div class="num">{n}</div>
         <h2 class="title"{title_style}>{title}</h2>
       </div>
-      <p class="meta">{meta}</p>
       <p class="hook">{hook}</p>
-      {specs_block}<p class="stack">{stack}</p>
+      <div class="footwrap">
+        {specs_block}<div class="chips">{chips}</div>
+      </div>
     </div>
     <div class="art">{art}<span class="go">↗</span></div>
   </div>
@@ -1439,18 +1441,28 @@ body {{
   margin: 0; font-family: 'Days One', sans-serif; font-size: 46px;
   font-weight: 400; line-height: 1; letter-spacing: -0.02em;
 }}
-.meta {{
-  margin: 8px 0 0; font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase; color: rgba(12, 10, 62, 0.62);
-}}
 .hook {{
   max-width: 520px; margin: 8px 0 0; font-size: 22px;
   line-height: 1.25; color: rgba(12, 10, 62, 0.92);
 }}
-.specs {{
-  display: flex; gap: 26px; margin-top: auto; padding-top: 12px;
+.footwrap {{
+  margin-top: auto; padding-top: 10px;
   border-top: 1px solid rgba(12, 10, 62, 0.24);
 }}
+.specs {{ display: flex; gap: 26px; margin: 0; padding: 0; border: 0; }}
+.chips {{
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
+  margin-top: 9px; min-width: 0;
+}}
+.chip {{
+  display: inline-flex; align-items: center; flex: none;
+  padding: 4px 8px; border-radius: 999px;
+  border: 1px solid rgba(12, 10, 62, 0.3);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.01em;
+  color: rgba(12, 10, 62, 0.84); white-space: nowrap;
+}}
+.chip-date {{ background: {NAVY}; border-color: {NAVY}; color: {PAPER}; }}
+.chip-stack {{ color: rgba(12, 10, 62, 0.7); }}
 .spec {{ display: flex; flex-direction: column; gap: 2px; }}
 .spec b {{
   display: flex; align-items: center; gap: 7px;
@@ -1460,10 +1472,6 @@ body {{
 .spec span {{
   font-size: 8.5px; font-weight: 500; letter-spacing: 0.13em;
   text-transform: uppercase; color: rgba(12, 10, 62, 0.6);
-}}
-.stack {{
-  margin: 10px 0 0; font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(12, 10, 62, 0.5);
 }}
 .art {{ position: relative; align-self: center; width: 360px; height: 203px; }}
 .art svg {{
@@ -1489,13 +1497,19 @@ body {{
   color: {CORAL};
   border: 1.5px solid {CORAL};
 }}
-.card.outline .meta {{ color: rgba(255, 250, 240, 0.54); }}
 .card.outline .hook {{ color: rgba(255, 250, 240, 0.84); }}
-.card.outline .specs {{ border-top-color: rgba(255, 250, 240, 0.16); }}
+.card.outline .footwrap {{ border-top-color: rgba(255, 250, 240, 0.16); }}
 .card.outline .spec b {{ color: {PAPER}; }}
 .card.outline .spec b::before {{ background: {CORAL}; }}
 .card.outline .spec span {{ color: rgba(255, 250, 240, 0.5); }}
-.card.outline .stack {{ color: rgba(255, 250, 240, 0.42); }}
+.card.outline .chip {{
+  border-color: rgba(255, 250, 240, 0.3);
+  color: rgba(255, 250, 240, 0.8);
+}}
+.card.outline .chip-date {{
+  background: {CORAL}; border-color: {CORAL}; color: {NAVY};
+}}
+.card.outline .chip-stack {{ color: rgba(255, 250, 240, 0.62); }}
 .card.outline .art .go {{
   background: transparent;
   color: {CORAL};
@@ -1505,7 +1519,7 @@ body {{
 /* Compact cards: the bench after the seven lead plates. Same anatomy at a
    smaller scale and without the stat row, so the hierarchy reads before any
    copy is parsed. */
-.plate.compact {{ height: 250px; padding: 20px 84px; }}
+.plate.compact {{ height: 260px; padding: 20px 84px; }}
 .card.compact {{
   grid-template-columns: minmax(0, 1fr) 230px;
   gap: 24px;
@@ -1517,16 +1531,12 @@ body {{
   width: 38px; height: 38px; border-radius: 7px; font-size: 16px;
 }}
 .card.compact .title {{ font-size: 32px; }}
-.card.compact .meta {{
-  margin-top: 8px; font-size: 8.5px; letter-spacing: 0.11em;
-}}
 .card.compact .hook {{
   max-width: 660px; margin-top: 8px; font-size: 18px; line-height: 1.4;
 }}
-.card.compact .stack {{
-  margin-top: auto; padding-top: 10px; font-size: 8px;
-  border-top: 1px solid rgba(12, 10, 62, 0.18);
-}}
+.card.compact .footwrap {{ padding-top: 8px; }}
+.card.compact .chip {{ font-size: 12px; padding: 4px 9px; }}
+.card.compact .chips {{ margin-top: 7px; }}
 .card.compact .art {{ width: 230px; height: 130px; }}
 .card.compact .art svg {{ width: 230px; height: 130px; border-radius: 12px; }}
 .card.compact .art .go {{
@@ -1542,7 +1552,18 @@ def card(project: dict) -> str:
     specs_block = (
         ""
         if project.get("variant") == "compact"
-        else f'<div class="specs">{specs}</div>\n      '
+        else f'<div class="specs">{specs}</div>\n        '
+    )
+    meta = [part.strip() for part in project["meta"].split(" · ")]
+    date = meta[0]
+    team = {"Team lead": "Team of four", "12-person studio": "Team of 12"}.get(
+        meta[1] if len(meta) > 1 else "", meta[1] if len(meta) > 1 else ""
+    )
+    stack = project["stack"]
+    chips = (
+        f'<span class="chip chip-date">{date}</span>'
+        f'<span class="chip">{team}</span>'
+        f'<span class="chip chip-stack">{stack}</span>'
     )
     title_style = (
         f' style="font-size: {project["title_size"]}px"'
@@ -1556,10 +1577,9 @@ def card(project: dict) -> str:
         n=project["n"],
         title=project["title"],
         title_style=title_style,
-        meta=project["meta"],
         hook=project["hook"],
         specs_block=specs_block,
-        stack=project["stack"],
+        chips=chips,
         art=project["art"],
     )
 

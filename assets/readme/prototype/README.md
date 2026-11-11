@@ -1,15 +1,17 @@
 # Proof plate prototype
 
 Direction **A** — a custom flat illustration on every project card — applied to
-the whole deck. The seven lead cards keep the full anatomy: number, title, meta,
-hook, three project-specific stats, stack, and a 360 × 203 illustration drawn
-inline as SVG in the ambient palette. The five bench cards repeat the same
-anatomy at 1200 × 250 with 230 × 130 art and smaller type, minus the stat row, so
-the hierarchy reads before any copy is parsed. On the lead cards the stats sit in
-one row above the stack, with a hairline rule separating the numbers from the
-prose; the bench cards keep only the rule above the stack. Forge opens the series
-as the same card drawn as an outline: transparent body, coral edge, in-progress
-copy, and a slow ember pulse over the anvil.
+the whole deck. The seven lead cards keep the full anatomy: number, title, hook,
+three project-specific stats, a one-line footer of date, team and stack chips,
+and a 360 × 203 illustration drawn inline as SVG in the ambient palette. The five
+bench cards repeat the same anatomy at 1200 × 260 with 230 × 130 art and smaller
+type, minus the stat row, so the hierarchy reads before any copy is parsed. On the
+lead cards the stats and footer chips sit under one hairline rule; the bench cards
+keep the rule above the chips. The chips show only the date, the team or solo
+label and the stack. Project-type labels and Minecraft plugin names such as
+WorldEdit are deliberately left out. Forge opens the series as the same card
+drawn as an outline: transparent body, coral edge, in-progress copy, and a slow
+ember pulse over the anvil.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a policy gate with six egress lanes, a trading terminal, a theory
@@ -88,7 +90,7 @@ path without changing the image-first deck.
 | `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript · market data · Markdown |
 | `03` AEGIS Fabric | full | One ingress, six egress lanes and no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | nftables · Tailscale · Suricata · Firecracker · Vault |
 | `04` Trading-Support-Tools | full | A crash-safe order lifecycle and the journal that survived it | 1,059 rows · 98 trade IDs · 1.84 PF | JavaScript · Python · Gains API · SQLite · Discord |
-| `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
+| `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · Python |
 | `06` dynamic-dashboard | full | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
 | `07` ft_transcendence | full | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
 | `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | — | C99 · POSIX · fork/exec · dup2 · readline |
@@ -115,7 +117,7 @@ after the seven leads.
 ## Files
 
 - `plates.py` — renders all twelve plates at 1200 × 400 (the five compact cards
-  at 1200 × 250), 2x, using the deck fonts; plate 06 is clipped to 1200 × 376 so
+  at 1200 × 260), 2x, using the deck fonts; plate 06 is clipped to 1200 × 376 so
   the try strip can sit close to it. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png` … `plate-12.png`
   — the rendered plates. `plate-01.svg` wraps the Forge PNG and adds the ember
