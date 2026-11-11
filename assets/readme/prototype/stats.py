@@ -86,6 +86,53 @@ PROJECTS_W, PROJECTS_H = 900, 84
 TRY_W, TRY_H = 900, 44
 OPEN_W, OPEN_H = 900, 44
 REVIEWS_W = 900
+MORE_W, MORE_H = 1200, 72
+MORE_ROW_W, MORE_ROW_H = 1200, 100
+
+# The second tier keeps the curated nine as the lead story and gives the rest
+# of the bench a quiet, linkable index. Rows 13 and 14 are not public yet.
+MORE = (
+    {
+        "n": "10",
+        "title": "AEGIS Fabric",
+        "meta": "2026 · SOLO · INFRASTRUCTURE & SECURITY",
+        "hook": "A zero-trust network for a 12-person studio: one way in, one way out, no public admin plane.",
+        "stats": (("24", "devices"), ("06", "egress lanes"), ("00", "admin ports")),
+        "status": "REPO",
+    },
+    {
+        "n": "11",
+        "title": "Financial-Market-Theories",
+        "meta": "2026 · SOLO · RESEARCH",
+        "hook": "21 market ideas, each with claim, mechanism, test and verdict — including the ones with no edge.",
+        "stats": (("21", "theories"), ("04", "parts each"), ("00", "signals")),
+        "status": "REPO",
+    },
+    {
+        "n": "12",
+        "title": "Trading-Support-Tools",
+        "meta": "2026 · SOLO · EXECUTION SYSTEMS",
+        "hook": "A live perpetual-futures bot, its order lifecycle, and an auditable journal that survived real use.",
+        "stats": (("1,059", "journal rows"), ("98", "trade IDs"), ("1.84", "profit factor")),
+        "status": "REPO",
+    },
+    {
+        "n": "13",
+        "title": "portfolio-webpage",
+        "meta": "2026 · SOLO · PRODUCT & FRONTEND",
+        "hook": "A static Astro portfolio across four locales: no framework runtime, no third-party scripts, €0 infra.",
+        "stats": (("69", "pages"), ("04", "locales"), ("€0", "infra bill")),
+        "status": "SOON",
+    },
+    {
+        "n": "14",
+        "title": "42 Intra Tools",
+        "meta": "2026 · SOLO · AUTOMATION",
+        "hook": "Small tools over the Intra API v2, including correction-slot pressure analysis.",
+        "stats": (("v2", "Intra API"), ("01", "analysis"), ("WIP", "in progress")),
+        "status": "SOON",
+    },
+)
 
 # Placeholder copy for the mockup. Replace with real reviews before publishing.
 REVIEWS = (
@@ -422,6 +469,83 @@ def open_svg() -> str:
     return "".join(out)
 
 
+def more_header_svg() -> str:
+    out = [svg_open(MORE_W, MORE_H, "More work")]
+    right = MORE_W - MARGIN
+
+    out.append(f'<rect x="{MARGIN}" y="30" width="9" height="9" fill="{CORAL}"/>')
+    out.append(kicker("MORE WORK", MARGIN + 19, 40))
+
+    size, track = 10.0, 1.4
+    range_text = "10 — 14"
+    range_w = text_width(range_text, size, track)
+    out.append(
+        f'<path d="{text_path(range_text, size, track, right - range_w, 40)}" '
+        f'fill="{PAPER}" fill-opacity="0.4"/>'
+    )
+    out.append(
+        f'<rect x="{right - range_w - 19}" y="32" width="5" height="5" '
+        f'fill="{CORAL}" fill-opacity="0.7"/>'
+    )
+    out.append("</svg>")
+    return "".join(out)
+
+
+def more_row_svg(item: dict) -> str:
+    out = [svg_open(MORE_ROW_W, MORE_ROW_H, f'{item["n"]} {item["title"]}')]
+
+    # Index and title column.
+    out.append(f'<rect x="{MARGIN}" y="40" width="8" height="8" fill="{CORAL}"/>')
+    out.append(
+        f'<path d="{text_path(item["n"], 13.0, 1.6, MARGIN + 16, 48)}" '
+        f'fill="{CORAL}"/>'
+    )
+    title_size, title_track = 20.0, 0.2
+    out.append(
+        f'<path d="{text_path(item["title"], title_size, title_track, 116, 42)}" '
+        f'fill="{PAPER}"/>'
+    )
+    out.append(
+        f'<path d="{text_path(item["meta"], 9.0, 1.2, 116, 60)}" '
+        f'fill="{PAPER}" fill-opacity="0.42"/>'
+    )
+
+    # One-line pitch, wrapping to at most three lines.
+    hook_lines = wrap_text(item["hook"], 15.5, 0.08, 450)
+    for j, line in enumerate(hook_lines[:3]):
+        out.append(
+            f'<path d="{text_path(line, 15.5, 0.08, 444, 46 + j * 18)}" '
+            f'fill="{PAPER}" fill-opacity="0.8"/>'
+        )
+
+    # Three compact stats on the right, same coral square as the plates.
+    for i, (value, name) in enumerate(item["stats"]):
+        x = 906 + i * 84
+        out.append(f'<rect x="{x}" y="46" width="5" height="5" fill="{CORAL}"/>')
+        out.append(
+            f'<path d="{text_path(value, 17.0, 0.2, x + 10, 54)}" '
+            f'fill="{PAPER}"/>'
+        )
+        out.append(
+            f'<path d="{text_path(name.upper(), 8.0, 1.0, x, 70)}" '
+            f'fill="{PAPER}" fill-opacity="0.42"/>'
+        )
+
+    # Status, right aligned above the stats column.
+    status = item["status"]
+    status_size, status_track = 9.0, 1.5
+    status_w = text_width(status, status_size, status_track)
+    status_fill = CORAL if status == "REPO" else PAPER
+    status_opacity = "1" if status == "REPO" else "0.35"
+    out.append(
+        f'<path d="{text_path(status, status_size, status_track, 1152 - status_w, 30)}" '
+        f'fill="{status_fill}" fill-opacity="{status_opacity}"/>'
+    )
+
+    out.append("</svg>")
+    return "".join(out)
+
+
 def reviews_svg() -> str:
     card_w = 430
     pad = 22
@@ -618,6 +742,9 @@ def main() -> None:
     write_rail("deck-projects.svg", projects_svg())
     write_rail("deck-try.svg", try_svg())
     write_rail("deck-open.svg", open_svg())
+    write_rail("deck-more.svg", more_header_svg())
+    for item in MORE:
+        write_rail(f'deck-more-{item["n"]}.svg', more_row_svg(item))
     write_rail("deck-reviews.svg", reviews_svg())
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()

@@ -962,7 +962,7 @@ PROJECTS = [
         "file": "plate-02.png",
         "title": "ft_transcendence",
         "meta": "2026 · Team lead · engine &amp; frontend",
-        "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics and live editors.",
+        "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics, live editors and a parkour arena.",
         "stats": [("04", "engine layers"), ("04", "course maps"), ("20 Hz", "net tick")],
         "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
         "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
@@ -1051,7 +1051,7 @@ PROJECTS = [
         "file": "plate-07.png",
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
-        "hook": "A WordPress stack where every part is a container: nginx holds TLS, MariaDB never leaves the compose network.",
+        "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
         "stats": [("03", "services"), ("01", "open port"), ("04", "secrets")],
         "stack": "Docker Compose · NGINX · WordPress · MariaDB · TLS",
         "href": "https://github.com/edouwarden/inception",
@@ -1069,7 +1069,7 @@ PROJECTS = [
         "file": "plate-08.png",
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
-        "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six filesystems, SSH on 4242, and every sudo logged.",
+        "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
         "stats": [("07", "volumes"), ("01", "open port"), ("10 min", "wall")],
         "stack": "Debian · LUKS · LVM · UFW · systemd",
         "href": "https://github.com/edouwarden/born2beroot",
@@ -1077,8 +1077,8 @@ PROJECTS = [
         "alt": (
             "08 born2beroot, 2024, solo, systems and hardening: a reproducible "
             "Debian VM running in a guest window on a VirtualBox host, built from "
-            "a self-made ISO with LUKS under LVM, six filesystems, SSH on port "
-            "4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
+            "a self-made ISO with LUKS under LVM, six XFS filesystems plus swap, SSH "
+            "on port 4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
             "every 10 minutes; Debian, LUKS, LVM, UFW, systemd. Opens the "
             "repository."
         ),
@@ -1091,17 +1091,18 @@ PROJECTS = [
         "variant": "outline",
         "motion": "forge",
         "title": "Forge",
-        "meta": "2026 · Solo · systems &amp; tooling",
-        "hook": "The next systems project: a workshop for building, running and keeping software on one machine — published in parts.",
-        "stats": [("2026", "started"), ("01", "project"), ("WIP", "in progress")],
+        "meta": "2026 · Solo · AI systems &amp; tooling",
+        "hook": "A controlled code-generation system: a pipeline of 28 steps, 22 deterministic gates, and a model called only where judgement is needed.",
+        "stats": [("28", "pipeline steps"), ("06", "model-served"), ("21/21", "checks")],
         "stack": "Bun · TypeScript · SQLite · Docker · Linux",
         "href": "https://github.com/edouwarden/theforge",
         "art": art_forge(),
         "alt": (
-            "09 Forge, 2026, solo, systems and tooling, in progress: a workshop "
-            "for building, running and keeping software on one machine, "
-            "published in parts; 2026 start, 1 project, work in progress; Bun, "
-            "TypeScript, SQLite, Docker, Linux. Opens the repository."
+            "09 Forge, 2026, solo, AI systems and tooling, in progress: a "
+            "controlled code-generation system with a 28-step pipeline, 22 "
+            "deterministic gates and a model called only where judgement is "
+            "needed; 28 pipeline steps, 6 model-served, 21 of 21 checks passed; "
+            "Bun, TypeScript, SQLite, Docker, Linux. Opens the repository."
         ),
     },
 ]

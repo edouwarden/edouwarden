@@ -15,6 +15,12 @@ window on a hypervisor host. No node graphs, no layer trees, and no tiny labels
 that disappear at README width. Every plate is self-contained, so the public
 `build.py` pipeline and the production README are untouched.
 
+After the nine plates, a quiet **More work** ledger adds five projects in slim,
+individually linked rows: AEGIS Fabric, Financial-Market-Theories,
+Trading-Support-Tools, and the not-yet-public portfolio-webpage and 42 Intra
+Tools. It keeps the curated nine as the lead story while giving the rest of the
+bench a place on the deck.
+
 The Space plate leads with the **world-generation technique**: a 26 × 15 blocky
 height field sampled from six octaves of value noise, contour edges between
 height bands, and one highlighted sample feeding an eight-layer core column. It
@@ -38,6 +44,12 @@ space, marks and cards rather than full-width rules:
 - `deck-projects.svg` — the project-section header that introduces the plates:
   a single `Projects` title and the quiet plate range `01 — 09`. The old Forge
   tease is gone; Forge is a plate now.
+- `deck-more.svg` plus `deck-more-10.svg` … `deck-more-14.svg` — the **More work**
+  header and five 1200 × 100 rows, one project per row so each can keep its own
+  link. The left column holds the index, title and role; the centre holds a
+  one-sentence pitch; the right holds three compact stats and a `REPO` or `SOON`
+  status. The rows are vector, stack flush, and follow Forge before the review
+  marquee.
 - `deck-try.svg` — a thin 900 × 44 outline capsule aligned to the dashboard card
   and set directly under plate 01: coral `Try it now`, the
   `dynamic-dashboard.ednormand.fr` URL, a pulsing dot and a nudging arrow. Plate
@@ -66,9 +78,9 @@ space, marks and cards rather than full-width rules:
 ## Text fallback
 
 The root `README.md` closes with a collapsed `<details>` block: the same
-profile, project list, stack, language shares and contact as plain Markdown. It
-gives search, screen readers and no-image readers a complete path without
-changing the image-first deck.
+profile, the nine plates, the five More work entries, stack, language shares,
+education and contact as plain Markdown. It gives search, screen readers and
+no-image readers a complete path without changing the image-first deck.
 
 ## What each project leads with
 
@@ -82,7 +94,7 @@ changing the image-first deck.
 | `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
 | `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
 | `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
-| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | 2026 start · 01 project · WIP | Bun · TypeScript · SQLite · Docker · Linux |
+| `09` Forge | The public slice of a controlled code-generation pipeline, drawn as an in-progress outline card with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
@@ -90,8 +102,23 @@ stat. Its role reads `Team lead · engine & frontend`, matching the portfolio.
 `minishell`, `cub3D` and `ft_irc` are labelled `Pair`, matching the credits in
 their project READMEs.
 
-The Forge copy, stats and stack are placeholders until the project is ready;
-the card opens `github.com/edouwarden/theforge` and stays in progress.
+Forge now uses the published public-slice numbers: a 28-step run, 6 model-served
+steps and 21/21 checks. The card still opens `github.com/edouwarden/theforge`
+and stays an outline because the engine is larger and still in progress.
+
+### More work
+
+| Row | Focus | Stats | Status |
+|---|---|---|---|
+| `10` AEGIS Fabric | A zero-trust studio network: one way in, one way out, no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | repo |
+| `11` Financial-Market-Theories | 21 falsifiable market ideas with claim, mechanism, test and verdict | 21 theories · 04 parts · 00 signals | repo |
+| `12` Trading-Support-Tools | A live futures bot, its order lifecycle and an auditable journal | 1,059 rows · 98 trade IDs · 1.84 PF | repo |
+| `13` portfolio-webpage | A four-locale static Astro portfolio with no framework runtime | 69 pages · 04 locales · €0 infra | soon |
+| `14` 42 Intra Tools | Small tools over the Intra API v2, including correction-slot pressure | v2 API · 01 analysis · WIP | soon |
+
+The two `SOON` rows are deliberately unlinked: they are on the bench, not in a
+public repository yet. The three `REPO` rows each link their own SVG, so the
+ledger stays clickable without becoming one opaque image.
 
 ## Files
 
@@ -101,9 +128,9 @@ the card opens `github.com/edouwarden/theforge` and stays in progress.
 - `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-09.png`
   — the rendered plates. `plate-09.svg` wraps the Forge PNG and adds the ember
   pulse over the anvil; the other plates stay PNG.
-- `stats.py` — writes the stack, project-section, try-it, open-to-work and review
-  rails as SVG and renders the language line at 2x. HTML goes to the ignored
-  `.build/` folder.
+- `stats.py` — writes the stack, project-section, try-it, open-to-work, More work
+  and review rails as SVG and renders the language line at 2x. HTML goes to the
+  ignored `.build/` folder.
 - `boards.py` — reads the production header and footer boards and renders
   `deck-header.png` and `deck-footer.png` with the email in place of the visible
   GitHub copy. HTML goes to the ignored `.build/` folder.
@@ -113,8 +140,9 @@ the card opens `github.com/edouwarden/theforge` and stays in progress.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
-  `deck-open.svg`, `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` —
-  the rendered data rails and board variants.
+  `deck-open.svg`, `deck-more.svg`, `deck-more-10.svg` … `deck-more-14.svg`,
+  `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` — the rendered data
+  rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py

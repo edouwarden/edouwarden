@@ -70,6 +70,7 @@ FOOTER_RIGHT_NEW = "<span>Updated November 2026</span>"
 def header_transform(html: str) -> str:
     """Point the location line at Switzerland and keep one email in the header."""
     html = html.replace("Paris, France · 42 Paris", "Switzerland · 42 Paris")
+    html = html.replace("Coding since nine", "Coding since age 9")
     html = html.replace(' <span class="slash">/</span> Profile', "")
     html = html.replace(
         '  <div class="bottomline">\n'
