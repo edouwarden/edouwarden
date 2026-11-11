@@ -946,14 +946,15 @@ PROJECTS = [
         "title": "dynamic-dashboard",
         "meta": "2026 · Solo · product &amp; full stack",
         "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
+        "stats": (("28", "starter widgets"), ("6", "example tabs")),
         "stack": "Bun · Hono · SQLite · Vanilla JS · OpenCode",
         "href": "https://github.com/edouwarden/dynamic-dashboard",
         "art": DASHBOARD_ART,
         "alt": (
             "01 dynamic-dashboard, 2026, solo product and full stack: a local-first "
             "dashboard builder with isolated HTML widgets on one SQLite database, "
-            "edited by an agent; Bun, Hono, SQLite, Vanilla JS, OpenCode. Opens "
-            "the repository."
+            "edited by an agent; 28 starter widgets, 6 example tabs; Bun, Hono, "
+            "SQLite, Vanilla JS, OpenCode. Opens the repository."
         ),
     },
     {
@@ -962,6 +963,7 @@ PROJECTS = [
         "title": "ft_transcendence",
         "meta": "2026 · Team lead · engine &amp; frontend",
         "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics and live editors.",
+        "stats": (("4", "course maps"), ("20 Hz", "net tick")),
         "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
         "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
         "art": art_transcendence(),
@@ -969,8 +971,8 @@ PROJECTS = [
             "02 ft_transcendence, 2026, team lead for engine and frontend on a team "
             "of four: a browser game engine on Three.js with World, Environment and "
             "Module layers, physics, editors and live tools, running a parkour "
-            "arena; Next.js, Three.js, Rapier, Bun, Go, PostgreSQL. Opens the "
-            "repository."
+            "arena; 4 course maps, 20 Hz net tick; Next.js, Three.js, Rapier, "
+            "Bun, Go, PostgreSQL. Opens the repository."
         ),
     },
     {
@@ -979,6 +981,7 @@ PROJECTS = [
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
+        "stats": (("2,000+", "members"), ("5", "powers")),
         "stack": "Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python",
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
@@ -987,8 +990,8 @@ PROJECTS = [
             "sandbox whose space and exoplanet terrain comes from a seeded six-"
             "octave height field sampled into a core column, ships on an 11 by "
             "11 orbital grid, and five weapon systems as closed-form geometry; "
-            "Java 8, Paper 1.14.4, WorldEdit, WorldGuard, Python. Opens the "
-            "repository."
+            "2,000+ members, 5 powers; Java 8, Paper 1.14.4, WorldEdit, "
+            "WorldGuard, Python. Opens the repository."
         ),
     },
     {
@@ -997,14 +1000,15 @@ PROJECTS = [
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
+        "stats": (("3,000", "lines of C"), ("0", "zombies")),
         "stack": "C99 · POSIX · fork/exec · dup2 · readline",
         "href": "https://github.com/edouwarden/minishell",
         "art": art_minishell(),
         "alt": (
             "04 minishell, 2025, pair, systems and parsing: a Unix shell with "
             "quote-aware lexing, expansion, heredocs and 64-stage pipelines, "
-            "readline only; C99, POSIX, fork and exec, dup2, readline. Opens the "
-            "repository."
+            "readline only; 3,000 lines of C, 0 zombies; C99, POSIX, fork and "
+            "exec, dup2, readline. Opens the repository."
         ),
     },
     {
@@ -1013,14 +1017,15 @@ PROJECTS = [
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
+        "stats": (("640", "rays / frame"), ("0", "GPU")),
         "stack": "C99 · X11 · raycasting · XPM · math",
         "href": "https://github.com/edouwarden/cube3D",
         "art": art_cub3d(),
         "alt": (
             "05 cub3D, 2025, pair, rendering and math: a hand-written raycast "
             "renderer with 640 rays per frame, textured walls floor to ceiling and "
-            "every pixel written into an X11 buffer without a GPU; C99, X11, "
-            "raycasting, XPM, math. Opens the repository."
+            "every pixel written into an X11 buffer without a GPU; 640 rays per "
+            "frame, 0 GPU; C99, X11, raycasting, XPM, math. Opens the repository."
         ),
     },
     {
@@ -1029,14 +1034,15 @@ PROJECTS = [
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
+        "stats": (("3.8B", "local model"),),
         "stack": "C++98 · sockets · poll() · llama.cpp",
         "href": "https://github.com/edouwarden/irc",
         "art": art_irc(),
         "alt": (
             "06 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
             "thread and one poll loop with buffered TCP framing, channel modes and "
-            "a local Phi-3 answering in #ai-lab; C++98, sockets, poll, llama.cpp. "
-            "Opens the repository."
+            "a 3.8B-parameter local Phi-3 answering in #ai-lab; C++98, sockets, "
+            "poll, llama.cpp. Opens the repository."
         ),
     },
     {
@@ -1045,6 +1051,7 @@ PROJECTS = [
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, MariaDB never leaves the compose network.",
+        "stats": (("3", "services"), ("1", "open port")),
         "stack": "Docker Compose · NGINX · WordPress · MariaDB · TLS",
         "href": "https://github.com/edouwarden/inception",
         "art": art_inception(),
@@ -1052,7 +1059,8 @@ PROJECTS = [
             "07 Inception, 2026, solo, containers and infrastructure: a WordPress "
             "stack where every part is a container, nginx holds TLS, PHP-FPM runs "
             "WordPress and MariaDB never leaves the compose network; Docker "
-            "Compose, NGINX, WordPress, MariaDB, TLS. Opens the repository."
+            "Compose, NGINX, WordPress, MariaDB, TLS; 3 services, 1 open port. "
+            "Opens the repository."
         ),
     },
     {
@@ -1061,6 +1069,7 @@ PROJECTS = [
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six filesystems, SSH on 4242, and every sudo logged.",
+        "stats": (("6", "filesystems"), ("4242", "SSH port")),
         "stack": "Debian · LUKS · LVM · UFW · systemd",
         "href": "https://github.com/edouwarden/born2beroot",
         "art": art_born2beroot(),
@@ -1068,8 +1077,8 @@ PROJECTS = [
             "08 born2beroot, 2024, solo, systems and hardening: a reproducible "
             "Debian VM running in a guest window on a VirtualBox host, built from "
             "a self-made ISO with LUKS under LVM, six filesystems, SSH on port "
-            "4242 and every sudo logged; Debian, LUKS, LVM, UFW, systemd. Opens "
-            "the repository."
+            "4242 and every sudo logged; 6 filesystems, SSH port 4242; Debian, "
+            "LUKS, LVM, UFW, systemd. Opens the repository."
         ),
     },
     # Placeholder framing for Forge. Replace the copy and stack once the
@@ -1098,18 +1107,20 @@ CARD = """
 <div class="plate">
   <div class="card {variant}">
     <div class="copy">
-      <div class="head">
-        <div class="num">{n}</div>
-        <h2 class="title">{title}</h2>
-      </div>
-      <p class="meta">{meta}</p>
+      <h2 class="title">{title}</h2>
       <p class="hook">{hook}</p>
-      <p class="stack">{stack}</p>
+      <div class="tail">
+        {specs}
+        <p class="meta"><span class="num">{n}</span>{meta}</p>
+        <p class="stack">{stack}</p>
+      </div>
     </div>
     <div class="art">{art}<span class="go">↗</span></div>
   </div>
 </div>
 """
+
+SPEC = '<div class="spec"><b>{value}</b><span>{label}</span></div>'
 
 STYLE = f"""
 @font-face {{
@@ -1146,27 +1157,42 @@ body {{
   overflow: hidden;
 }}
 .copy {{ display: flex; flex-direction: column; min-width: 0; }}
-.head {{ display: flex; align-items: center; gap: 18px; }}
-.num {{
-  display: grid; place-items: center; flex: none;
-  width: 54px; height: 54px; border-radius: 10px;
-  background: #ffffff; font-family: 'Days One', sans-serif; font-size: 21px;
-}}
 .title {{
-  margin: 0; font-family: 'Days One', sans-serif; font-size: 42px;
-  font-weight: 400; line-height: 1; letter-spacing: -0.02em;
-}}
-.meta {{
-  margin: 14px 0 0; font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase; color: rgba(12, 10, 62, 0.62);
+  margin: 0; font-family: 'Days One', sans-serif; font-size: 46px;
+  font-weight: 400; line-height: 1.02; letter-spacing: -0.025em;
 }}
 .hook {{
-  max-width: 510px; margin: 16px 0 0; font-size: 19px;
-  line-height: 1.55; color: rgba(12, 10, 62, 0.88);
+  margin: 18px 0 0; font-size: 21px; font-weight: 500;
+  line-height: 1.45; color: {NAVY};
+}}
+.tail {{ margin-top: auto; padding-top: 18px; }}
+.specs {{ display: flex; gap: 34px; margin-bottom: 18px; }}
+.spec {{ display: flex; flex-direction: column; gap: 3px; }}
+.spec b {{
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Days One', sans-serif; font-size: 26px; font-weight: 400;
+  line-height: 1;
+}}
+.spec b::before {{ content: ''; width: 7px; height: 7px; background: {NAVY}; }}
+.spec span {{
+  font-size: 9.5px; font-weight: 500; letter-spacing: 0.13em;
+  text-transform: uppercase; color: rgba(12, 10, 62, 0.62);
+}}
+.meta {{
+  display: flex; align-items: center; margin: 0;
+  font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(12, 10, 62, 0.72);
+}}
+.meta .num {{
+  display: inline-grid; place-items: center; flex: none;
+  width: 26px; height: 26px; margin-right: 10px; border-radius: 7px;
+  background: #ffffff; color: {NAVY};
+  font-family: 'Days One', sans-serif; font-size: 12px; letter-spacing: 0;
 }}
 .stack {{
-  margin: auto 0 0; padding-top: 18px; font-size: 9.5px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(12, 10, 62, 0.5);
+  margin: 8px 0 0; font-size: 11.5px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(12, 10, 62, 0.62);
 }}
 .art {{ position: relative; align-self: center; width: 420px; height: 237px; }}
 .art svg {{
@@ -1192,9 +1218,12 @@ body {{
   color: {CORAL};
   border: 1.5px solid {CORAL};
 }}
-.card.outline .meta {{ color: rgba(255, 250, 240, 0.54); }}
-.card.outline .hook {{ color: rgba(255, 250, 240, 0.84); }}
-.card.outline .stack {{ color: rgba(255, 250, 240, 0.42); }}
+.card.outline .spec b {{ color: {PAPER}; }}
+.card.outline .spec b::before {{ background: {CORAL}; }}
+.card.outline .spec span {{ color: rgba(255, 250, 240, 0.54); }}
+.card.outline .meta {{ color: rgba(255, 250, 240, 0.7); }}
+.card.outline .hook {{ color: {PAPER}; }}
+.card.outline .stack {{ color: rgba(255, 250, 240, 0.58); }}
 .card.outline .art .go {{
   background: transparent;
   color: {CORAL};
@@ -1204,12 +1233,19 @@ body {{
 
 
 def card(project: dict) -> str:
+    stats = project.get("stats", ())
+    specs = ""
+    if stats:
+        specs = '<div class="specs">' + "".join(
+            SPEC.format(value=value, label=label) for value, label in stats
+        ) + "</div>"
     return CARD.format(
         variant=project.get("variant", ""),
         n=project["n"],
         title=project["title"],
         meta=project["meta"],
         hook=project["hook"],
+        specs=specs,
         stack=project["stack"],
         art=project["art"],
     )

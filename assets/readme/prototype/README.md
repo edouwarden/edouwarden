@@ -1,12 +1,13 @@
 # Proof plate prototype
 
 Direction **A** — a custom flat illustration on every project card — applied to
-the whole deck. Each card keeps one quiet hierarchy: number, title, meta, a
-single-sentence hook, a muted stack line, and a 420 × 237 illustration drawn
-inline as SVG in the ambient palette. The three stat blocks were removed so the
-hook does the work and the art has room. Forge closes the series as the same
-card drawn as an outline: transparent body, coral edge, in-progress copy, and a
-slow ember pulse over the anvil.
+the whole deck. Each card keeps one clear hierarchy: a 46 px title, a 21 px
+medium hook, an optional row of key figures, and one merged tail block with the
+plate number, meta and stack at 11.5 px. Figures appear only where a project has
+numbers worth showing — one or two rather than a fixed row of three — so a card
+never pads itself to a template. Forge closes the series as the same card drawn
+as an outline: transparent body, coral edge, in-progress copy, and a slow ember
+pulse over the anvil. It carries no figures because the work is not shipped yet.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
 engine editor, a seeded height field feeding a core column, a terminal, a raycast
@@ -72,17 +73,17 @@ changing the image-first deck.
 
 ## What each project leads with
 
-| Plate | Focus | Stack |
-|---|---|---|
-| `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | Bun · Hono · SQLite · Vanilla JS · OpenCode |
-| `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
-| `03` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
-| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | C99 · POSIX · fork/exec · dup2 · readline |
-| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | C99 · X11 · raycasting · XPM · math |
-| `06` ft_irc | One thread, one `poll()` loop, plus a local model | C++98 · sockets · poll() · llama.cpp |
-| `07` Inception | Three containers, one published port, TLS at the edge | Docker Compose · NGINX · WordPress · MariaDB · TLS |
-| `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | Debian · LUKS · LVM · UFW · systemd |
-| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | Bun · TypeScript · SQLite · Docker · Linux |
+| Plate | Focus | Figures | Stack |
+|---|---|---|---|
+| `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | 28 starter widgets · 6 example tabs | Bun · Hono · SQLite · Vanilla JS · OpenCode |
+| `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | 4 course maps · 20 Hz net tick | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
+| `03` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 5 powers | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
+| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines of C · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
+| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | 640 rays / frame · 0 GPU | C99 · X11 · raycasting · XPM · math |
+| `06` ft_irc | One thread, one `poll()` loop, plus a local model | 3.8B local model | C++98 · sockets · poll() · llama.cpp |
+| `07` Inception | Three containers, one published port, TLS at the edge | 3 services · 1 open port | Docker Compose · NGINX · WordPress · MariaDB · TLS |
+| `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 6 filesystems · 4242 SSH port | Debian · LUKS · LVM · UFW · systemd |
+| `09` Forge | The next systems project, drawn as an in-progress outline card with a slow ember pulse | — | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
