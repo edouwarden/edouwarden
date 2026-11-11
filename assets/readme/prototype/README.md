@@ -2,8 +2,9 @@
 
 Direction **A** — a custom flat illustration on every project card — applied to
 the whole deck. The seven lead cards keep the full anatomy: number, title, hook,
-three project-specific stats, a one-line footer of date, team and stack chips,
-and a 360 × 203 illustration drawn inline as SVG in the ambient palette. The five
+three project-specific stats, a full-width footer with date and team chips on
+the left and the stack chip on the right, and a 360 × 203 illustration drawn
+inline as SVG in the ambient palette. The five
 bench cards repeat the same anatomy at 1200 × 260 with 230 × 130 art and smaller
 type, minus the stat row, so the hierarchy reads before any copy is parsed. On the
 lead cards the stats and footer chips sit under one hairline rule; the bench cards

@@ -1175,15 +1175,15 @@ PROJECTS = [
         "n": "03",
         "file": "plate-03.png",
         "title": "AEGIS Fabric",
-        "meta": "2026 · 12-person studio · infrastructure &amp; security",
+        "meta": "2026 · Solo · infrastructure &amp; security for a 12-person studio",
         "hook": "A zero-trust fabric for a 12-person studio: one ingress, six egress lanes, every device enrolled — and nothing administrative exposed.",
         "stats": [("24", "devices"), ("06", "egress lanes"), ("00", "admin ports")],
         "stack": "nftables · Tailscale · Suricata · Firecracker · Vault",
         "href": "https://github.com/edouwarden/aegis-fabric",
         "art": art_aegis(),
         "alt": (
-            "03 AEGIS Fabric, 2026, infrastructure and security for a 12-person "
-            "studio: a zero-trust network with one ingress, six egress lanes, "
+            "03 AEGIS Fabric, 2026, solo, infrastructure and security for a "
+            "12-person studio: a zero-trust network with one ingress, six egress lanes, "
             "24 managed devices and no public admin ports; 24 devices, 6 egress "
             "lanes, 0 admin ports; nftables, Tailscale, Suricata, Firecracker, "
             "Vault. Opens the repository."
@@ -1385,11 +1385,15 @@ CARD = """
         <h2 class="title"{title_style}>{title}</h2>
       </div>
       <p class="hook">{hook}</p>
-      <div class="footwrap">
-        {specs_block}<div class="chips">{chips}</div>
-      </div>
+      {specs_block}
     </div>
     <div class="art">{art}<span class="go">↗</span></div>
+    <div class="footwrap">
+      <div class="chips">
+        <div class="chips-left">{chips_left}</div>
+        <span class="chip chip-stack">{stack}</span>
+      </div>
+    </div>
   </div>
 </div>
 """
@@ -1422,7 +1426,8 @@ body {{
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 32px;
+  grid-template-rows: 1fr auto;
+  column-gap: 32px; row-gap: 12px;
   height: 100%;
   padding: 30px 36px;
   border-radius: 30px;
@@ -1446,19 +1451,20 @@ body {{
   line-height: 1.25; color: rgba(12, 10, 62, 0.92);
 }}
 .footwrap {{
-  margin-top: auto; padding-top: 10px;
-  border-top: 1px solid rgba(12, 10, 62, 0.24);
+  grid-column: 1 / -1; grid-row: 2;
+  padding-top: 8px; border-top: 1px solid rgba(12, 10, 62, 0.24);
 }}
-.specs {{ display: flex; gap: 26px; margin: 0; padding: 0; border: 0; }}
+.specs {{ display: flex; gap: 26px; margin-top: auto; padding: 0; border: 0; }}
 .chips {{
-  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
-  margin-top: 9px; min-width: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: nowrap; min-width: 0;
 }}
+.chips-left {{ display: flex; align-items: center; gap: 7px; flex: none; }}
 .chip {{
   display: inline-flex; align-items: center; flex: none;
-  padding: 4px 8px; border-radius: 999px;
+  padding: 5px 12px; border-radius: 999px;
   border: 1px solid rgba(12, 10, 62, 0.3);
-  font-size: 12px; font-weight: 500; letter-spacing: 0.01em;
+  font-size: 17px; font-weight: 500; letter-spacing: 0.01em;
   color: rgba(12, 10, 62, 0.84); white-space: nowrap;
 }}
 .chip-date {{ background: {NAVY}; border-color: {NAVY}; color: {PAPER}; }}
@@ -1522,7 +1528,7 @@ body {{
 .plate.compact {{ height: 260px; padding: 20px 84px; }}
 .card.compact {{
   grid-template-columns: minmax(0, 1fr) 230px;
-  gap: 24px;
+  column-gap: 24px; row-gap: 12px;
   padding: 18px 26px;
   border-radius: 22px;
 }}
@@ -1534,9 +1540,10 @@ body {{
 .card.compact .hook {{
   max-width: 660px; margin-top: 8px; font-size: 18px; line-height: 1.4;
 }}
-.card.compact .footwrap {{ padding-top: 8px; }}
-.card.compact .chip {{ font-size: 12px; padding: 4px 9px; }}
-.card.compact .chips {{ margin-top: 7px; }}
+.card.compact .footwrap {{ padding-top: 7px; }}
+.card.compact .chip {{ font-size: 16px; padding: 5px 11px; }}
+.card.compact .chips {{ gap: 14px; }}
+.card.compact .chips-left {{ gap: 6px; }}
 .card.compact .art {{ width: 230px; height: 130px; }}
 .card.compact .art svg {{ width: 230px; height: 130px; border-radius: 12px; }}
 .card.compact .art .go {{
@@ -1552,18 +1559,16 @@ def card(project: dict) -> str:
     specs_block = (
         ""
         if project.get("variant") == "compact"
-        else f'<div class="specs">{specs}</div>\n        '
+        else f'<div class="specs">{specs}</div>'
     )
     meta = [part.strip() for part in project["meta"].split(" · ")]
     date = meta[0]
-    team = {"Team lead": "Team of four", "12-person studio": "Team of 12"}.get(
+    team = {"Team lead": "Team of four"}.get(
         meta[1] if len(meta) > 1 else "", meta[1] if len(meta) > 1 else ""
     )
-    stack = project["stack"]
-    chips = (
+    chips_left = (
         f'<span class="chip chip-date">{date}</span>'
         f'<span class="chip">{team}</span>'
-        f'<span class="chip chip-stack">{stack}</span>'
     )
     title_style = (
         f' style="font-size: {project["title_size"]}px"'
@@ -1579,7 +1584,8 @@ def card(project: dict) -> str:
         title_style=title_style,
         hook=project["hook"],
         specs_block=specs_block,
-        chips=chips,
+        chips_left=chips_left,
+        stack=project["stack"],
         art=project["art"],
     )
 
