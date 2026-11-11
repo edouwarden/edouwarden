@@ -51,7 +51,7 @@ PROJECTS = [
         "slug": "02-minishell",
         "title": "minishell",
         "year": "2025",
-        "role": "Solo · C99 · POSIX",
+        "role": "Pair · C99 · POSIX",
         "summary": (
             "Bash rebuilt from scratch: lexing, expansion, pipes, "
             "redirections, signals, and heredocs. No system(), no shell "
@@ -64,7 +64,7 @@ PROJECTS = [
         "slug": "03-cub3d",
         "title": "cub3D",
         "year": "2025",
-        "role": "Solo · bonus",
+        "role": "Pair · bonus",
         "summary": (
             "A first-person raycast from a 2D map, textured floor to ceiling, "
             "every pixel written by hand into an X11 buffer. No GPU, and the "
@@ -77,7 +77,7 @@ PROJECTS = [
         "slug": "04-irc",
         "title": "ft_irc",
         "year": "2026",
-        "role": "Solo · bonus",
+        "role": "Pair · bonus",
         "summary": (
             "An IRC server on one thread and one poll() loop: registration, "
             "channels, private messages, clean disconnects — plus a local "

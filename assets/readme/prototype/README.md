@@ -84,7 +84,9 @@ changing the image-first deck.
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
-stat.
+stat. Its role reads `Team lead · engine & frontend`, matching the portfolio.
+`minishell`, `cub3D` and `ft_irc` are labelled `Pair`, matching the credits in
+their project READMEs.
 
 The Forge copy, stats, stack and link are placeholders until its repository and
 public numbers exist; the card currently opens the repositories tab.

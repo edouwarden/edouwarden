@@ -961,18 +961,18 @@ PROJECTS = [
         "n": "02",
         "file": "plate-02.png",
         "title": "ft_transcendence",
-        "meta": "2026 · Team of four · engine &amp; platform",
-        "hook": "A browser game engine built on Three.js: World → Environment → Module, physics, editors and live tools. The arena runs on it.",
+        "meta": "2026 · Team lead · engine &amp; frontend",
+        "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics and live editors.",
         "stats": [("04", "engine layers"), ("04", "course maps"), ("20 Hz", "net tick")],
         "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
         "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
         "art": art_transcendence(),
         "alt": (
-            "02 ft_transcendence, 2026, team of four, engine and platform: a browser "
-            "game engine on Three.js with World, Environment and Module layers, "
-            "physics, editors and live tools, running a parkour arena; 4 engine "
-            "layers, 4 course maps, 20 Hz net tick; Next.js, Three.js, Rapier, Bun, "
-            "Go, PostgreSQL. Opens the repository."
+            "02 ft_transcendence, 2026, team lead for engine and frontend on a team "
+            "of four: a browser game engine on Three.js with World, Environment and "
+            "Module layers, physics, editors and live tools, running a parkour "
+            "arena; 4 engine layers, 4 course maps, 20 Hz net tick; Next.js, "
+            "Three.js, Rapier, Bun, Go, PostgreSQL. Opens the repository."
         ),
     },
     {
