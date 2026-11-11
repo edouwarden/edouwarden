@@ -88,15 +88,15 @@ path without changing the image-first deck.
 | Plate | Format | Focus | Stats (lead cards only) | Stack |
 |---|---|---|---|---|
 | `01` Forge | outline | The public slice of a controlled code-generation pipeline, with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
-| `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript · market data · Markdown |
+| `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript |
 | `03` AEGIS Fabric | full | One ingress, six egress lanes and no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | nftables · Tailscale · Suricata · Firecracker · Vault |
-| `04` Trading-Support-Tools | full | A crash-safe order lifecycle and the journal that survived it | 1,059 rows · 98 trade IDs · 1.84 PF | JavaScript · Python · Gains API · SQLite · Discord |
+| `04` Trading-Support-Tools | full | A crash-safe order lifecycle and the journal that survived it | 1,059 rows · 98 trade IDs · 1.84 PF | JavaScript · Python · SQLite |
 | `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · Python |
 | `06` dynamic-dashboard | full | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
 | `07` ft_transcendence | full | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
-| `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | — | C99 · POSIX · fork/exec · dup2 · readline |
-| `09` cub3D | compact | Hand-written raycast into an X11 buffer, no GPU | — | C99 · X11 · raycasting · XPM · math |
-| `10` ft_irc | compact | One thread, one `poll()` loop, plus a local model | — | C++98 · sockets · poll() · llama.cpp |
+| `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | — | C99 · POSIX · readline |
+| `09` cub3D | compact | Hand-written raycast into an X11 buffer, no GPU | — | C99 · X11 |
+| `10` ft_irc | compact | One thread, one `poll()` loop, plus a local model | — | C++98 · POSIX sockets · llama.cpp |
 | `11` Inception | compact | Three containers, one published port, TLS at the edge | — | Docker Compose · NGINX · WordPress · MariaDB · TLS |
 | `12` born2beroot | compact | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | — | Debian · LUKS · LVM · UFW · systemd |
 

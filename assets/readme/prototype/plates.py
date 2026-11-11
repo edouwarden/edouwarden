@@ -1159,14 +1159,14 @@ PROJECTS = [
         "meta": "2026 · Solo · research",
         "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
         "stats": [("21", "theories"), ("04", "parts each"), ("00", "signals")],
-        "stack": "Python · JavaScript · market data · Markdown",
+        "stack": "Python · JavaScript",
         "href": "https://github.com/edouwarden/Financial-Market-Theories",
         "art": art_research(),
         "alt": (
             "02 Financial-Market-Theories, 2026, solo, research: 21 falsifiable "
             "market theories, each with a claim, mechanism, test and verdict, "
             "and negative results kept in; 21 theories, 4 parts each, no "
-            "signals; Python, JavaScript, market data, Markdown. Opens the "
+            "signals; Python, JavaScript. Opens the "
             "repository."
         ),
     },
@@ -1198,7 +1198,7 @@ PROJECTS = [
         "meta": "2026 · Solo · execution systems",
         "hook": "A perpetual-futures bot and the tooling around it: a crash-safe order lifecycle and a 1,059-row journal that survived real use.",
         "stats": [("1,059", "journal rows"), ("98", "trade IDs"), ("1.84", "profit factor")],
-        "stack": "JavaScript · Python · Gains API · SQLite · Discord",
+        "stack": "JavaScript · Python · SQLite",
         "href": "https://github.com/edouwarden/Trading-Support-Tools",
         "art": art_trading(),
         "alt": (
@@ -1206,7 +1206,7 @@ PROJECTS = [
             "perpetual-futures bot and its crash-safe order lifecycle, an "
             "auditable journal and small operational tools that survived real "
             "use; 1,059 journal rows, 98 trade IDs, 1.84 profit factor; "
-            "JavaScript, Python, Gains API, SQLite, Discord. Opens the repository."
+            "JavaScript, Python, SQLite. Opens the repository."
         ),
     },
 
@@ -1279,14 +1279,14 @@ PROJECTS = [
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
         "stats": [("3,000", "lines of C"), ("64", "pipe stages"), ("0", "zombies")],
-        "stack": "C99 · POSIX · fork/exec · dup2 · readline",
+        "stack": "C99 · POSIX · readline",
         "href": "https://github.com/edouwarden/minishell",
         "art": art_minishell(),
         "alt": (
             "08 minishell, 2025, pair, systems and parsing: a Unix shell with "
             "quote-aware lexing, expansion, heredocs and 64-stage pipelines, "
             "readline only; 3,000 lines of C, 64 pipe stages, 0 zombies; C99, "
-            "POSIX, fork and exec, dup2, readline. Opens the repository."
+            "POSIX, readline. Opens the repository."
         ),
     },
 
@@ -1299,15 +1299,15 @@ PROJECTS = [
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
         "stats": [("640", "rays / frame"), ("03", "showcase maps"), ("~60", "frame cap")],
-        "stack": "C99 · X11 · raycasting · XPM · math",
+        "stack": "C99 · X11",
         "href": "https://github.com/edouwarden/cube3D",
         "art": art_cub3d(),
         "alt": (
             "09 cub3D, 2025, pair, rendering and math: a hand-written raycast "
             "renderer with 640 rays per frame, textured walls floor to ceiling and "
             "every pixel written into an X11 buffer without a GPU; 640 rays per "
-            "frame, 3 showcase maps, about 60 fps cap; C99, X11, raycasting, XPM, "
-            "math. Opens the repository."
+            "frame, 3 showcase maps, about 60 fps cap; C99, X11. Opens the "
+            "repository."
         ),
     },
 
@@ -1320,14 +1320,14 @@ PROJECTS = [
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
         "stats": [("1", "thread"), ("1", "poll loop"), ("3.8B", "local model")],
-        "stack": "C++98 · sockets · poll() · llama.cpp",
+        "stack": "C++98 · POSIX sockets · llama.cpp",
         "href": "https://github.com/edouwarden/irc",
         "art": art_irc(),
         "alt": (
             "10 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
             "thread and one poll loop with buffered TCP framing, channel modes and "
             "a local Phi-3 answering in #ai-lab; 1 thread, 1 poll loop, 3.8B local "
-            "model; C++98, sockets, poll, llama.cpp. Opens the repository."
+            "model; C++98, POSIX sockets, llama.cpp. Opens the repository."
         ),
     },
 
