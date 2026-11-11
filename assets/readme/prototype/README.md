@@ -9,17 +9,17 @@ the same card drawn as an outline: transparent body, coral edge, in-progress
 copy, and a slow ember pulse over the anvil.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
-engine editor, a seeded height field feeding a core column, a terminal, a raycast
+engine editor, a policy gate with six egress lanes, a trading terminal, a theory
+notebook, a seeded height field feeding a core column, a terminal, a raycast
 corridor, an IRC frame beside a single-thread server, a Docker host, and a VM
 window on a hypervisor host. No node graphs, no layer trees, and no tiny labels
 that disappear at README width. Every plate is self-contained, so the public
 `build.py` pipeline and the production README are untouched.
 
-After the nine plates, a quiet **More work** ledger adds five projects in slim,
-individually linked rows: AEGIS Fabric, Financial-Market-Theories,
-Trading-Support-Tools, and the not-yet-public portfolio-webpage and 42 Intra
-Tools. It keeps the curated nine as the lead story while giving the rest of the
-bench a place on the deck.
+The strongest public work leads early: AEGIS Fabric is plate 03,
+Trading-Support-Tools plate 04 and Financial-Market-Theories plate 05, ahead of
+the 42 school projects. All three are public repositories, so each gets a full
+card, its own illustration and a repository link.
 
 The Space plate leads with the **world-generation technique**: a 26 × 15 blocky
 height field sampled from six octaves of value noise, contour edges between
@@ -42,14 +42,8 @@ space, marks and cards rather than full-width rules:
   shares, with HTML, CSS, JSON, YAML, Markdown, lockfiles and generated data
   excluded.
 - `deck-projects.svg` — the project-section header that introduces the plates:
-  a single `Projects` title and the quiet plate range `01 — 09`. The old Forge
+  a single `Projects` title and the quiet plate range `01 — 12`. The old Forge
   tease is gone; Forge is a plate now.
-- `deck-more.svg` plus `deck-more-10.svg` … `deck-more-14.svg` — the **More work**
-  header and five 1200 × 100 rows, one project per row so each can keep its own
-  link. The left column holds the index, title and role; the centre holds a
-  one-sentence pitch; the right holds three compact stats and a `REPO` or `SOON`
-  status. The rows are vector, stack flush, and follow Forge before the review
-  marquee.
 - `deck-try.svg` — a thin 900 × 44 outline capsule aligned to the dashboard card
   and set directly under plate 01: coral `Try it now`, the
   `dynamic-dashboard.ednormand.fr` URL, a pulsing dot and a nudging arrow. Plate
@@ -78,9 +72,9 @@ space, marks and cards rather than full-width rules:
 ## Text fallback
 
 The root `README.md` closes with a collapsed `<details>` block: the same
-profile, the nine plates, the five More work entries, stack, language shares,
-education and contact as plain Markdown. It gives search, screen readers and
-no-image readers a complete path without changing the image-first deck.
+profile, the twelve plates, stack, language shares, education and contact as
+plain Markdown. It gives search, screen readers and no-image readers a complete
+path without changing the image-first deck.
 
 ## What each project leads with
 
@@ -88,13 +82,16 @@ no-image readers a complete path without changing the image-first deck.
 |---|---|---|---|
 | `01` dynamic-dashboard | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
 | `02` ft_transcendence | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
-| `03` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
-| `04` minishell | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines · 64 stages · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
-| `05` cub3D | Hand-written raycast into an X11 buffer, no GPU | 640 rays · 03 maps · ~60 fps | C99 · X11 · raycasting · XPM · math |
-| `06` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
-| `07` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
-| `08` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
-| `09` Forge | The public slice of a controlled code-generation pipeline, drawn as an in-progress outline card with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
+| `03` AEGIS Fabric | One ingress, six egress lanes and no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | nftables · Tailscale · Suricata · Firecracker · Vault |
+| `04` Trading-Support-Tools | A crash-safe order lifecycle and the journal that survived it | 1,059 rows · 98 trade IDs · 1.84 PF | JavaScript · Python · Gains API · SQLite · Discord |
+| `05` Financial-Market-Theories | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript · market data · Markdown |
+| `06` space-gameserver | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
+| `07` minishell | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines · 64 stages · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
+| `08` cub3D | Hand-written raycast into an X11 buffer, no GPU | 640 rays · 03 maps · ~60 fps | C99 · X11 · raycasting · XPM · math |
+| `09` ft_irc | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
+| `10` Inception | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
+| `11` born2beroot | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
+| `12` Forge | The public slice of a controlled code-generation pipeline, drawn as an in-progress outline card with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
@@ -106,30 +103,20 @@ Forge now uses the published public-slice numbers: a 28-step run, 6 model-served
 steps and 21/21 checks. The card still opens `github.com/edouwarden/theforge`
 and stays an outline because the engine is larger and still in progress.
 
-### More work
-
-| Row | Focus | Stats | Status |
-|---|---|---|---|
-| `10` AEGIS Fabric | A zero-trust studio network: one way in, one way out, no public admin plane | 24 devices · 06 egress lanes · 00 admin ports | repo |
-| `11` Financial-Market-Theories | 21 falsifiable market ideas with claim, mechanism, test and verdict | 21 theories · 04 parts · 00 signals | repo |
-| `12` Trading-Support-Tools | A live futures bot, its order lifecycle and an auditable journal | 1,059 rows · 98 trade IDs · 1.84 PF | repo |
-| `13` portfolio-webpage | A four-locale static Astro portfolio with no framework runtime | 69 pages · 04 locales · €0 infra | soon |
-| `14` 42 Intra Tools | Small tools over the Intra API v2, including correction-slot pressure | v2 API · 01 analysis · WIP | soon |
-
-The two `SOON` rows are deliberately unlinked: they are on the bench, not in a
-public repository yet. The three `REPO` rows each link their own SVG, so the
-ledger stays clickable without becoming one opaque image.
+The three promoted projects are public repositories, so each one is a full card
+with its own illustration and link. `portfolio-webpage` and `42 Intra Tools` are
+not public, so they are not on the deck.
 
 ## Files
 
-- `plates.py` — renders all nine plates at 1200 × 400, 2x, using the deck
+- `plates.py` — renders all twelve plates at 1200 × 400, 2x, using the deck
   fonts; plate 01 is clipped to 1200 × 376 so the try strip can sit close to it.
   HTML goes to the ignored `.build/` folder.
-- `plate-01.png`, `plate-02.png`, `plate-03.png`, `plate-04.png` … `plate-09.png`
-  — the rendered plates. `plate-09.svg` wraps the Forge PNG and adds the ember
+- `plate-01.png`, `plate-02.png`, `plate-03.png` … `plate-12.png`
+  — the rendered plates. `plate-12.svg` wraps the Forge PNG and adds the ember
   pulse over the anvil; the other plates stay PNG.
-- `stats.py` — writes the stack, project-section, try-it, open-to-work, More work
-  and review rails as SVG and renders the language line at 2x. HTML goes to the
+- `stats.py` — writes the stack, project-section, try-it, open-to-work and
+  review rails as SVG and renders the language line at 2x. HTML goes to the
   ignored `.build/` folder.
 - `boards.py` — reads the production header and footer boards and renders
   `deck-header.png` and `deck-footer.png` with the email in place of the visible
@@ -140,9 +127,8 @@ ledger stays clickable without becoming one opaque image.
 - `tech-icons-generic.json` — solid glyphs for the tools that are not brands.
 - `loc.json` — the pygount snapshot: total, per-language lines, and exclusions.
 - `deck-stack.svg`, `deck-languages.png`, `deck-projects.svg`, `deck-try.svg`,
-  `deck-open.svg`, `deck-more.svg`, `deck-more-10.svg` … `deck-more-14.svg`,
-  `deck-reviews.svg`, `deck-header.png`, `deck-footer.png` — the rendered data
-  rails and board variants.
+  `deck-open.svg`, `deck-reviews.svg`, `deck-header.png`,
+  `deck-footer.png` — the rendered data rails and board variants.
 
 ```bash
 python3 assets/readme/prototype/plates.py
@@ -152,7 +138,9 @@ python3 assets/readme/prototype/boards.py
 
 Once approved, the illustration slot can become a first-class field in
 `build.py` for every project: a widget shell for dynamic-dashboard, an engine
-editor for ft_transcendence, a seeded height field and core sample for Space, a
-terminal for minishell, a raycast view for cub3D, a protocol frame for ft_irc, a
-Docker host for Inception, a VM window on a hypervisor host for born2beroot, and
-an anvil and hammer for Forge.
+editor for ft_transcendence, a policy gate for AEGIS Fabric, a trading terminal
+for Trading-Support-Tools, a theory notebook for Financial-Market-Theories, a
+seeded height field and core sample for Space, a terminal for minishell, a
+raycast view for cub3D, a protocol frame for ft_irc, a Docker host for Inception,
+a VM window on a hypervisor host for born2beroot, and an anvil and hammer for
+Forge.

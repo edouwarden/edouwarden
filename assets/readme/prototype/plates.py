@@ -936,6 +936,192 @@ def art_forge() -> str:
 """)
 
 
+def art_aegis() -> str:
+    """One policy gate: one ingress, six egress lanes, no public admin."""
+    lanes = []
+    for i, y in enumerate((60, 74, 88, 102, 116, 130)):
+        live = i in (1, 4)
+        lanes.append(
+            f'<line x1="224" y1="98" x2="300" y2="{y}" '
+            f'stroke="{CORAL if live else PAPER}" '
+            f'stroke-opacity="{0.5 if live else 0.14}" stroke-width="1.3"/>'
+        )
+        lanes.append(
+            f'<circle cx="300" cy="{y}" r="3" '
+            f'fill="{CORAL if live else PAPER}" '
+            f'fill-opacity="{0.9 if live else 0.22}"/>'
+        )
+    lanes = "".join(lanes)
+
+    return art(f"""
+  {label(34, 38, "12 people · 24 devices", 6, PAPER, .5, 500)}
+  {label(326, 38, "one way in · one way out", 6, CORAL, .8, 500, "end")}
+
+  <g>
+    <rect x="38" y="62" width="46" height="30" rx="3" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".26"/>
+    <rect x="43" y="67" width="36" height="18" rx="1.5" fill="{NAVY}"/>
+    <rect x="47" y="72" width="14" height="2.5" rx="1.2" fill="{CORAL}" opacity=".75"/>
+    <rect x="47" y="77" width="22" height="2.5" rx="1.2" fill="{PAPER}" opacity=".28"/>
+    <rect x="36" y="92" width="50" height="4" rx="2" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".2"/>
+    <rect x="54" y="108" width="20" height="36" rx="3" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".26"/>
+    <rect x="57" y="113" width="14" height="25" rx="1.5" fill="{NAVY}"/>
+    <circle cx="64" cy="141" r="1.2" fill="{PAPER}" opacity=".35"/>
+    {label(38, 158, "managed fleet", 4.6, PAPER, .38)}
+  </g>
+
+  <line x1="88" y1="80" x2="128" y2="80" stroke="{CORAL}" stroke-width="2.4"/>
+  <polygon points="130,80 120,75 120,85" fill="{CORAL}"/>
+  {label(92, 71, "1 way in", 4.8, CORAL, .9, 500)}
+
+  <g>
+    <rect x="128" y="48" width="96" height="112" rx="8" fill="{NAVY}" stroke="{CORAL}" stroke-opacity=".55"/>
+    <path d="M176,62 l25,9 v18 c0,16 -11,26 -25,31 c-14,-5 -25,-15 -25,-31 v-18 z" fill="{CORAL}"/>
+    <circle cx="176" cy="90" r="4" fill="{NAVY}"/>
+    <rect x="174" y="90" width="4" height="11" rx="2" fill="{NAVY}"/>
+    {label(176, 139, "policy core", 5.6, PAPER, .7, 500, "middle")}
+    {label(176, 148, "default deny", 4.2, PAPER, .38, 400, "middle")}
+  </g>
+
+  <g>{lanes}</g>
+
+  <g>
+    <rect x="248" y="158" width="14" height="10" rx="2" fill="none" stroke="{PAPER}" stroke-opacity=".4"/>
+    <path d="M251,158 v-3.5 a4,4 0 0 1 8,0 v3.5" fill="none" stroke="{PAPER}" stroke-opacity=".4"/>
+    <line x1="246" y1="169" x2="264" y2="155" stroke="{CORAL}" stroke-width="1.6"/>
+  </g>
+  {label(326, 170, "0 public admin", 5.4, CORAL, .8, 500, "end")}
+  {label(34, 170, "nftables · suricata · vault", 4.8, PAPER, .38)}
+""")
+
+
+def art_trading() -> str:
+    """A trading terminal: candles, an order ticket and the journal strip."""
+    closes = (
+        30, 34, 28, 40, 46, 38, 50, 56, 48, 62,
+        58, 70, 66, 76, 72, 84, 80, 90, 86, 96,
+    )
+
+    def y_of(price: float) -> float:
+        return 142 - price * 0.8
+
+    candles = []
+    prev = 24
+    for i, close in enumerate(closes):
+        x = 58 + i * 7.4
+        top, bottom = sorted((y_of(prev), y_of(close)))
+        up = close >= prev
+        color = CORAL if up else PAPER
+        opacity = 0.95 if up else 0.42
+        candles.append(
+            f'<line x1="{x:.1f}" y1="{top - 4:.1f}" x2="{x:.1f}" y2="{bottom + 4:.1f}" '
+            f'stroke="{color}" stroke-opacity="{opacity}" stroke-width="1"/>'
+            f'<rect x="{x - 2.1:.1f}" y="{top:.1f}" width="4.2" '
+            f'height="{max(2.0, bottom - top):.1f}" fill="{color}" fill-opacity="{opacity}"/>'
+        )
+        prev = close
+    candles = "".join(candles)
+
+    ticks = []
+    for y in (62, 82, 102, 122, 142):
+        ticks.append(
+            f'<line x1="56" y1="{y}" x2="206" y2="{y}" stroke="{PAPER}" stroke-opacity=".06"/>'
+        )
+    ticks = "".join(ticks)
+
+    return art(f"""
+  <rect x="24" y="22" width="312" height="160" rx="11" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".2"/>
+  <path d="M24,34 a12,12 0 0 1 12,-12 h288 a12,12 0 0 1 12,12 v12 h-312 z" fill="{LIFT}"/>
+  <circle cx="41" cy="36" r="3.2" fill="{CORAL}"/>
+  <circle cx="52" cy="36" r="3.2" fill="{DEEP}"/>
+  <circle cx="63" cy="36" r="3.2" fill="{PAPER}" opacity=".4"/>
+  {label(78, 40, "betterGTrade", 8.5, PAPER, .85, 500)}
+  {label(172, 40, "BTC-PERP · 15m", 6.5, PAPER, .4)}
+  <rect x="272" y="30" width="52" height="13" rx="6.5" fill="{CORAL}"/>
+  {label(298, 39.5, "PAPER", 5.6, NAVY, 1, 500, "middle")}
+  <line x1="24" y1="48" x2="336" y2="48" stroke="{PAPER}" stroke-opacity=".1"/>
+
+  {ticks}
+  <line x1="56" y1="71.6" x2="206" y2="71.6" stroke="{CORAL}" stroke-opacity=".45" stroke-dasharray="3 4"/>
+  <line x1="56" y1="110" x2="206" y2="110" stroke="{PAPER}" stroke-opacity=".28" stroke-dasharray="3 4"/>
+  {label(52, 69.6, "10R", 4.5, CORAL, .85, 500, "end")}
+  {label(52, 108, "entry", 4.5, PAPER, .4, 400, "end")}
+  {candles}
+  <polygon points="108,116 102,122 114,122" fill="{CORAL}" opacity=".85"/>
+
+  <line x1="214" y1="54" x2="214" y2="146" stroke="{PAPER}" stroke-opacity=".09"/>
+  <rect x="224" y="54" width="36" height="13" rx="6.5" fill="{CORAL}"/>
+  {label(242, 63.5, "LONG", 5.6, NAVY, 1, 500, "middle")}
+  {label(224, 94, "10R", 22, PAPER, 1, 500)}
+  {label(224, 111, "target 10× risk", 4.8, PAPER, .4)}
+  {label(224, 126, "PF 1.84", 5.4, CORAL, .85, 500)}
+  {label(224, 140, "49 closed · 30.6%", 4.6, PAPER, .38)}
+
+  <line x1="36" y1="152" x2="324" y2="152" stroke="{PAPER}" stroke-opacity=".12"/>
+  {label(36, 166, "JOURNAL", 5.4, CORAL, .9, 500)}
+  <g fill="{CORAL}" opacity=".8">
+    <rect x="92" y="160" width="5" height="5" rx="1"/>
+    <rect x="104" y="160" width="5" height="5" rx="1"/>
+    <rect x="116" y="160" width="5" height="5" rx="1"/>
+    <rect x="128" y="160" width="5" height="5" rx="1"/>
+    <rect x="140" y="160" width="5" height="5" rx="1"/>
+  </g>
+  {label(156, 166, "every fill recorded", 4.8, PAPER, .4)}
+  {label(326, 166, "1,059 rows · 98 IDs", 5, PAPER, .62, 500, "end")}
+""")
+
+
+def art_research() -> str:
+    """A field notebook: numbered theories on the left, a kept verdict on the right."""
+    rows = []
+    for i in range(8):
+        y = 62 + i * 13
+        hot = i in (2, 5)
+        color = CORAL if hot else PAPER
+        opacity = 0.8 if hot else 0.3
+        rows.append(
+            f'<rect x="62" y="{y - 4}" width="72" height="3" rx="1.5" '
+            f'fill="{PAPER}" opacity=".18"/>'
+            f'<circle cx="162" cy="{y - 2.5}" r="2" fill="{color}" fill-opacity="{opacity}"/>'
+        )
+        rows.append(label(40, y, f"{i + 1:02d}", 5.2, color, opacity, 500))
+    rows = "".join(rows)
+
+    return art(f"""
+  <rect x="31" y="33" width="304" height="146" rx="8" fill="{PAPER}" opacity=".05"/>
+  <rect x="28" y="30" width="304" height="146" rx="8" fill="{LIFT}" stroke="{PAPER}" stroke-opacity=".22"/>
+  <rect x="28" y="30" width="152" height="146" fill="{NAVY}" opacity=".3"/>
+  <line x1="180" y1="36" x2="180" y2="170" stroke="{PAPER}" stroke-opacity=".12"/>
+
+  {label(40, 45, "THEORY INDEX", 6.2, CORAL, .9, 500)}
+  {rows}
+  {label(40, 168, "21 entries · 04 parts", 4.5, PAPER, .4)}
+
+  {label(192, 45, "CLAIM · TEST · VERDICT", 4.8, PAPER, .42, 500)}
+  <g transform="translate(246,68) rotate(-7)">
+    <rect x="-45" y="-16" width="90" height="32" rx="4" fill="none" stroke="{CORAL}" stroke-width="2"/>
+    {label(0, 4.5, "NO EDGE", 12, CORAL, 1, 500, "middle")}
+  </g>
+
+  <rect x="192" y="96" width="120" height="42" rx="4" fill="{NAVY}" stroke="{PAPER}" stroke-opacity=".12"/>
+  <g stroke="{PAPER}" stroke-opacity=".07">
+    <line x1="200" y1="108" x2="304" y2="108"/>
+    <line x1="200" y1="120" x2="304" y2="120"/>
+  </g>
+  <polyline points="200,104 210,110 220,106 230,118 240,116 250,124 260,122 270,128 280,127 290,130 300,130 304,130"
+            fill="none" stroke="{CORAL}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="200" y1="130" x2="304" y2="130" stroke="{PAPER}" stroke-opacity=".22" stroke-dasharray="2 3"/>
+
+  {label(192, 152, "result kept as written", 4.6, PAPER, .45)}
+  {label(192, 162, "negative results stay in", 4.2, PAPER, .32)}
+
+  <g transform="translate(238,170) rotate(-10)">
+    <rect width="72" height="5" rx="2.5" fill="{CORAL}"/>
+    <polygon points="72,0 82,2.5 72,5" fill="{DEEP}"/>
+    <rect x="6" y="1.4" width="30" height="2.2" rx="1.1" fill="{NAVY}" opacity=".35"/>
+  </g>
+""")
+
+
 PROJECTS = [
     {
         "n": "01",
@@ -978,6 +1164,62 @@ PROJECTS = [
     {
         "n": "03",
         "file": "plate-03.png",
+        "title": "AEGIS Fabric",
+        "meta": "2026 · 12-person studio · infrastructure &amp; security",
+        "hook": "A zero-trust fabric for a 12-person studio: one ingress, six egress lanes, every device enrolled — and nothing administrative exposed.",
+        "stats": [("24", "devices"), ("06", "egress lanes"), ("00", "admin ports")],
+        "stack": "nftables · Tailscale · Suricata · Firecracker · Vault",
+        "href": "https://github.com/edouwarden/aegis-fabric",
+        "art": art_aegis(),
+        "alt": (
+            "03 AEGIS Fabric, 2026, infrastructure and security for a 12-person "
+            "studio: a zero-trust network with one ingress, six egress lanes, "
+            "24 managed devices and no public admin ports; 24 devices, 6 egress "
+            "lanes, 0 admin ports; nftables, Tailscale, Suricata, Firecracker, "
+            "Vault. Opens the repository."
+        ),
+    },
+    {
+        "n": "04",
+        "file": "plate-04.png",
+        "title": "Trading-Support-Tools",
+        "title_size": 40,
+        "meta": "2026 · Solo · execution systems",
+        "hook": "A perpetual-futures bot and the tooling around it: a crash-safe order lifecycle and a 1,059-row journal that survived real use.",
+        "stats": [("1,059", "journal rows"), ("98", "trade IDs"), ("1.84", "profit factor")],
+        "stack": "JavaScript · Python · Gains API · SQLite · Discord",
+        "href": "https://github.com/edouwarden/Trading-Support-Tools",
+        "art": art_trading(),
+        "alt": (
+            "04 Trading-Support-Tools, 2026, solo, execution systems: a "
+            "perpetual-futures bot and its crash-safe order lifecycle, an "
+            "auditable journal and small operational tools that survived real "
+            "use; 1,059 journal rows, 98 trade IDs, 1.84 profit factor; "
+            "JavaScript, Python, Gains API, SQLite, Discord. Opens the repository."
+        ),
+    },
+    {
+        "n": "05",
+        "file": "plate-05.png",
+        "title": "Financial-Market-Theories",
+        "title_size": 34,
+        "meta": "2026 · Solo · research",
+        "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
+        "stats": [("21", "theories"), ("04", "parts each"), ("00", "signals")],
+        "stack": "Python · JavaScript · market data · Markdown",
+        "href": "https://github.com/edouwarden/Financial-Market-Theories",
+        "art": art_research(),
+        "alt": (
+            "05 Financial-Market-Theories, 2026, solo, research: 21 falsifiable "
+            "market theories, each with a claim, mechanism, test and verdict, "
+            "and negative results kept in; 21 theories, 4 parts each, no "
+            "signals; Python, JavaScript, market data, Markdown. Opens the "
+            "repository."
+        ),
+    },
+    {
+        "n": "06",
+        "file": "plate-06.png",
         "title": "space-gameserver",
         "meta": "2019 · Solo · systems &amp; geometry",
         "hook": "A 2019 Spigot sandbox: custom space and exoplanet dimensions, ships on an 11 × 11 orbital grid, five weapon systems as closed-form geometry.",
@@ -986,7 +1228,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/space-gameserver-2019-psr",
         "art": art_space(),
         "alt": (
-            "03 space-gameserver, 2019, solo, systems and geometry: a Spigot "
+            "06 space-gameserver, 2019, solo, systems and geometry: a Spigot "
             "sandbox whose space and exoplanet terrain comes from a seeded six-"
             "octave height field sampled into a core column, ships on an 11 by "
             "11 orbital grid, and five weapon systems as closed-form geometry; "
@@ -995,8 +1237,8 @@ PROJECTS = [
         ),
     },
     {
-        "n": "04",
-        "file": "plate-04.png",
+        "n": "07",
+        "file": "plate-07.png",
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
@@ -1005,15 +1247,15 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/minishell",
         "art": art_minishell(),
         "alt": (
-            "04 minishell, 2025, pair, systems and parsing: a Unix shell with "
+            "07 minishell, 2025, pair, systems and parsing: a Unix shell with "
             "quote-aware lexing, expansion, heredocs and 64-stage pipelines, "
             "readline only; 3,000 lines of C, 64 pipe stages, 0 zombies; C99, "
             "POSIX, fork and exec, dup2, readline. Opens the repository."
         ),
     },
     {
-        "n": "05",
-        "file": "plate-05.png",
+        "n": "08",
+        "file": "plate-08.png",
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
@@ -1022,7 +1264,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/cube3D",
         "art": art_cub3d(),
         "alt": (
-            "05 cub3D, 2025, pair, rendering and math: a hand-written raycast "
+            "08 cub3D, 2025, pair, rendering and math: a hand-written raycast "
             "renderer with 640 rays per frame, textured walls floor to ceiling and "
             "every pixel written into an X11 buffer without a GPU; 640 rays per "
             "frame, 3 showcase maps, about 60 fps cap; C99, X11, raycasting, XPM, "
@@ -1030,8 +1272,8 @@ PROJECTS = [
         ),
     },
     {
-        "n": "06",
-        "file": "plate-06.png",
+        "n": "09",
+        "file": "plate-09.png",
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
@@ -1040,15 +1282,15 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/irc",
         "art": art_irc(),
         "alt": (
-            "06 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
+            "09 ft_irc, 2026, pair, protocols and systems: an IRC server on one "
             "thread and one poll loop with buffered TCP framing, channel modes and "
             "a local Phi-3 answering in #ai-lab; 1 thread, 1 poll loop, 3.8B local "
             "model; C++98, sockets, poll, llama.cpp. Opens the repository."
         ),
     },
     {
-        "n": "07",
-        "file": "plate-07.png",
+        "n": "10",
+        "file": "plate-10.png",
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
@@ -1057,7 +1299,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/inception",
         "art": art_inception(),
         "alt": (
-            "07 Inception, 2026, solo, containers and infrastructure: a WordPress "
+            "10 Inception, 2026, solo, containers and infrastructure: a WordPress "
             "stack where every part is a container, nginx holds TLS, PHP-FPM runs "
             "WordPress and MariaDB never leaves the compose network; 3 services, "
             "1 open port, 4 secrets; Docker Compose, NGINX, WordPress, MariaDB, "
@@ -1065,8 +1307,8 @@ PROJECTS = [
         ),
     },
     {
-        "n": "08",
-        "file": "plate-08.png",
+        "n": "11",
+        "file": "plate-11.png",
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
@@ -1075,7 +1317,7 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/born2beroot",
         "art": art_born2beroot(),
         "alt": (
-            "08 born2beroot, 2024, solo, systems and hardening: a reproducible "
+            "11 born2beroot, 2024, solo, systems and hardening: a reproducible "
             "Debian VM running in a guest window on a VirtualBox host, built from "
             "a self-made ISO with LUKS under LVM, six XFS filesystems plus swap, SSH "
             "on port 4242 and every sudo logged; 7 volumes, 1 open port, wall broadcast "
@@ -1083,11 +1325,11 @@ PROJECTS = [
             "repository."
         ),
     },
-    # Placeholder framing for Forge. Replace the copy, stats, stack and href
-    # once the repository and its public numbers exist.
+    # Forge is public but still under development, so it keeps the outline
+    # treatment and closes the deck.
     {
-        "n": "09",
-        "file": "plate-09.png",
+        "n": "12",
+        "file": "plate-12.png",
         "variant": "outline",
         "motion": "forge",
         "title": "Forge",
@@ -1098,11 +1340,12 @@ PROJECTS = [
         "href": "https://github.com/edouwarden/theforge",
         "art": art_forge(),
         "alt": (
-            "09 Forge, 2026, solo, AI systems and tooling, in progress: a "
+            "12 Forge, 2026, solo, AI systems and tooling, in progress: a "
             "controlled code-generation system with a 28-step pipeline, 22 "
             "deterministic gates and a model called only where judgement is "
-            "needed; 28 pipeline steps, 6 model-served, 21 of 21 checks passed; "
-            "Bun, TypeScript, SQLite, Docker, Linux. Opens the repository."
+            "needed, with a slow ember pulse over the anvil; 28 pipeline "
+            "steps, 6 model-served, 21 of 21 checks passed; Bun, TypeScript, "
+            "SQLite, Docker, Linux. Opens the repository."
         ),
     },
 ]
@@ -1113,7 +1356,7 @@ CARD = """
     <div class="copy">
       <div class="head">
         <div class="num">{n}</div>
-        <h2 class="title">{title}</h2>
+        <h2 class="title"{title_style}>{title}</h2>
       </div>
       <p class="meta">{meta}</p>
       <p class="hook">{hook}</p>
@@ -1241,10 +1484,16 @@ def card(project: dict) -> str:
     specs = "".join(
         SPEC.format(value=value, label=name) for value, name in project["stats"]
     )
+    title_style = (
+        f' style="font-size: {project["title_size"]}px"'
+        if project.get("title_size")
+        else ""
+    )
     return CARD.format(
         variant=project.get("variant", ""),
         n=project["n"],
         title=project["title"],
+        title_style=title_style,
         meta=project["meta"],
         hook=project["hook"],
         specs=specs,
@@ -1336,7 +1585,7 @@ def main() -> None:
                     overlay,
                     "Forge — in progress",
                 )
-                print("wrote plate-09.svg")
+                print(f"wrote {Path(project['file']).with_suffix('.svg').name}")
         browser.close()
 
 
