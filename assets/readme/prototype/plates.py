@@ -2,8 +2,8 @@
 """Render the selected proof plate — a custom flat illustration — for every
 project in the deck.
 
-Each lead card keeps the same anatomy: number, title, hook, one proof stat,
-a footer of date, team and stack chips, and a 360 x 203 illustration drawn inline
+Each lead card keeps the same anatomy: number, title, hook, an optional proof
+stat, a footer of date, team and stack chips, and a 360 x 203 illustration drawn inline
 as SVG in the ambient palette. The five bench cards repeat the anatomy at
 1200 x 260 with smaller type, 230 x 130 art, no stat row and the same footer
 chips, so the hierarchy reads before the copy does. The illustrations are scenes
@@ -1137,7 +1137,7 @@ PROJECTS = [
         "title": "Forge",
         "meta": "2026 · Solo · AI systems &amp; tooling",
         "hook": "A controlled code-generation system: a pipeline of 28 steps, 22 deterministic gates, and a model called only where judgement is needed.",
-        "stat": ("21/21", "checks pass"),
+        "stat": ("28", "steps"),
         "stack": "Bun · TypeScript · SQLite · Docker · Linux",
         "href": "https://github.com/edouwarden/theforge",
         "art": art_forge(),
@@ -1145,8 +1145,8 @@ PROJECTS = [
             "01 Forge, 2026, solo, AI systems and tooling, in progress: a controlled"
             "code-generation system with a 28-step pipeline, 22 deterministic gates"
             "and a model called only where judgement is needed, with a slow ember"
-            "pulse over the anvil; 21 of 21 checks passed; Bun, TypeScript, SQLite,"
-            "Docker, Linux. Opens the repository."
+            "pulse over the anvil; 28 steps; Bun, TypeScript, SQLite, Docker, Linux."
+            "Opens the repository."
         ),
     },
 
@@ -1157,15 +1157,13 @@ PROJECTS = [
         "title_size": 34,
         "meta": "2026 · Solo · research",
         "hook": "21 market theories, each written as claim, mechanism, test and verdict — including the ones that found no edge.",
-        "stat": ("0", "signals shipped"),
         "stack": "Python · JavaScript",
         "href": "https://github.com/edouwarden/Financial-Market-Theories",
         "art": art_research(),
         "alt": (
             "02 Financial-Market-Theories, 2026, solo, research: 21 falsifiable"
             "market theories, each with a claim, mechanism, test and verdict, and"
-            "negative results kept in; no signals shipped; Python, JavaScript. Opens"
-            "the repository."
+            "negative results kept in; Python, JavaScript. Opens the repository."
         ),
     },
 
@@ -1175,15 +1173,15 @@ PROJECTS = [
         "title": "AEGIS Fabric",
         "meta": "2026 · Solo · infrastructure &amp; security for a 12-person studio",
         "hook": "A zero-trust fabric for a 12-person studio: one ingress, six egress lanes, every device enrolled — and nothing administrative exposed.",
-        "stat": ("0", "admin ports exposed"),
+        "stat": ("0", "ports exposed"),
         "stack": "nftables · Tailscale · Suricata · Firecracker · Vault",
         "href": "https://github.com/edouwarden/aegis-fabric",
         "art": art_aegis(),
         "alt": (
             "03 AEGIS Fabric, 2026, solo, infrastructure and security for a 12-person"
             "studio: a zero-trust network with one ingress, six egress lanes, 24"
-            "managed devices and no public admin ports; 0 admin ports exposed;"
-            "nftables, Tailscale, Suricata, Firecracker, Vault. Opens the repository."
+            "managed devices and no public admin ports; 0 ports exposed; nftables,"
+            "Tailscale, Suricata, Firecracker, Vault. Opens the repository."
         ),
     },
 
@@ -1234,15 +1232,14 @@ PROJECTS = [
         "title": "dynamic-dashboard",
         "meta": "2026 · Solo · product &amp; full stack",
         "hook": "A local-first dashboard builder — tabs of isolated HTML widgets on one SQLite database, edited by an agent in place.",
-        "stat": ("28", "starter widgets"),
         "stack": "Bun · Hono · SQLite · Vanilla JS · OpenCode",
         "href": "https://github.com/edouwarden/dynamic-dashboard",
         "art": DASHBOARD_ART,
         "alt": (
             "06 dynamic-dashboard, 2026, solo product and full stack: a local-first"
             "dashboard builder with isolated HTML widgets on one SQLite database,"
-            "edited by an agent; 28 starter widgets; Bun, Hono, SQLite, Vanilla JS,"
-            "OpenCode. Opens the repository."
+            "edited by an agent; Bun, Hono, SQLite, Vanilla JS, OpenCode. Opens the"
+            "repository."
         ),
     },
 
@@ -1252,7 +1249,6 @@ PROJECTS = [
         "title": "ft_transcendence",
         "meta": "2026 · Team lead · engine &amp; frontend",
         "hook": "A four-person browser game engine on Three.js: World → Environment → Module, physics, live editors and a parkour arena.",
-        "stat": ("20 Hz", "net tick"),
         "stack": "Next.js · Three.js · Rapier · Bun · Go · PostgreSQL",
         "href": "https://github.com/edouwarden/Transcendence-WebGameEngine",
         "art": art_transcendence(),
@@ -1260,8 +1256,7 @@ PROJECTS = [
             "07 ft_transcendence, 2026, team lead for engine and frontend on a team"
             "of four: a browser game engine on Three.js with World, Environment and"
             "Module layers, physics, editors and live tools, running a parkour arena;"
-            "20 Hz net tick; Next.js, Three.js, Rapier, Bun, Go, PostgreSQL. Opens"
-            "the repository."
+            "Next.js, Three.js, Rapier, Bun, Go, PostgreSQL. Opens the repository."
         ),
     },
 
@@ -1543,11 +1538,11 @@ body {{
 
 def card(project: dict) -> str:
     specs_block = (
-        ""
-        if project.get("variant") == "compact"
-        else '<div class="specs">'
+        '<div class="specs">'
         + SPEC.format(value=project["stat"][0], label=project["stat"][1])
         + "</div>"
+        if project.get("stat") and project.get("variant") != "compact"
+        else ""
     )
     meta = [part.strip() for part in project["meta"].split(" · ")]
     date = meta[0]
