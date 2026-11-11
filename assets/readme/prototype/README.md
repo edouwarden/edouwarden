@@ -4,10 +4,11 @@ Direction **A** — a custom flat illustration on every project card — applied
 the whole deck. The seven lead cards keep the full anatomy: number, title, meta,
 hook, three project-specific stats, stack, and a 360 × 203 illustration drawn
 inline as SVG in the ambient palette. The five bench cards repeat the same
-anatomy at 1200 × 290 with 260 × 147 art and smaller type, so the hierarchy reads
-before any copy is parsed. The stats sit in one row above the stack, with a
-hairline rule separating the numbers from the prose. Forge opens the series as
-the same card drawn as an outline: transparent body, coral edge, in-progress
+anatomy at 1200 × 250 with 230 × 130 art and smaller type, minus the stat row, so
+the hierarchy reads before any copy is parsed. On the lead cards the stats sit in
+one row above the stack, with a hairline rule separating the numbers from the
+prose; the bench cards keep only the rule above the stack. Forge opens the series
+as the same card drawn as an outline: transparent body, coral edge, in-progress
 copy, and a slow ember pulse over the anvil.
 
 The illustrations are small scenes and objects, not diagrams: a dashboard, an
@@ -81,7 +82,7 @@ path without changing the image-first deck.
 
 ## What each project leads with
 
-| Plate | Format | Focus | Stats | Stack |
+| Plate | Format | Focus | Stats (lead cards only) | Stack |
 |---|---|---|---|---|
 | `01` Forge | outline | The public slice of a controlled code-generation pipeline, with a slow ember pulse | 28 steps · 06 model-served · 21/21 checks | Bun · TypeScript · SQLite · Docker · Linux |
 | `02` Financial-Market-Theories | full | Claim, mechanism, test and verdict, negative results kept | 21 theories · 04 parts · 00 signals | Python · JavaScript · market data · Markdown |
@@ -90,11 +91,11 @@ path without changing the image-first deck.
 | `05` space-gameserver | full | World generation first: a seeded six-octave height field sampled into a core column | 2,000+ members · 05 powers · 11×11 slots | Java 8 · Paper 1.14.4 · WorldEdit · WorldGuard · Python |
 | `06` dynamic-dashboard | full | Tabs of isolated widgets on one SQLite database | 28 widgets · 06 tabs · 01 DB | Bun · Hono · SQLite · Vanilla JS · OpenCode |
 | `07` ft_transcendence | full | The engine (`World → Environment → Module`), not just the match | 04 layers · 04 maps · 20 Hz net | Next.js · Three.js · Rapier · Bun · Go · PostgreSQL |
-| `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | 3,000 lines · 64 stages · 0 zombies | C99 · POSIX · fork/exec · dup2 · readline |
-| `09` cub3D | compact | Hand-written raycast into an X11 buffer, no GPU | 640 rays · 03 maps · ~60 fps | C99 · X11 · raycasting · XPM · math |
-| `10` ft_irc | compact | One thread, one `poll()` loop, plus a local model | 1 thread · 1 poll loop · 3.8B model | C++98 · sockets · poll() · llama.cpp |
-| `11` Inception | compact | Three containers, one published port, TLS at the edge | 03 services · 01 port · 04 secrets | Docker Compose · NGINX · WordPress · MariaDB · TLS |
-| `12` born2beroot | compact | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | 07 volumes · 01 port · 10 min wall | Debian · LUKS · LVM · UFW · systemd |
+| `08` minishell | compact | Lexer, expansion, heredocs and pipelines; readline only | — | C99 · POSIX · fork/exec · dup2 · readline |
+| `09` cub3D | compact | Hand-written raycast into an X11 buffer, no GPU | — | C99 · X11 · raycasting · XPM · math |
+| `10` ft_irc | compact | One thread, one `poll()` loop, plus a local model | — | C++98 · sockets · poll() · llama.cpp |
+| `11` Inception | compact | Three containers, one published port, TLS at the edge | — | Docker Compose · NGINX · WordPress · MariaDB · TLS |
+| `12` born2beroot | compact | A guest VM window on a hypervisor host: LUKS under LVM, hardened perimeter | — | Debian · LUKS · LVM · UFW · systemd |
 
 `ft_transcendence` is framed as a browser game engine; the 2,000+ figure belongs
 to `space-gameserver`, not to it. The profile header keeps its own profile-wide
@@ -114,7 +115,7 @@ after the seven leads.
 ## Files
 
 - `plates.py` — renders all twelve plates at 1200 × 400 (the five compact cards
-  at 1200 × 290), 2x, using the deck fonts; plate 06 is clipped to 1200 × 376 so
+  at 1200 × 250), 2x, using the deck fonts; plate 06 is clipped to 1200 × 376 so
   the try strip can sit close to it. HTML goes to the ignored `.build/` folder.
 - `plate-01.png`, `plate-02.png`, `plate-03.png` … `plate-12.png`
   — the rendered plates. `plate-01.svg` wraps the Forge PNG and adds the ember

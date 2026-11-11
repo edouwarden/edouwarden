@@ -4,12 +4,12 @@ project in the deck.
 
 Each lead card keeps the same anatomy: number, title, meta, hook, three project
 stats, stack, and a 360 x 203 illustration drawn inline as SVG in the ambient
-palette. The five bench cards repeat the anatomy at 1200 x 290 with smaller type
-and 260 x 147 art, so the hierarchy reads before the copy does. The illustrations
-are scenes and objects, not screenshots: an anvil, a theory notebook, a policy
-gate, a trading terminal, a dashboard, an engine editor, a seeded height field, a
-shell terminal, a raycast corridor, an IRC frame, a Docker host, and a VM window
-on a host.
+palette. The five bench cards repeat the anatomy at 1200 x 250 with smaller type,
+230 x 130 art and no stat row, so the hierarchy reads before the copy does. The
+illustrations are scenes and objects, not screenshots: an anvil, a theory
+notebook, a policy gate, a trading terminal, a dashboard, an engine editor, a
+seeded height field, a shell terminal, a raycast corridor, an IRC frame, a Docker
+host, and a VM window on a host.
 
 Standalone: production README and build.py are untouched.
 
@@ -1273,7 +1273,7 @@ PROJECTS = [
         "n": "08",
         "file": "plate-08.png",
         "variant": "compact",
-        "height": 290,
+        "height": 250,
         "title": "minishell",
         "meta": "2025 · Pair · systems &amp; parsing",
         "hook": "A Unix shell from the syscall up: quote-aware lexing, expansion, heredocs and 64-stage pipelines.",
@@ -1293,7 +1293,7 @@ PROJECTS = [
         "n": "09",
         "file": "plate-09.png",
         "variant": "compact",
-        "height": 290,
+        "height": 250,
         "title": "cub3D",
         "meta": "2025 · Pair · rendering &amp; math",
         "hook": "A raycast renderer written by hand: 640 rays per frame, textured walls floor to ceiling, every pixel into an X11 buffer — no GPU.",
@@ -1314,7 +1314,7 @@ PROJECTS = [
         "n": "10",
         "file": "plate-10.png",
         "variant": "compact",
-        "height": 290,
+        "height": 250,
         "title": "ft_irc",
         "meta": "2026 · Pair · protocols &amp; systems",
         "hook": "An IRC server on one thread and one poll() loop: buffered TCP framing, channel modes, and a local Phi-3 answering in #ai-lab.",
@@ -1334,7 +1334,7 @@ PROJECTS = [
         "n": "11",
         "file": "plate-11.png",
         "variant": "compact",
-        "height": 290,
+        "height": 250,
         "title": "Inception",
         "meta": "2026 · Solo · containers &amp; infra",
         "hook": "A WordPress stack where every part is a container: nginx holds TLS, PHP-FPM runs WordPress, MariaDB never leaves the compose network.",
@@ -1355,7 +1355,7 @@ PROJECTS = [
         "n": "12",
         "file": "plate-12.png",
         "variant": "compact",
-        "height": 290,
+        "height": 250,
         "title": "born2beroot",
         "meta": "2024 · Solo · systems &amp; hardening",
         "hook": "A reproducible Debian VM from a self-made ISO: LUKS under LVM, six XFS filesystems plus swap, SSH on 4242, and every sudo logged.",
@@ -1385,8 +1385,7 @@ CARD = """
       </div>
       <p class="meta">{meta}</p>
       <p class="hook">{hook}</p>
-      <div class="specs">{specs}</div>
-      <p class="stack">{stack}</p>
+      {specs_block}<p class="stack">{stack}</p>
     </div>
     <div class="art">{art}<span class="go">↗</span></div>
   </div>
@@ -1441,15 +1440,15 @@ body {{
   font-weight: 400; line-height: 1; letter-spacing: -0.02em;
 }}
 .meta {{
-  margin: 14px 0 0; font-size: 10.5px; font-weight: 500;
+  margin: 10px 0 0; font-size: 10.5px; font-weight: 500;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(12, 10, 62, 0.62);
 }}
 .hook {{
-  max-width: 500px; margin: 14px 0 0; font-size: 18px;
-  line-height: 1.5; color: rgba(12, 10, 62, 0.88);
+  max-width: 520px; margin: 10px 0 0; font-size: 20px; font-weight: 700;
+  line-height: 1.3; color: rgba(12, 10, 62, 0.92);
 }}
 .specs {{
-  display: flex; gap: 26px; margin-top: auto; padding-top: 14px;
+  display: flex; gap: 26px; margin-top: auto; padding-top: 12px;
   border-top: 1px solid rgba(12, 10, 62, 0.24);
 }}
 .spec {{ display: flex; flex-direction: column; gap: 2px; }}
@@ -1463,7 +1462,7 @@ body {{
   text-transform: uppercase; color: rgba(12, 10, 62, 0.6);
 }}
 .stack {{
-  margin: 12px 0 0; font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+  margin: 10px 0 0; font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
   text-transform: uppercase; color: rgba(12, 10, 62, 0.5);
 }}
 .art {{ position: relative; align-self: center; width: 360px; height: 203px; }}
@@ -1504,34 +1503,34 @@ body {{
 }}
 
 /* Compact cards: the bench after the seven lead plates. Same anatomy at a
-   smaller scale, so the hierarchy reads before any copy is parsed. */
-.plate.compact {{ height: 290px; padding: 24px 84px; }}
+   smaller scale and without the stat row, so the hierarchy reads before any
+   copy is parsed. */
+.plate.compact {{ height: 250px; padding: 20px 84px; }}
 .card.compact {{
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 26px;
-  padding: 20px 28px;
-  border-radius: 24px;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 24px;
+  padding: 18px 26px;
+  border-radius: 22px;
 }}
-.card.compact .head {{ gap: 14px; }}
+.card.compact .head {{ gap: 12px; }}
 .card.compact .num {{
-  width: 42px; height: 42px; border-radius: 8px; font-size: 17px;
+  width: 38px; height: 38px; border-radius: 7px; font-size: 16px;
 }}
-.card.compact .title {{ font-size: 34px; }}
+.card.compact .title {{ font-size: 32px; }}
 .card.compact .meta {{
-  margin-top: 10px; font-size: 9px; letter-spacing: 0.12em;
+  margin-top: 8px; font-size: 8.5px; letter-spacing: 0.11em;
 }}
 .card.compact .hook {{
-  max-width: 620px; margin-top: 10px; font-size: 14.5px; line-height: 1.45;
+  max-width: 660px; margin-top: 8px; font-size: 16px; line-height: 1.4;
 }}
-.card.compact .specs {{ gap: 22px; padding-top: 10px; }}
-.card.compact .spec b {{ gap: 6px; font-size: 17px; }}
-.card.compact .spec b::before {{ width: 5px; height: 5px; }}
-.card.compact .spec span {{ font-size: 7.5px; letter-spacing: 0.11em; }}
-.card.compact .stack {{ margin-top: 9px; font-size: 8px; }}
-.card.compact .art {{ width: 260px; height: 147px; }}
-.card.compact .art svg {{ width: 260px; height: 147px; border-radius: 13px; }}
+.card.compact .stack {{
+  margin-top: auto; padding-top: 10px; font-size: 8px;
+  border-top: 1px solid rgba(12, 10, 62, 0.18);
+}}
+.card.compact .art {{ width: 230px; height: 130px; }}
+.card.compact .art svg {{ width: 230px; height: 130px; border-radius: 12px; }}
 .card.compact .art .go {{
-  right: -10px; bottom: -10px; width: 38px; height: 38px; font-size: 16px;
+  right: -9px; bottom: -9px; width: 34px; height: 34px; font-size: 15px;
 }}
 """
 
@@ -1539,6 +1538,11 @@ body {{
 def card(project: dict) -> str:
     specs = "".join(
         SPEC.format(value=value, label=name) for value, name in project["stats"]
+    )
+    specs_block = (
+        ""
+        if project.get("variant") == "compact"
+        else f'<div class="specs">{specs}</div>\n      '
     )
     title_style = (
         f' style="font-size: {project["title_size"]}px"'
@@ -1554,7 +1558,7 @@ def card(project: dict) -> str:
         title_style=title_style,
         meta=project["meta"],
         hook=project["hook"],
-        specs=specs,
+        specs_block=specs_block,
         stack=project["stack"],
         art=project["art"],
     )
