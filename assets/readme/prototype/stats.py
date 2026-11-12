@@ -89,20 +89,20 @@ REVIEWS_W = 900
 
 # Quotes from 42 peer evaluations, translated from French and trimmed to the
 # substantive clause. The verbatim originals live in the review notes. Credit
-# is first name, last initial, project and score; reviewers who evaluate under
-# a 42 pseudonym keep the pseudonym instead of a name.
+# is first name, last initial, project and score, so a quote stays checkable
+# without publishing anyone's full name or 42 login.
 REVIEWS = (
     (
         "An excellent ft_irc: genuinely clean, well-structured code for a "
         "tough subject, gorgeous logs, and a bot with real personality. The "
         "local sLLM was perfect.",
-        "A. LUCAS · FT_IRC · 110%",
+        "Alexis L. · FT_IRC · 110%",
     ),
     (
         "They explained everything, showing a deep understanding of every "
         "module they built. The game is fun and cute — 24 modules where the "
         "minimum was 14.",
-        "A. FONTELE · TRANSCENDENCE · 125%",
+        "Amanda F. · TRANSCENDENCE · 125%",
     ),
     (
         "An extremely well-done project, maybe even overdone on the config. "
@@ -112,12 +112,12 @@ REVIEWS = (
     (
         "Good team, solid understanding overall. A hiccup with the bot, fixed "
         "in under a minute — validated. Good luck with the rest.",
-        "A. NKAMMER · FT_IRC · 110%",
+        "Andy K. · FT_IRC · 110%",
     ),
     (
         "Great project, well understood and well explained. Bravo, and good "
         "luck with what comes next.",
-        "D. MAGDELA · CUB3D · 115%",
+        "Dorian M. · CUB3D · 115%",
     ),
 )
 
