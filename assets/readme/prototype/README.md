@@ -61,8 +61,10 @@ space, marks and cards rather than full-width rules:
   header.
 - `deck-reviews.svg` — a slow marquee of peer-review cards under a `Reviews`
   title. Each quote wraps into a card, and the section grows with the longest
-  quote. The three quotes in `stats.py` are mock placeholders; replace `REVIEWS`
-  with real quotes before publishing.
+  quote. The five quotes are translated from real 42 peer evaluations, trimmed
+  to the substantive clause, and credited by name, project and score; reviewers
+  who evaluate under a pseudonym keep the pseudonym. Verbatim originals stay in
+  the review notes, not in the deck.
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
   handle and URL. The header keeps a single email under the portrait, drops the

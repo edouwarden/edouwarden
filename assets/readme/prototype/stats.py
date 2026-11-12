@@ -87,22 +87,37 @@ TRY_W, TRY_H = 900, 44
 OPEN_W, OPEN_H = 900, 44
 REVIEWS_W = 900
 
-# Placeholder copy for the mockup. Replace with real reviews before publishing.
+# Quotes from 42 peer evaluations, translated from French and trimmed to the
+# substantive clause. The verbatim originals live in the review notes. Credit
+# is first name, last initial, project and score; reviewers who evaluate under
+# a 42 pseudonym keep the pseudonym instead of a name.
 REVIEWS = (
     (
-        "He read the whole shell before asking a single question, then found "
-        "the leak in ten minutes and explained the fix without touching my code.",
-        "42 PARIS · PEER REVIEW",
+        "An excellent ft_irc: genuinely clean, well-structured code for a "
+        "tough subject, gorgeous logs, and a bot with real personality. The "
+        "local sLLM was perfect.",
+        "A. LUCAS · FT_IRC · 110%",
     ),
     (
-        "The raycaster held 60 fps on every map. Clean C, no hand-waving, and "
-        "a README that actually explains the math.",
-        "42 PARIS · PEER REVIEW",
+        "They explained everything, showing a deep understanding of every "
+        "module they built. The game is fun and cute — 24 modules where the "
+        "minimum was 14.",
+        "A. FONTELE · TRANSCENDENCE · 125%",
     ),
     (
-        "Shipped the engine, the editor and the docs. In review he walked all "
-        "three layers without a single note.",
-        "42 PARIS · PEER REVIEW",
+        "An extremely well-done project, maybe even overdone on the config. "
+        "Great work making a boring project fascinating.",
+        "Nitai G. · BORN2BEROOT · 115%",
+    ),
+    (
+        "Good team, solid understanding overall. A hiccup with the bot, fixed "
+        "in under a minute — validated. Good luck with the rest.",
+        "A. NKAMMER · FT_IRC · 110%",
+    ),
+    (
+        "Great project, well understood and well explained. Bravo, and good "
+        "luck with what comes next.",
+        "D. MAGDELA · CUB3D · 115%",
     ),
 )
 
