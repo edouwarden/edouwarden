@@ -20,6 +20,7 @@ header and plates.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 from fontTools.misc.transform import Transform
@@ -93,15 +94,13 @@ REVIEWS_W = 900
 # without publishing anyone's full name or 42 login.
 REVIEWS = (
     (
-        "An excellent ft_irc: genuinely clean, well-structured code for a "
-        "tough subject, gorgeous logs, and a bot with real personality. The "
-        "local sLLM was perfect.",
+        "An excellent ft_irc: clean, well-structured code for a tough subject, "
+        "gorgeous logs, and a bot with real personality.",
         "Alexis L. · FT_IRC · 110%",
     ),
     (
         "They explained everything, showing a deep understanding of every "
-        "module they built. The game is fun and cute — 24 modules where the "
-        "minimum was 14.",
+        "module they built — 24 modules where the minimum was 14.",
         "Amanda F. · TRANSCENDENCE · 125%",
     ),
     (
@@ -111,13 +110,42 @@ REVIEWS = (
     ),
     (
         "Good team, solid understanding overall. A hiccup with the bot, fixed "
-        "in under a minute — validated. Good luck with the rest.",
+        "in under a minute — validated.",
         "Andy K. · FT_IRC · 110%",
     ),
     (
         "Great project, well understood and well explained. Bravo, and good "
         "luck with what comes next.",
         "Dorian M. · CUB3D · 115%",
+    ),
+    (
+        "Good work — a born2beroot that finally looks different from the "
+        "usual. You know your subject.",
+        "Simon K. · BORN2BEROOT · 115%",
+    ),
+    (
+        "A beautiful team with real cohesion: everything explained, "
+        "demonstrated and proven. The map and asset editors surprised me.",
+        "Ilias K. · TRANSCENDENCE · 125%",
+    ),
+    (
+        "Great eval. I was very impressed by your bot, and the mandatory part "
+        "was solid too.",
+        "Enrico M. · FT_IRC · 110%",
+    ),
+    (
+        "Good work, and hats off for doing this project without a tutorial. "
+        "Thanks for the explanations.",
+        "Mario D. · BORN2BEROOT · 115%",
+    ),
+    (
+        "Great work, nothing to report — and the bonuses are great.",
+        "Jules D. · CUB3D · 115%",
+    ),
+    (
+        "Congratulations on the project. It was really interesting to see how "
+        "you worked together. Big up for the map editor.",
+        "Alice T. · TRANSCENDENCE · 125%",
     ),
 )
 
@@ -456,9 +484,14 @@ def reviews_svg() -> str:
     hair_y = last_baseline + 23
     attr_y = hair_y + 20
     card_h = attr_y + 14
-    height = 56 + card_h + 20
 
-    out = [svg_open(REVIEWS_W, height, "Peer reviews")]
+    gap_x, gap_y = 28, 22
+    band_h = card_h * 2 + gap_y
+    top = 62
+    height = top + band_h + 40
+    tilt = 2.0
+
+    out = [svg_open(REVIEWS_W, height, "Peer reviews in two drifting lanes")]
     out.append("<defs>")
     out.append(
         f'<linearGradient id="revFadeL" x1="0" y1="0" x2="1" y2="0">'
@@ -473,7 +506,6 @@ def reviews_svg() -> str:
         "</linearGradient>"
     )
 
-    widths = []
     for i, (lines, (_, source)) in enumerate(zip(blocks, REVIEWS)):
         parts = [
             f'<rect x="0" y="0" width="{card_w}" height="{card_h}" rx="14" '
@@ -496,37 +528,55 @@ def reviews_svg() -> str:
             f'fill="{CORAL}" fill-opacity="0.78"/>'
         )
         out.append(f'<g id="rev-{i}">' + "".join(parts) + "</g>")
-        widths.append(card_w + 28)
     out.append("</defs>")
 
+    def lane(indices: list[int], y: float, speed: float, rightward: bool,
+             phase: float) -> str:
+        total = len(indices) * (card_w + gap_x)
+        margin = 340
+        copies = math.ceil((REVIEWS_W + margin * 2 + total) / total)
+        start = -margin - phase
+        if rightward:
+            begin, finish = start - total, start
+        else:
+            begin, finish = start, start - total
+        parts = [
+            f'<g transform="translate(0 {y:.1f})"><g>'
+            f'<animateTransform attributeName="transform" type="translate" '
+            f'from="{begin:.1f} 0" to="{finish:.1f} 0" '
+            f'dur="{total / speed:.1f}s" repeatCount="indefinite"/>'
+        ]
+        x = 0.0
+        for _ in range(copies):
+            for i in indices:
+                parts.append(
+                    f'<use href="#rev-{i}" xlink:href="#rev-{i}" x="{x:.1f}"/>'
+                )
+                x += card_w + gap_x
+        parts.append("</g></g>")
+        return "".join(parts)
+
+    upper = [i for i in range(len(REVIEWS)) if i % 2 == 0]
+    lower = [i for i in range(len(REVIEWS)) if i % 2 == 1]
+    cy = top + band_h / 2
+    out.append(
+        f'<g transform="rotate(-{tilt} {REVIEWS_W / 2:.1f} {cy:.1f})">'
+        + lane(upper, top, 26.0, False, 0.0)
+        + lane(lower, top + card_h + gap_y, 23.0, True, 140.0)
+        + "</g>"
+    )
+
+    fade_w = 72
+    out.append(
+        f'<rect x="0" y="{top - 8}" width="{fade_w}" height="{band_h + 16}" '
+        'fill="url(#revFadeL)"/>'
+    )
+    out.append(
+        f'<rect x="{REVIEWS_W - fade_w}" y="{top - 8}" width="{fade_w}" '
+        f'height="{band_h + 16}" fill="url(#revFadeR)"/>'
+    )
     out.append(f'<rect x="{MARGIN}" y="18" width="9" height="9" fill="{CORAL}"/>')
     out.append(kicker("REVIEWS", MARGIN + 19, 28.5))
-
-    row_width = sum(widths)
-    row_start = 80.0 - row_width
-    duration = row_width / 32.0
-    out.append(
-        '<g transform="translate(0 56)"><g>'
-        '<animateTransform attributeName="transform" type="translate" '
-        f'from="{row_start:.2f} 0" to="{row_start - row_width:.2f} 0" '
-        f'dur="{duration:.3f}s" repeatCount="indefinite"/>'
-    )
-    x = 0.0
-    for _ in range(3):
-        for i, item_w in enumerate(widths):
-            out.append(
-                f'<use href="#rev-{i}" xlink:href="#rev-{i}" x="{x:.2f}"/>'
-            )
-            x += item_w
-    out.append("</g></g>")
-
-    out.append(
-        f'<rect x="0" y="64" width="80" height="{card_h}" fill="url(#revFadeL)"/>'
-    )
-    out.append(
-        f'<rect x="{REVIEWS_W - 80}" y="64" width="80" height="{card_h}" '
-        'fill="url(#revFadeR)"/>'
-    )
     out.append("</svg>")
     return "".join(out)
 

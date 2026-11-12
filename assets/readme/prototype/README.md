@@ -59,12 +59,13 @@ space, marks and cards rather than full-width rules:
   strip: a pulsing coral dot, `Open to work · Switzerland`, and the quiet
   `Systems · Infrastructure · AI` meta on the right. It sits directly above the
   header.
-- `deck-reviews.svg` — a slow marquee of peer-review cards under a `Reviews`
-  title. Each quote wraps into a card, and the section grows with the longest
-  quote. The five quotes are translated from real 42 peer evaluations, trimmed
-  to the substantive clause, and credited by name, project and score; reviewers
-  who evaluate under a pseudonym keep the pseudonym. Verbatim originals stay in
-  the review notes, not in the deck.
+- `deck-reviews.svg` — eleven peer-review cards in two lanes under a `Reviews`
+  title, the whole band tilted 2° and the lanes drifting in opposite
+  directions. Each quote wraps into a card at the height of the longest quote,
+  so the two lanes line up. The quotes are translated from real 42 peer
+  evaluations, trimmed to the substantive clause, and credited by first name,
+  last initial, project and score. Verbatim originals stay in the review notes,
+  not in the deck.
 - `deck-header.png`, `deck-footer.png` — prototype copies of the profile header
   and footer with `ed.normand@protonmail.com` in place of the visible GitHub
   handle and URL. The header keeps a single email under the portrait, drops the
